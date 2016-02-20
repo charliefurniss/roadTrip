@@ -1,3 +1,4 @@
+// set up routes associated with the functions defined in authentications, users and trips controllers
 var express = require('express'),
     router  = express.Router();
 

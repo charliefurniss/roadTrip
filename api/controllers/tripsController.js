@@ -9,13 +9,13 @@ function tripsIndex(req, res){
 }
 
 function tripsCreate(req, res){
-  var project = new Project(req.body.project);
-
-  project.save(function(err){
+  var trip = new Trip(req.body);
+  console.log(trip);
+  trip.save(function(err){
     if (err) return res.status(500).send(err);
-    var id = req.body.project.user_id;
+    var id = req.body.trip.user_id;
     User.findById(id, function(err, user){
-       user.projects.push(project);
+       user.trips.push(project);
        user.save();
        return res.status(201).send(project);
     });
