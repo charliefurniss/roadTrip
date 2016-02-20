@@ -10,14 +10,15 @@ function tripsIndex(req, res){
 
 function tripsCreate(req, res){
   var trip = new Trip(req.body);
-  console.log(trip);
   trip.save(function(err){
     if (err) return res.status(500).send(err);
-    var id = req.body.trip.user_id;
-    User.findById(id, function(err, user){
-       user.trips.push(project);
+    var id = trip.user;
+    console.log(trip.user);
+    User.findById({ _id: id }, function(err, user){
+       user.trips.push(trip);
+       console.log(user);
        user.save();
-       return res.status(201).send(project);
+       return res.status(201).send(trip);
     });
   });
 }
