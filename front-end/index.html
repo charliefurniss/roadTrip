@@ -38,22 +38,19 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="#" ui-sref-active="active" ui-sref="home">RoadTrip</a>
+          <ul class="nav navbar-nav navbar-left">
+            <li ng-show="users.checkLoggedIn()">
+              <a href="#" ui-sref="trips">Trips</a>
+            </li>
+          </ul>  
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
+            <!-- ui-sref binds the anchor tags to the respective state defined in MainRouter in app.js -->
             <li ng-show="users.checkLoggedIn()">
-              <a href="#" ui-sref="users">Users</a>
-            </li>
-            <li ng-show="users.checkLoggedIn()">
-              <a href="#" ui-sref="projects">Projects</a>
-            </li>
-            <li ng-show="users.checkLoggedIn()">
-              <a href="#" ui-sref="addproject">Add Project</a>
-            </li>
-            <li ng-show="users.checkLoggedIn()">
-              <a href="#" ui-sref="profile">Profile</a>
+              <a class="notActive"> Hello {{users.user._doc.local.username}}</a>
             </li>
             <li ng-hide="users.checkLoggedIn()">
               <a href="#" ui-sref="login">Login</a>

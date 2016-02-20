@@ -1,13 +1,15 @@
 angular
-  .module('roadTrip', ['ngResource', 'angular-jwt', 'ui.router'])
-  .constant('API', 'http://localhost:3000/api')
-  .config(MainRouter)
+  .module('roadTrip', ['ngResource', 'angular-jwt', 'ui.router']) // tell angular to use the named services
+  .constant('API', 'http://localhost:3000/api') // set front-end url as variable API
+  .config(MainRouter) // include MainRouter function defined below
   .config(function($httpProvider){
-    $httpProvider.interceptors.push('authInterceptor');
+    $httpProvider.interceptors.push('authInterceptor'); // ???
   });
 
+  // Inject dependencies into MainRouter function
   MainRouter.$inject = ['$stateProvider', '$urlRouterProvider'];
 
+  // defines the names of states and their respective urls and templates, and pass in dependencies. In index.html ui-sref and ui-view will call these states
   function MainRouter($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('home', {

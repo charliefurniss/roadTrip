@@ -2,7 +2,7 @@ angular
   .module('roadTrip')
   .controller('UsersController', UsersController);
 
-// Here we inject the currentUser service to access the current user
+// Inject and pass in arguments for currentUser and TokenService services, $state (for directing), and the UserFactory
 UsersController.$inject = ['UserFactory', 'TokenService', '$state', 'CurrentUser'];
 function UsersController(User, TokenService, $state, CurrentUser){
 
@@ -19,7 +19,6 @@ function UsersController(User, TokenService, $state, CurrentUser){
 
   function getUsers() {
     User.query(function(data){
-      console.log(data)
       self.all = data;
     });
   }
@@ -60,6 +59,7 @@ function UsersController(User, TokenService, $state, CurrentUser){
     return loggedIn;
   }
 
+  // if there is no current user, run the getUser function defined in the CurrentUser service, set the currentuser to self.user
   if (!!CurrentUser.getUser()) {
     self.user = CurrentUser.getUser();
     self.getUsers();
