@@ -1,0 +1,21 @@
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <!-- trips list -->
+    <h1>{{trips.title}}</h1>
+
+    <ul class="media-list">
+      <li class="media" ng-repeat="trip in trips.all">
+        <a href="#" ng-click="trips.showSingleTrip()" ui-sref="singleTrip">
+          <div class="media-body">
+            <h4 class="media-heading">Trip name</h4>
+            <p>{{ trip.startpoint }}</p>
+            <p>{{ trip.endpoint }}</p>
+          </div>
+        </a>
+      </li>
+    </ul>   
+  </div>
+  <!-- /#sidebar-wrapper -->
+</div>
+<!-- /#wrapper -->  

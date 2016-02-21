@@ -7,6 +7,14 @@
 	cursor: default;
 }
 
+.media-list {
+    text-decoration: none !important;
+}
+
+.media-body {
+    color: #999999 !important;
+}
+
 .navbar {
 	margin-bottom: 0px;
 }
@@ -36,6 +44,7 @@
     margin-left: -250px;
     overflow-y: auto;
     background: #3A6488;
+    padding: 20px;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;

@@ -1,0 +1,46 @@
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+
+    <h4>{{trips.title}}</h4>
+
+    <form class="form" id="tripForm" ng-submit="trips.createTrip()">
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" placeholder="Name" ng-model="trips.trip.name">
+      </div>
+
+      <div class="form-group">
+        <label for="startpoint">Start point</label>
+        <input class="form-control" id="startpoint" name="startpoint" ng-model="trips.trip.startpoint" placeholder="Start point"></input>
+      </div>
+
+      <div class="form-group">
+        <label for="endpoint">End point</label>
+        <input type="text" class="form-control" id="endpoint" name="endpoint" placeholder="End point" ng-model="trips.trip.endpoint">
+      </div>
+
+      <input type="submit" value="Create trip" id="submit" class="btn btn-primary">
+    </form>
+  </div>
+  <!-- /#sidebar-wrapper -->
+
+<!-- Page Content -->
+<div id="page-content-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+                          
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->  
+
+
+
+

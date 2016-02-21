@@ -32,16 +32,23 @@ angular
         url: "/users",
         templateUrl: "./js/views/users.html"
       })
-      .state('trips', {
-        url: "/trips",
-        templateUrl: "./js/views/trips.html",
-        controller: "TripsController as trips"
+      .state('newTrip', {
+        url: "/newTrip",
+        templateUrl: "./js/views/newTrip.html",
+        // controller: "TripsController as trips"
       })
-      .state('addtrip', {
-        url: "/trip/new",
-        templateUrl: "./js/views/addtrip.html",
-        controller: "TripsController as trips"
+      .state('viewTrips', {
+        url: "/viewTrips",
+        templateUrl: "./js/views/viewTrips.html",
+        // controller: "TripsController as trips"
+      })
+      .state('singleTrip', {
+        url: "/singleTrip",
+        templateUrl: "./js/views/singleTrip.html",
+        // controller: "TripsController as trips"
       });
+
+      
 
     $urlRouterProvider.otherwise("/");
   }
