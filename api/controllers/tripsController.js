@@ -2,9 +2,9 @@ var Trip = require("../models/trip");
 var User = require("../models/user");
 
 function tripsIndex(req, res){
-  Project.find({}, function(err, projects) {
+  Trip.find({}, function(err, trips) {
     if (err) return res.status(404).send(err);
-    res.status(200).send(projects);
+    res.status(200).send(trips);
   });
 }
 
@@ -13,7 +13,6 @@ function tripsCreate(req, res){
   trip.save(function(err){
     if (err) return res.status(500).send(err);
     var id = trip.user;
-    console.log(trip.user);
     User.findById({ _id: id }, function(err, user){
        user.trips.push(trip);
        console.log(user);
@@ -25,28 +24,26 @@ function tripsCreate(req, res){
 
 function tripsShow(req, res){
   var id = req.params.id;
-
-  Project.findById({ _id: id }, function(err, project) {
+  Trip.findById({ _id: id }, function(err, trip) {
     if (err) return res.status(500).send(err);
-    if (!project) return res.status(404).send(err);
-    res.status(200).send(project);
+    if (!trip) return res.status(404).send(err);
+    res.status(200).send(trip);
   });
 }
 
 function tripsUpdate(req, res){
   var id = req.params.id;
-
-  Project.findByIdAndUpdate({ _id: id }, req.body.project, function(err, project){
+  Trip.findByIdAndUpdate({ _id: id }, req.body.trip, function(err, trip){
     if (err) return res.status(500).send(err);
-    if (!project) return res.status(404).send(err);
-    res.status(200).send(project);
+    if (!trip) return res.status(404).send(err);
+    res.status(200).send(trip);
   });
 }
 
 function tripsDelete(req, res){
   var id = req.params.id;
 
-  Project.remove({ _id: id }, function(err) {
+  Trip.remove({ _id: id }, function(err) {
     if (err) return res.status(500).send(err);
     res.status(200).send();
   });
