@@ -15,10 +15,12 @@ function TripsController(Trip, User, $state, CurrentUser){
   self.showSingleTrip     = showSingleTrip;
   self.showCreateTripForm = showCreateTripForm;
   self.deleteTrip         = deleteTrip;
+  self.editTrip           = editTrip;
+  self.updateTrip         = updateTrip;
 
   self.title              = "";
 
-  function getTrips() {
+  function getTrips(){
     self.title = "All trips";
     Trip.query(function(data){
       self.allTrips = data;
@@ -51,9 +53,17 @@ function TripsController(Trip, User, $state, CurrentUser){
   };
 
   // populate the form
-  self.editTrip = function(trip){
+  function editTrip(trip){
     self.trip = trip;
     self.title = "Edit trip";
+  }
+
+  function updateTrip(){
+    Trip.update(self.trip, function(data){
+      self.trip = {};
+    });
+    getTrips();
+    $state.go('viewTrips');
   }
 
   function deleteTrip(trip){
@@ -61,5 +71,7 @@ function TripsController(Trip, User, $state, CurrentUser){
     self.trip = {};
     $state.go('viewTrips');
   }
+
+  getTrips();
   
 }
