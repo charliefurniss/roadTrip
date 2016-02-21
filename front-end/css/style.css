@@ -19,10 +19,6 @@
 	margin-bottom: 0px;
 }
 
-#tripForm {
-	padding: 20px;
-}
-
 #wrapper {
     padding-left: 0;
     -webkit-transition: all 0.5s ease;
@@ -41,10 +37,11 @@
     left: 250px;
     width: 0;
     height: 100%;
+    border-right: 2px solid #999999;
     margin-left: -250px;
     overflow-y: auto;
-    background: #3A6488;
-    padding: 20px;
+    background: #FFFFFF;
+    padding: 40px;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
