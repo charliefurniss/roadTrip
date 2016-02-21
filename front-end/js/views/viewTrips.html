@@ -5,7 +5,7 @@
     <h1>{{trips.title}}</h1>
 
     <ul class="media-list">
-      <li class="media" ng-repeat="trip in trips.all | orderBy : '_id' : true">
+      <li class="media" ng-repeat="trip in trips.allTrips | orderBy : '_id' : true">
         <a href="#" ng-click="trips.showSingleTrip(trip)" ui-sref="singleTrip">
           <div class="media-body">
             <h4 class="media-heading">{{ trip.name }}</h4>

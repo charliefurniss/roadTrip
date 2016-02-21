@@ -7,7 +7,7 @@
     <p>From: {{ trips.trip.startpoint }}</p>
     <p>To: {{ trips.trip.endpoint }}</p>
     <input type="submit" value="Edit trip" id="submit" class="btn btn-primary">
-    <input type="submit" value="Delete trip" id="submit" class="btn btn-primary" ng-click="trips.deleteTrip()">
+    <input type="submit" value="Delete trip" id="submit" class="btn btn-primary" ng-click="trips.deleteTrip(trips.trip)">
    
   </div>
   <!-- /#sidebar-wrapper -->

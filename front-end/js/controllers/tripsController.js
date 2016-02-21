@@ -8,7 +8,7 @@ function TripsController(Trip, User, $state, CurrentUser){
 
   var self = this;
 
-  self.all                = [];
+  self.allTrips           = [];
   self.trip               = {};
   self.getTrips           = getTrips;
   self.createTrip         = createTrip;
@@ -21,7 +21,7 @@ function TripsController(Trip, User, $state, CurrentUser){
   function getTrips() {
     self.title = "All trips";
     Trip.query(function(data){
-      self.all = data;
+      self.allTrips = data;
     });
   }
 
@@ -29,7 +29,6 @@ function TripsController(Trip, User, $state, CurrentUser){
     self.title  = "Single trip";
     Trip.get({id: trip._id}, function(data){
       self.trip = data;
-      console.log(self.trip.name);
     });
   }
 
@@ -43,14 +42,17 @@ function TripsController(Trip, User, $state, CurrentUser){
     newTrip.user = userObject._doc._id
     
     Trip.save(newTrip, function(data){
-      self.all.push(data);
+      self.allTrips.push(data);
       self.trip = {};
       $state.go('viewTrips');
     });
   };
 
-  function deleteTrip(){
-    console.log("deleteTrip");
+  function deleteTrip(trip){
+    Trip.delete({id: trip._id});
+    var index = self.allTrips.indexOf(trip);
+    self.trip = {};
+    $state.go('viewTrips');
   }
   
 }
