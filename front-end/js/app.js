@@ -46,6 +46,11 @@ angular
         url: "/singleTrip",
         templateUrl: "./js/views/singleTrip.html",
         // controller: "TripsController as trips"
+      })
+      .state('editTrip', {
+        url: "/editTrip",
+        templateUrl: "./js/views/editTrip.html",
+        // controller: "TripsController as trips"
       });
 
       

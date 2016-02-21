@@ -30,9 +30,11 @@ function TripsController(Trip, User, $state, CurrentUser){
     Trip.get({id: trip._id}, function(data){
       self.trip = data;
     });
+    self.trip = {};
   }
 
   function showCreateTripForm(){
+    self.trip   = {};
     self.title  = "New trip";
   }
 
@@ -48,9 +50,14 @@ function TripsController(Trip, User, $state, CurrentUser){
     });
   };
 
+  // populate the form
+  self.editTrip = function(trip){
+    self.trip = trip;
+    self.title = "Edit trip";
+  }
+
   function deleteTrip(trip){
     Trip.delete({id: trip._id});
-    var index = self.allTrips.indexOf(trip);
     self.trip = {};
     $state.go('viewTrips');
   }

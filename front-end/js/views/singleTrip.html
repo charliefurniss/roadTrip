@@ -6,8 +6,8 @@
     <h4 class="media-heading">{{ trips.trip.name }}</h4>
     <p>From: {{ trips.trip.startpoint }}</p>
     <p>To: {{ trips.trip.endpoint }}</p>
-    <input type="submit" value="Edit trip" id="submit" class="btn btn-primary">
-    <input type="submit" value="Delete trip" id="submit" class="btn btn-primary" ng-click="trips.deleteTrip(trips.trip)">
+    <a href="#" class="btn btn-primary" ng-click="trips.editTrip(trips.trip)" ui-sref="editTrip">Edit</a>
+    <input type="submit" value="Delete" id="submit" class="btn btn-primary" ng-click="trips.deleteTrip(trips.trip)">
    
   </div>
   <!-- /#sidebar-wrapper -->

@@ -21,23 +21,11 @@
         <input type="text" class="form-control" id="endpoint" name="endpoint" placeholder="End point" ng-model="trips.trip.endpoint">
       </div>
 
+      <a href="#" class="btn btn-primary" ng-show="trips.trip" ng-click="trips.addStop" ui-sref="addStop">Add stop</a>
       <input type="submit" value="Save" id="submit" class="btn btn-primary">
     </form>
   </div>
   <!-- /#sidebar-wrapper -->
-
-<!-- Page Content -->
-<div id="page-content-wrapper">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-12">
-                          
-      </div>
-    </div>
-  </div>
-</div>
-<!-- /#page-content-wrapper -->
-
 </div>
 <!-- /#wrapper -->  
 

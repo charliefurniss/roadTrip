@@ -11,10 +11,9 @@
     text-decoration: none !important;
 }
 
-.media-body {
-    color: #999999 !important;
+#tripWell {
+    cursor: pointer;
 }
-
 .navbar {
 	margin-bottom: 0px;
 }
