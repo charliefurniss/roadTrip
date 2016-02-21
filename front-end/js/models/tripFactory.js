@@ -8,7 +8,7 @@ function TripFactory($resource, API){
   return $resource(
     API+'/trips/:id', 
     {id: '@_id'},
-    { 'get':       { method: 'GET' },
+    { 'get':       { method: 'GET', isArray: false},
       'save':      { method: 'POST' },
       'query':     { method: 'GET', isArray: true},
       'remove':    { method: 'DELETE' },

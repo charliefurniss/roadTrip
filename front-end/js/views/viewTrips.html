@@ -5,10 +5,10 @@
     <h1>{{trips.title}}</h1>
 
     <ul class="media-list">
-      <li class="media" ng-repeat="trip in trips.all">
-        <a href="#" ng-click="trips.showSingleTrip()" ui-sref="singleTrip">
+      <li class="media" ng-repeat="trip in trips.all | orderBy : '_id' : true">
+        <a href="#" ng-click="trips.showSingleTrip(trip)" ui-sref="singleTrip">
           <div class="media-body">
-            <h4 class="media-heading">Trip name</h4>
+            <h4 class="media-heading">{{ trip.name }}</h4>
             <p>{{ trip.startpoint }}</p>
             <p>{{ trip.endpoint }}</p>
           </div>

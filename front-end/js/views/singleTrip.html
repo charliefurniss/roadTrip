@@ -3,6 +3,11 @@
   <div id="sidebar-wrapper">
     <!-- trips list -->
     <h1>{{trips.title}}</h1>
+    <h4 class="media-heading">{{ trips.trip.name }}</h4>
+    <p>From: {{ trips.trip.startpoint }}</p>
+    <p>To: {{ trips.trip.endpoint }}</p>
+    <input type="submit" value="Edit trip" id="submit" class="btn btn-primary">
+    <input type="submit" value="Delete trip" id="submit" class="btn btn-primary" ng-click="trips.deleteTrip()">
    
   </div>
   <!-- /#sidebar-wrapper -->

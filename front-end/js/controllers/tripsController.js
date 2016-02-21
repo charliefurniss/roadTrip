@@ -14,6 +14,7 @@ function TripsController(Trip, User, $state, CurrentUser){
   self.createTrip         = createTrip;
   self.showSingleTrip     = showSingleTrip;
   self.showCreateTripForm = showCreateTripForm;
+  self.deleteTrip         = deleteTrip;
 
   self.title              = "";
 
@@ -24,9 +25,12 @@ function TripsController(Trip, User, $state, CurrentUser){
     });
   }
 
-  function showSingleTrip(){
+  function showSingleTrip(trip){
     self.title  = "Single trip";
-    console.log(self.title);
+    Trip.get({id: trip._id}, function(data){
+      self.trip = data;
+      console.log(self.trip.name);
+    });
   }
 
   function showCreateTripForm(){
@@ -44,5 +48,9 @@ function TripsController(Trip, User, $state, CurrentUser){
       $state.go('viewTrips');
     });
   };
+
+  function deleteTrip(){
+    console.log("deleteTrip");
+  }
   
 }
