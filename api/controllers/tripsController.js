@@ -2,6 +2,7 @@ var Trip = require("../models/trip");
 var User = require("../models/user");
 
 function tripsIndex(req, res){
+  var id = req.params.id;
   Trip.find({}, function(err, trips) {
     if (err) return res.status(404).send(err);
     res.status(200).send(trips);
@@ -24,7 +25,6 @@ function tripsCreate(req, res){
 function tripsShow(req, res){
   var id = req.params.id;
   Trip.findById({ _id: id }, function(err, trip) {
-    console.log(trip);
     if (err) return res.status(500).send(err);
     if (!trip) return res.status(404).send(err);
     res.status(200).send(trip);
@@ -33,7 +33,8 @@ function tripsShow(req, res){
 
 function tripsUpdate(req, res){
   var id = req.params.id;
-  Trip.findByIdAndUpdate({ _id: id }, req.body.trip, function(err, trip){
+  console.log(req.body);
+  Trip.findByIdAndUpdate({ _id: id }, req.body, { new: true }, function(err, trip){
     if (err) return res.status(500).send(err);
     if (!trip) return res.status(404).send(err);
     res.status(200).send(trip);

@@ -22,6 +22,8 @@ function TripsController(Trip, User, $state, CurrentUser){
 
   function getTrips(){
     self.title = "All trips";
+    var userObject = CurrentUser.getUser();
+    self.currentUserId = userObject._doc._id
     Trip.query(function(data){
       self.allTrips = data;
     });
