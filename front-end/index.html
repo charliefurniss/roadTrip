@@ -22,77 +22,7 @@
   <script src="./js/models/tripFactory.js"></script>
   <script src="./js/controllers/usersController.js"></script>
   <script src="./js/controllers/tripsController.js"></script>
-
-  <script type="text/javascript">
-    
-    var map;
-    var service;
-
-    function handleSearchResults(results, status) {
-
-      console.log(results);
-
-      for(i = 0; i < results.length; i++){
-        //create a marker for each result
-        createMarker(results[i].geometry.location, results[i].name);
-      }
-    }
-
-    function performSearch(currentLocation) {
-      // sets variables used in search request
-      var request = {
-          location: currentLocation,
-          radius: '500',
-          types: ['hotel']
-        };
-      //performs the search on the service object. nearbySearch is a function of GM Places. request passes in the search criteria 
-      service.nearbySearch(request, handleSearchResults);
-    }
-
-    function createMarker(location, title){
-      var marker = new google.maps.Marker({
-        position: location,
-        map: map,
-        title: title
-      });
-    }
-
-    function initialise(location) {
-      var trafficLayer = new google.maps.TrafficLayer();
-
-      function addTrafficLayer(map) {
-        trafficLayer.setMap(map);
-      }
-
-      var currentLocation = {lat: location.coords.latitude, lng: location.coords.longitude};
-
-      //creates map and sets its properties
-      map = new google.maps.Map(document.getElementById('map-canvas'), {
-        center: currentLocation,
-        zoom: 12,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      });
-
-      // sets marker at the stated position
-      createMarker(currentLocation, "Title");
-
-      // create a new GM places object based on the  PlacesService class and pass it a reference to our GM object
-      service = new google.maps.places.PlacesService(map)
-
-      addTrafficLayer(map);
-
-      performSearch(currentLocation);    
-
-    }
-
-    $(document).ready(function(){
-
-    // Get user's current position using HTML5 geolocation feature. navigator object has property called geolocation. We pass it the initialise function for it to call when it has go the location
-    navigator.geolocation.getCurrentPosition(initialise);
-
-  });
-  </script>
-
+  <script src="./js/controllers/mapsController.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMF1USMrYbIs6U4XjyEhpdap31gZMqlxA&libraries=places"></script>
 
   <!-- Stylesheets -->
@@ -152,7 +82,14 @@
       <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Add trip</a>
     </main>
   
-    <div id="map-canvas"></div>
+    
+
+    <div ng-app="mapsApp" ng-controller="MapsController as Maps">
+        <div id="map-canvas"></div>
+        <div id="class" ng-repeat="marker in markers | orderBy : 'title'">
+             <!-- <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a> -->
+        </div>
+    </div>
 
 </div>
 </body>

@@ -11,7 +11,7 @@ function TripFactory($resource, API){
     { 'get':       { method: 'GET', isArray: false},
       'save':      { method: 'POST' },
       'query':     { method: 'GET', isArray: true},
-      'update':    { method: 'PATCH'},
+      'update':    { method: 'PATCH' },
       'remove':    { method: 'DELETE' },
       'delete':    { method: 'DELETE' },
     }
