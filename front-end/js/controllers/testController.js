@@ -8,21 +8,21 @@ function TestController(TripService, Trip, User, $state, CurrentUser){
 
   var self = this;
 
-  self.allTrips           = [];
-  self.trip               = {};
-  self.getTrips           = getTrips;
-  self.createTrip         = createTrip;
-  self.showSingleTrip     = showSingleTrip;
-  self.showCreateTripForm = showCreateTripForm;
-  self.deleteTrip         = deleteTrip;
-  self.editTrip           = editTrip;
-  self.updateTrip         = updateTrip;
+  // self.allTrips           = [];
+  // self.trip               = {};
+  // self.getTrips           = getTrips;
+  // self.createTrip         = createTrip;
+  // self.showSingleTrip     = showSingleTrip;
+  // self.showCreateTripForm = showCreateTripForm;
+  // self.deleteTrip         = deleteTrip;
+  // self.editTrip           = editTrip;
+  // self.updateTrip         = updateTrip;
 
-  self.title              = "";
+  // self.title              = "";
 
-  function setTripMap(trip) {
-    var startpoint_id = null;
-    var endpoint_id = null;
+  function initMap() {
+    var startpoint_place_id = null;
+    var endpoint_place_id = null;
     var travel_mode = google.maps.TravelMode.DRIVING;
     var map = new google.maps.Map(document.getElementById('map'), {
       mapTypeControl: false,
@@ -36,13 +36,13 @@ function TestController(TripService, Trip, User, $state, CurrentUser){
 
     var startpoint_input = document.getElementById('startpoint-input');
     var endpoint_input = document.getElementById('endpoint-input');
-    // var modes = document.getElementById('mode-selector');
+    var modes = document.getElementById('mode-selector');
 
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(startpoint_input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(endpoint_input);
+    // map.controls[google.maps.ControlPosition.TOP_LEFT].push(startpoint_input);
+    // map.controls[google.maps.ControlPosition.TOP_LEFT].push(endpoint_input);
     // map.controls[google.maps.ControlPosition.TOP_LEFT].push(modes);
 
-    var startpoint = new google.maps.places.Autocomplete(startpoint_input);
+    var startpoint_autocomplete = new google.maps.places.Autocomplete(startpoint_input);
     startpoint_autocomplete.bindTo('bounds', map);
     
     var endpoint_autocomplete = new google.maps.places.Autocomplete(endpoint_input);
@@ -115,61 +115,63 @@ function TestController(TripService, Trip, User, $state, CurrentUser){
 
   }
 
-  function getTrips(){
-    self.title = "All trips";
-    var userObject = CurrentUser.getUser();
-    self.currentUserId = userObject._doc._id
-    Trip.query(function(data){
-      self.allTrips = data;
-    });
-  }
+  initMap();
 
-  function showSingleTrip(trip){
-    self.title  = "Single trip";
-    Trip.get({id: trip._id}, function(data){
-      self.trip = data;
-      setTripMap(data);
-    });
-    self.trip = {};
-  }
+  // function getTrips(){
+  //   self.title = "All trips";
+  //   var userObject = CurrentUser.getUser();
+  //   self.currentUserId = userObject._doc._id
+  //   Trip.query(function(data){
+  //     self.allTrips = data;
+  //   });
+  // }
 
-  function showCreateTripForm(){
-    self.trip   = {};
-    self.title  = "New trip";
-  }
+  // function showSingleTrip(trip){
+  //   self.title  = "Single trip";
+  //   Trip.get({id: trip._id}, function(data){
+  //     self.trip = data;
+  //     setTripMap(data);
+  //   });
+  //   self.trip = {};
+  // }
 
-  function createTrip(){
-    var newTrip = self.trip;
-    var userObject = CurrentUser.getUser();
-    newTrip.user = userObject._doc._id
+  // function showCreateTripForm(){
+  //   self.trip   = {};
+  //   self.title  = "New trip";
+  // }
+
+  // function createTrip(){
+  //   var newTrip = self.trip;
+  //   var userObject = CurrentUser.getUser();
+  //   newTrip.user = userObject._doc._id
     
-    Trip.save(newTrip, function(data){
-      self.allTrips.push(data);
-      self.trip = {};
-      $state.go('viewTrips');
-    });
-  };
+  //   Trip.save(newTrip, function(data){
+  //     self.allTrips.push(data);
+  //     self.trip = {};
+  //     $state.go('viewTrips');
+  //   });
+  // };
 
-  // populate the form
-  function editTrip(trip){
-    self.trip = trip;
-    self.title = "Edit trip";
-  }
+  // // populate the form
+  // function editTrip(trip){
+  //   self.trip = trip;
+  //   self.title = "Edit trip";
+  // }
 
-  function updateTrip(){
-    Trip.update(self.trip, function(data){
-      self.trip = {};
-    });
-    getTrips();
-    $state.go('viewTrips');
-  }
+  // function updateTrip(){
+  //   Trip.update(self.trip, function(data){
+  //     self.trip = {};
+  //   });
+  //   getTrips();
+  //   $state.go('viewTrips');
+  // }
 
-  function deleteTrip(trip){
-    Trip.delete({id: trip._id});
-    self.trip = {};
-    $state.go('viewTrips');
-  }
+  // function deleteTrip(trip){
+  //   Trip.delete({id: trip._id});
+  //   self.trip = {};
+  //   $state.go('viewTrips');
+  // }
 
-  getTrips();
+  // getTrips();
 
 }
