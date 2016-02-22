@@ -13,3 +13,10 @@
   <!-- /#sidebar-wrapper -->
 </div>
 <!-- /#wrapper -->
+
+<div ng-app="mapsApp" ng-controller="MapsController as Maps">
+  <div id="map"></div>
+  <div id="class" ng-repeat="marker in markers">
+       <!-- <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a> -->
+  </div>
+</div>

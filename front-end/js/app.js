@@ -34,23 +34,23 @@ angular
       })
       .state('newTrip', {
         url: "/newTrip",
-        templateUrl: "./js/views/newTrip.html",
-        // controller: "TripsController as trips"
+        templateUrl: "./js/views/newTrip.html"
       })
       .state('viewTrips', {
         url: "/viewTrips",
-        templateUrl: "./js/views/viewTrips.html",
-        // controller: "TripsController as trips"
+        templateUrl: "./js/views/viewTrips.html"
       })
       .state('singleTrip', {
         url: "/singleTrip",
-        templateUrl: "./js/views/singleTrip.html",
-        // controller: "TripsController as trips"
+        templateUrl: "./js/views/singleTrip.html"
       })
       .state('editTrip', {
         url: "/editTrip",
-        templateUrl: "./js/views/editTrip.html",
-        // controller: "TripsController as trips"
+        templateUrl: "./js/views/editTrip.html"
+      })
+      .state('testForm', {
+        url: "/testForm",
+        templateUrl: "./js/views/testForm.html"
       });
 
       
