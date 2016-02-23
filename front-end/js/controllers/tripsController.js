@@ -2,9 +2,9 @@ angular
   .module('roadTrip')
   .controller('TripsController', TripsController);
 
-TripsController.$inject = ['TripFactory', 'UserFactory', '$state', 'CurrentUser'];
+TripsController.$inject = ['TripFactory', 'UserFactory', '$state', 'CurrentUser', 'uiGmapGoogleMapApi'];
 
-function TripsController(Trip, User, $state, CurrentUser){
+function TripsController(Trip, User, $state, CurrentUser, uiGmapGoogleMapApi){
 
   var self = this;
 
@@ -20,17 +20,36 @@ function TripsController(Trip, User, $state, CurrentUser){
 
   self.title              = "";
 
-  self.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+  self.map = { 
+    center: { latitude: 45, longitude: -73 
+    }, 
+    zoom: 8 
+  };
 
-  var events = {
+  uiGmapGoogleMapApi.then(function(maps) {
+    console.log("got it");
+  });
+
+  var startpointEvents = {
     places_changed: function (searchBox) {
       console.log(searchBox)
     }
   }
-  self.searchbox = { 
-    template:'js/views/searchbox.tpl.html', 
-    events: events,
+  self.startpointSearchbox = { 
+    template:'js/views/searchboxes/startpointSearchbox.tpl.html', 
+    events: startpointEvents,
     parentdiv: "startpoint-input"
+  };
+
+  var endpointEvents = {
+    places_changed: function (searchBox) {
+      console.log(searchBox)
+    }
+  }
+  self.endpointSearchbox = { 
+    template:'js/views/searchboxes/endpointSearchbox.tpl.html', 
+    events: endpointEvents,
+    parentdiv: "endpoint-input"
   };
 
 
