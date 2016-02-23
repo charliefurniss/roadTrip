@@ -1,4 +1,4 @@
-<div class="container-fluid">
+  <div class="container-fluid">
   <div class="row">
     <div id="sidebar-container" class="col-sm-3 sidebar">
       <ul class="nav navbar-nav navbar-left">
@@ -42,6 +42,7 @@
     </div>
     <div class="col-sm-9">
       <ui-gmap-google-map center='trips.map.center' zoom='trips.map.zoom'>
+        <!-- look for configuration (template, events and parentdiv) defined in tripsController -->
         <ui-gmap-search-box template="trips.startpointSearchbox.template" events="trips.startpointSearchbox.events" parentdiv="trips.startpointSearchbox.parentdiv"></ui-gmap-search-box>
         
         <ui-gmap-search-box template="trips.endpointSearchbox.template" events="trips.endpointSearchbox.events" parentdiv="trips.endpointSearchbox.parentdiv"></ui-gmap-search-box>
