@@ -2,9 +2,9 @@ angular
   .module('roadTrip')
   .controller('TripsController', TripsController);
 
-TripsController.$inject = ['TripService', 'TripFactory', 'UserFactory', '$state', 'CurrentUser'];
+TripsController.$inject = ['MapService', 'TripFactory', 'UserFactory', '$state', 'CurrentUser'];
 
-function TripsController(TripService, Trip, User, $state, CurrentUser){
+function TripsController(MapService, Trip, User, $state, CurrentUser){
 
   var self = this;
 
@@ -20,6 +20,7 @@ function TripsController(TripService, Trip, User, $state, CurrentUser){
 
   self.title              = "";
 
+
   function getTrips(){
     self.title = "All trips";
     var userObject = CurrentUser.getUser();
@@ -33,8 +34,8 @@ function TripsController(TripService, Trip, User, $state, CurrentUser){
     self.title  = "Single trip";
     Trip.get({id: trip._id}, function(data){
       self.trip = data;
-      TripService.trip = data;
-      TripService.setTripMap(data);
+      // TripService.trip = data;
+      // TripService.setTripMap(data);
     });
     self.trip = {};
   }

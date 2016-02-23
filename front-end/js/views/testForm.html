@@ -14,10 +14,10 @@
 
       <div class="sidebar-content">
         <form class="form" id="tripForm" ng-submit="trips.createTrip()">
-          <input id="startpoint-input" class="controls" type="text"
+          <input id="startpoint-input" ng-model="trips.trip.startpoint" class="controls" type="text"
                   placeholder="From...">
 
-          <input id="endpoint-input" class="controls" type="text"
+          <input id="endpoint-input" ng-model="trips.trip.endpoint" class="controls" type="text"
               placeholder="To...">
 
           <div id="mode-container">

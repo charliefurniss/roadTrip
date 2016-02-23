@@ -8,19 +8,7 @@ function TestController(TripService, Trip, User, $state, CurrentUser){
 
   var self = this;
 
-  // self.allTrips           = [];
-  // self.trip               = {};
-  // self.getTrips           = getTrips;
-  // self.createTrip         = createTrip;
-  // self.showSingleTrip     = showSingleTrip;
-  // self.showCreateTripForm = showCreateTripForm;
-  // self.deleteTrip         = deleteTrip;
-  // self.editTrip           = editTrip;
-  // self.updateTrip         = updateTrip;
-
-  // self.title              = "";
-
-  function initMap() {
+ function initMap() {
     var startpoint_place_id = null;
     var endpoint_place_id = null;
     var travel_mode = google.maps.TravelMode.DRIVING;
@@ -100,11 +88,14 @@ function TestController(TripService, Trip, User, $state, CurrentUser){
       if (!startpoint_place_id || !endpoint_place_id) {
         return;
       }
+      console.log("start: " + startpoint_place_id);
+      console.log("end: " + endpoint_place_id);
       directionsService.route({
         origin: {'placeId': startpoint_place_id},
         destination: {'placeId': endpoint_place_id},
         travelMode: travel_mode
       }, function(response, status) {
+        console.log(response);
         if (status === google.maps.DirectionsStatus.OK) {
           directionsDisplay.setDirections(response);
         } else {
@@ -116,62 +107,5 @@ function TestController(TripService, Trip, User, $state, CurrentUser){
   }
 
   initMap();
-
-  // function getTrips(){
-  //   self.title = "All trips";
-  //   var userObject = CurrentUser.getUser();
-  //   self.currentUserId = userObject._doc._id
-  //   Trip.query(function(data){
-  //     self.allTrips = data;
-  //   });
-  // }
-
-  // function showSingleTrip(trip){
-  //   self.title  = "Single trip";
-  //   Trip.get({id: trip._id}, function(data){
-  //     self.trip = data;
-  //     setTripMap(data);
-  //   });
-  //   self.trip = {};
-  // }
-
-  // function showCreateTripForm(){
-  //   self.trip   = {};
-  //   self.title  = "New trip";
-  // }
-
-  // function createTrip(){
-  //   var newTrip = self.trip;
-  //   var userObject = CurrentUser.getUser();
-  //   newTrip.user = userObject._doc._id
-    
-  //   Trip.save(newTrip, function(data){
-  //     self.allTrips.push(data);
-  //     self.trip = {};
-  //     $state.go('viewTrips');
-  //   });
-  // };
-
-  // // populate the form
-  // function editTrip(trip){
-  //   self.trip = trip;
-  //   self.title = "Edit trip";
-  // }
-
-  // function updateTrip(){
-  //   Trip.update(self.trip, function(data){
-  //     self.trip = {};
-  //   });
-  //   getTrips();
-  //   $state.go('viewTrips');
-  // }
-
-  // function deleteTrip(trip){
-  //   Trip.delete({id: trip._id});
-  //   self.trip = {};
-  //   $state.go('viewTrips');
-  // }
-
-  // getTrips();
 
 }
