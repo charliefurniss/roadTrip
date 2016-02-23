@@ -2,9 +2,9 @@ angular
   .module('roadTrip')
   .controller('TripsController', TripsController);
 
-TripsController.$inject = ['TripFactory', 'UserFactory', '$state', 'CurrentUser', 'uiGmapGoogleMapApi'];
+TripsController.$inject = ['$scope', 'TripFactory', 'UserFactory', '$state', 'CurrentUser', 'uiGmapGoogleMapApi'];
 
-function TripsController(Trip, User, $state, CurrentUser, uiGmapGoogleMapApi){
+function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMapApi){
 
   var self = this;
 
@@ -17,6 +17,7 @@ function TripsController(Trip, User, $state, CurrentUser, uiGmapGoogleMapApi){
   self.deleteTrip         = deleteTrip;
   self.editTrip           = editTrip;
   self.updateTrip         = updateTrip;
+  self.polylines          = {};
   
   var startpoint_place_id      = null;
   var startpoint_coords        = {};
@@ -34,86 +35,151 @@ function TripsController(Trip, User, $state, CurrentUser, uiGmapGoogleMapApi){
     zoom: 8 
   };
 
-  // this is an event listener. it listens for a places_changed event – which comes from the Google API – and runs a function 
-  var startpointEvents = {
-    places_changed: function (searchBox) {
-      var place = searchBox.getPlaces();
-      startpoint_place_id = place[0].place_id;
-      startpoint_coords = getCoords(place[0].geometry.location);
-      console.log(startpoint_coords);
-
-      if (!place.geometry) {
-        window.alert("Autocomplete's returned place contains no geometry");
-        return;
-      }
-      route(startpoint_place_id, endpoint_place_id);
+  function expandViewportToFitPlace(map, place) {
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      console.log(place.geometry);
+      map.setCenter(place.geometry.location);
+      map.setZoom(17);
     }
   }
 
-  function getCoords(locationObject){
-    var location = {};
-    location.lat = locationObject.lat();
-    location.lng = locationObject.lng();
-    return location;
-  }
+  function getInputs(){
+    // this is an event listener. it listens for a places_changed event – which comes from the Google API – and runs a function 
+    var startpointEvents = {
+      places_changed: function (searchBox) {
+        
+        var place = searchBox.getPlaces();
+        console.log("start place" + place[0].place_id);
+        startpoint_place_id = place[0].place_id;
+        startpoint_coords = getCoords(place[0].geometry.location);
 
-  self.startpointSearchbox = { 
-    template:'js/views/searchboxes/startpointSearchbox.tpl.html', 
-    events: startpointEvents,
-    parentdiv: "startpoint-input"
-  };
+        // expandViewportToFitPlace(self.map, place[0]);
 
-  var endpointEvents = {
-    places_changed: function (searchBox) {
-      var place = searchBox.getPlaces();
-      endpoint_place_id = place[0].place_id;
-      endpoint_coords = getCoords(place[0].geometry.location);
-      console.log(endpoint_coords);
-
-      if (!place.geometry) {
-        window.alert("Autocomplete's returned place contains no geometry");
-        return;
+        if (!place[0].geometry) {
+          window.alert("Autocomplete's returned place contains no geometry");
+          return;
+        }
+        route(startpoint_place_id, endpoint_place_id);
       }
-      route(startpoint_place_id, endpoint_place_id);
     }
+
+    function getCoords(locationObject){
+      var location = {};
+      location.lat = locationObject.lat();
+      location.lng = locationObject.lng();
+      return location;
+    }
+
+    self.startpointSearchbox = { 
+      template:'js/views/searchboxes/startpointSearchbox.tpl.html', 
+      events: startpointEvents,
+      parentdiv: "startpoint-input"
+    };
+
+    var endpointEvents = {
+      places_changed: function (searchBox) {
+        var place = searchBox.getPlaces();
+        endpoint_place_id = place[0].place_id;
+        endpoint_coords = getCoords(place[0].geometry.location);
+        console.log(endpoint_place_id);
+
+        // expandViewportToFitPlace(self.map, place);
+
+        if (!place[0].geometry) {
+          window.alert("Autocomplete's returned place contains no geometry");
+          return;
+        }
+        // route(startpoint_place_id, endpoint_place_id);
+      }
+    }
+
+    self.endpointSearchbox = { 
+      template:'js/views/searchboxes/endpointSearchbox.tpl.html', 
+      events: endpointEvents,
+      parentdiv: "endpoint-input"
+       
+    };
   }
 
-  self.endpointSearchbox = { 
-    template:'js/views/searchboxes/endpointSearchbox.tpl.html', 
-    events: endpointEvents,
-    parentdiv: "endpoint-input"
-     
-  };
 
-  uiGmapGoogleMapApi.then(function(maps) {
+  uiGmapGoogleMapApi.then(function(map) {
+
+    getInputs();
     
+    map = self.map;
+    
+    var directionsService = new google.maps.DirectionsService;
+    var directionsDisplay = new google.maps.DirectionsRenderer;
+    
+    // startpoint_place_id = 'ChIJdd4hrwug2EcRmSrV3Vo6llI';
+    // endpoint_place_id = 'ChIJD7fiBh9u5kcRYJSMaMOCCwQ';
+
+    function route(startpoint_place_id, endpoint_place_id) {
+      if (!startpoint_place_id || !endpoint_place_id) {
+        return;
+      }
+      // console.log("start: " + startpoint_place_id);
+      // console.log("end: " + endpoint_place_id);
+      directionsService.route({
+        origin: {'placeId': startpoint_place_id},
+        destination: {'placeId': endpoint_place_id},
+        travelMode: 'DRIVING'
+      }, function(response, status) {
+        
+        directionsDisplay.setDirections(response);
+        console.log(directionsDisplay);
+
+        var trip = directionsDisplay.directions;
+
+        console.log("origin_id: " + trip.request.origin.placeId);
+        console.log("origin_address: " + trip.routes[0].legs[0].start_address);
+        console.log("origin_lat: " + trip.routes[0].legs[0].start_location.lat());
+        console.log("origin_lng: " + trip.routes[0].legs[0].start_location.lng());
+
+        console.log("destination_id: " + trip.request.destination.placeId);
+        console.log("destination_address: " + trip.routes[0].legs[0].end_address);
+        console.log("destination_lat: " + trip.routes[0].legs[0].end_location.lat());
+        console.log("destination_lng: " + trip.routes[0].legs[0].end_location.lng());
+
+        console.log("trip distance: " + trip.routes[0].legs[0].distance.text);
+        console.log("trip duration: " + trip.routes[0].legs[0].duration.text);
+
+        // if (status === google.maps.DirectionsStatus.OK) {          
+        //   // set variable to the scope so that they can be picked up by ng-repeat on the page
+        //   
+        //   self.polylines = new google.maps.Polyline({
+        //     path: [],
+        //     strokeColor: '#FF0000',
+        //     strokeWeight: 3
+        //   });
+          
+        //   var bounds = new google.maps.LatLngBounds();
+
+        //   var legs = response.routes[0].legs;
+        //   for (i = 0; i < legs.length; i++) {
+        //     var steps = legs[i].steps;
+        //     for (j = 0; j < steps.length; j++) {
+        //       var nextSegment = steps[j].polyline;
+        //       for (k = 0; k < nextSegment.length; k++) {
+        //         console.log(nextSegment[k]);
+        //         self.polylines.getPath().push(nextSegment[k]);
+        //         bounds.extend(nextSegment[k]);
+        //       }
+        //     }
+        //   }
+        //   console.log(self.polylines);
+        // } else {
+        //   window.alert('Directions request failed due to ' + status);
+        // }
+      });
+    }
+    // route(startpoint_place_id, endpoint_place_id);
   });
 
-  var directionsService = new google.maps.DirectionsService;
-  var directionsDisplay = new google.maps.DirectionsRenderer;
+
   
-  directionsDisplay.setMap(map);
-
-  function route(startpoint_place_id, endpoint_place_id) {
-    if (!startpoint_place_id || !endpoint_place_id) {
-      return;
-    }
-    console.log("start: " + startpoint_place_id);
-    console.log("end: " + endpoint_place_id);
-    directionsService.route({
-      origin: {'placeId': startpoint_place_id},
-      destination: {'placeId': endpoint_place_id},
-      travelMode: travel_mode
-    }, function(response, status) {
-      console.log(response);
-      if (status === google.maps.DirectionsStatus.OK) {
-        directionsDisplay.setDirections(response);
-      } else {
-        window.alert('Directions request failed due to ' + status);
-      }
-    });
-  }
-
 
   /////////////////////API REQUESTS/////////////////////////////////
 
