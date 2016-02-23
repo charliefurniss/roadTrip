@@ -14,11 +14,14 @@
 
       <div class="sidebar-content">
         <form class="form" id="tripForm" ng-submit="trips.createTrip()">
-          <input id="startpoint-input" ng-model="trips.trip.startpoint" class="controls" type="text"
-                  placeholder="From...">
+        <div id="startpoint-input">
+          
+        </div>
+          <!-- <input id="startpoint-input" ng-model="trips.trip.startpoint" class="controls" type="text"
+                  placeholder="From..."> -->
 
-          <input id="endpoint-input" ng-model="trips.trip.endpoint" class="controls" type="text"
-              placeholder="To...">
+          <!-- <input id="endpoint-input" ng-model="trips.trip.endpoint" class="controls" type="text"
+              placeholder="To..."> -->
 
           <div id="mode-container">
             <div class="mode-selector">
@@ -41,9 +44,14 @@
       
     </div>
     <div class="col-sm-9">
-      <div id="map">
+      <ui-gmap-google-map center='trips.map.center' zoom='trips.map.zoom'>
+        <ui-gmap-search-box template="trips.searchbox.template" events="trips.searchbox.events" parentdiv="trips.searchbox.parentdiv"></ui-gmap-search-box>
+        <ui-gmap-search-box template="trips.searchbox.template" events="trips.searchbox.events" parentdiv="trips.searchbox.parentdiv"></ui-gmap-search-box>
+
+      </ui-gmap-google-map>
+      <!-- <div id="map">
         
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

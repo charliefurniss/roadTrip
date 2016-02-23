@@ -1,9 +1,17 @@
 angular
-  .module('roadTrip', ['ngResource', 'angular-jwt', 'ui.router']) // tell angular to use the named services
+  .module('roadTrip', ['ngResource', 'angular-jwt', 'ui.router', 'uiGmapgoogle-maps']) // tell angular to use the named services
   .constant('API', 'http://localhost:3000/api') // set front-end url as variable API
   .config(MainRouter) // include MainRouter function defined below
-  .config(function($httpProvider){
+  .config(function($httpProvider, uiGmapGoogleMapApiProvider){
+    
     $httpProvider.interceptors.push('authInterceptor'); // ???
+
+    uiGmapGoogleMapApiProvider.configure({
+              //    key: 'your api key',
+              libraries: 'places' // Required for SearchBox.
+    });
+
+
   });
 
   // Inject dependencies into MainRouter function

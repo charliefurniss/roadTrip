@@ -2,9 +2,9 @@ angular
   .module('roadTrip')
   .controller('TripsController', TripsController);
 
-TripsController.$inject = ['MapService', 'TripFactory', 'UserFactory', '$state', 'CurrentUser'];
+TripsController.$inject = ['TripFactory', 'UserFactory', '$state', 'CurrentUser'];
 
-function TripsController(MapService, Trip, User, $state, CurrentUser){
+function TripsController(Trip, User, $state, CurrentUser){
 
   var self = this;
 
@@ -19,6 +19,19 @@ function TripsController(MapService, Trip, User, $state, CurrentUser){
   self.updateTrip         = updateTrip;
 
   self.title              = "";
+
+  self.map = { center: { latitude: 45, longitude: -73 }, zoom: 8 };
+
+  var events = {
+    places_changed: function (searchBox) {
+      console.log(searchBox)
+    }
+  }
+  self.searchbox = { 
+    template:'js/views/searchbox.tpl.html', 
+    events: events,
+    parentdiv: "startpoint-input"
+  };
 
 
   function getTrips(){

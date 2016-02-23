@@ -29,6 +29,10 @@ body {
     float: right;
 }
 
+.angular-google-map-container { 
+    height: 400px; 
+}
+
 #sidebar-container {
     padding: 0px 0px 20px 0px !important;
 }
