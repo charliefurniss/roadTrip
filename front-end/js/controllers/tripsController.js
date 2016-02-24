@@ -2,9 +2,9 @@ angular
   .module('roadTrip')
   .controller('TripsController', TripsController);
 
-TripsController.$inject = ['$scope', 'TripFactory', 'UserFactory', '$state', 'CurrentUser', 'uiGmapGoogleMapApi'];
+TripsController.$inject = ['MapService', '$scope', 'TripFactory', 'UserFactory', '$state', 'CurrentUser', 'uiGmapGoogleMapApi'];
 
-function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMapApi){
+function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, uiGmapGoogleMapApi){
 
   var self = this;
 
@@ -35,69 +35,59 @@ function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMa
     }, 
     zoom: 8 
   };
+  
+  // this is an event listener. it listens for a places_changed event – which comes from the Google API – and runs a function 
+  var startpointEvents = {
+    places_changed: function (searchBox) {
+      
+      var place = searchBox.getPlaces();
+      console.log("start place " + place[0].place_id);
+      startpoint = place[0];
 
-  function expandViewportToFitPlace(map, place) {
-    if (place.geometry.viewport) {
-      map.fitBounds(place.geometry.viewport);
-    } else {
-      console.log(place.geometry);
-      map.setCenter(place.geometry.location);
-      map.setZoom(17);
+      // expandViewportToFitPlace(self.map, place[0]);
+
+      if (!place[0].geometry) {
+        window.alert("Autocomplete's returned place contains no geometry");
+        return;
+      }
+      // route(startpoint_place_id, endpoint_place_id);
     }
   }
-  
-    // this is an event listener. it listens for a places_changed event – which comes from the Google API – and runs a function 
-    var startpointEvents = {
-      places_changed: function (searchBox) {
-        
-        var place = searchBox.getPlaces();
-        console.log("start place " + place[0].place_id);
-        startpoint = place[0];
 
-        // expandViewportToFitPlace(self.map, place[0]);
+  function getCoords(locationObject){
+    var location = {};
+    location.lat = locationObject.lat();
+    location.lng = locationObject.lng();
+    return location;
+  }
 
-        if (!place[0].geometry) {
-          window.alert("Autocomplete's returned place contains no geometry");
-          return;
-        }
-        // route(startpoint_place_id, endpoint_place_id);
+  self.startpointSearchbox = { 
+    template:'js/views/searchboxes/startpointSearchbox.tpl.html', 
+    events: startpointEvents,
+    parentdiv: "startpoint-input"
+  };
+
+  var endpointEvents = {
+    places_changed: function (searchBox) {
+      var place = searchBox.getPlaces();
+      endpoint = place[0];
+
+      // expandViewportToFitPlace(self.map, place);
+
+      if (!place[0].geometry) {
+        window.alert("Autocomplete's returned place contains no geometry");
+        return;
       }
+      // route(startpoint_place_id, endpoint_place_id);
     }
+  }
 
-    function getCoords(locationObject){
-      var location = {};
-      location.lat = locationObject.lat();
-      location.lng = locationObject.lng();
-      return location;
-    }
-
-    self.startpointSearchbox = { 
-      template:'js/views/searchboxes/startpointSearchbox.tpl.html', 
-      events: startpointEvents,
-      parentdiv: "startpoint-input"
-    };
-
-    var endpointEvents = {
-      places_changed: function (searchBox) {
-        var place = searchBox.getPlaces();
-        endpoint = place[0];
-
-        // expandViewportToFitPlace(self.map, place);
-
-        if (!place[0].geometry) {
-          window.alert("Autocomplete's returned place contains no geometry");
-          return;
-        }
-        // route(startpoint_place_id, endpoint_place_id);
-      }
-    }
-
-    self.endpointSearchbox = { 
-      template:'js/views/searchboxes/endpointSearchbox.tpl.html', 
-      events: endpointEvents,
-      parentdiv: "endpoint-input"
-       
-    };
+  self.endpointSearchbox = { 
+    template:'js/views/searchboxes/endpointSearchbox.tpl.html', 
+    events: endpointEvents,
+    parentdiv: "endpoint-input"
+     
+  };
 
   
   
