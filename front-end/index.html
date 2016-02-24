@@ -45,7 +45,7 @@
     <ul id="user-links-container">
       <!-- ui-sref binds the anchor tags to the respective state defined in MainRouter in app.js -->
       <li ng-show="users.checkLoggedIn()">
-        <a class="notActive user-links"> Hello {{users.user._doc.local.username}}</a>
+        <a class="notActive user-links">{{users.user._doc.local.username}}</a>
       </li>
       <li ng-hide="users.checkLoggedIn()">
         <a class="user-links" href="#" ui-sref="login">Login</a>
