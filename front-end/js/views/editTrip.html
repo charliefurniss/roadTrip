@@ -47,6 +47,8 @@
         
         <ui-gmap-search-box template="trips.endpointSearchbox.template" events="trips.endpointSearchbox.events" parentdiv="trips.endpointSearchbox.parentdiv"></ui-gmap-search-box>
 
+        <ui-gmap-marker coords="trips.marker.coords" options="trips.marker.options" events="trips.marker.events" idkey="trips.marker.id"></ui-gmap-marker>
+
         <ui-gmap-polyline ng-repeat="p in trips.polylines track by $index" path="p.path" stroke="p.stroke" visible='p.visible' geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline>
 
       </ui-gmap-google-map>
