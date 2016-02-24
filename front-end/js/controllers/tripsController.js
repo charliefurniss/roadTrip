@@ -26,6 +26,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   var startpoint          = {};
   var endpoint            = {};
   var stopover            = [];
+  var routeObject         = {};
+  var mapBoolean          = null;
 
   self.title              = "";
 
@@ -133,21 +135,23 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   };
   
 
-  function setRouteMap(trip){
+  function setRoute(trip, mapBoolean){
+    console.log(mapBoolean);
+
+    var mapper = mapBoolean;
+
+    routeObject             = {};
 
     var startpoint_place_id = trip.startpoint.place_id;
-    var endpoint_place_id = trip.endpoint.place_id;
-    var polylineArray = [];
+    var startpoint_coords   = {};
+    var endpoint_place_id   = trip.endpoint.place_id;
+    var endpoint_coords   = {};
 
-    uiGmapGoogleMapApi.then(function(map) {
+    uiGmapGoogleMapApi.then(function(mapBoolean) {
+    console.log(mapBoolean);
 
     var directionsService = new google.maps.DirectionsService;
     var directionsDisplay = new google.maps.DirectionsRenderer;
-
-    console.log(startpoint_place_id);
-    console.log(endpoint_place_id);
-
-
 
     self.polylines = []
 
@@ -155,58 +159,83 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       origin: {'placeId': startpoint_place_id},
       destination: {'placeId': endpoint_place_id},
       travelMode: 'DRIVING'
-    }, function(response, status) {
+    }, function(response, status, mapBoolean) {
         console.log(response);
-        var waypointsArray = response.routes[0].overview_path;
-        var latTotal = 0;
-        var lngTotal = 0;
 
-        for (i = 0; i < waypointsArray.length; i++){
-          var coordsObject = {
-            latitude: waypointsArray[i].lat(), 
-            longitude: waypointsArray[i].lng()
-          }
-          polylineArray.push(coordsObject);
-          latTotal += waypointsArray[i].lat();
-          lngTotal += waypointsArray[i].lng();
+        routeObject = response;
+        
+        if (!mapper){
+          console.log(mapper);
+          return routeObject;
+        } else {  
+          setRouteMap(routeObject);
         }
-
-        var latAvg = latTotal / waypointsArray.length;
-        var lngAvg = lngTotal / waypointsArray.length;
-
-        mapCoords = {
-          latitude: latAvg,
-          longitude: lngAvg
-        }
-
-        console.log(mapCoords);
-
-        self.map = {
-          center: mapCoords, 
-          zoom: 8, 
-          bounds: {}
-        };
-
-        self.polylines = [
-        {
-          id: 1,
-          path: polylineArray,
-          stroke: {
-              color: '#6060FB',
-              weight: 3
-          },
-          editable: false,
-          draggable: false,
-          geodesic: true,
-          visible: true,
-          fit: true
-        }]
       }
     )
     })
   }
 
-  
+  function setRouteMap(routeObject){
+    var directionsArray = routeObject.routes[0].overview_path;
+    var latTotal = 0;
+    var lngTotal = 0;
+    var polylineArray = [];
+
+    for (i = 0; i < directionsArray.length; i++){
+      var coordsObject = {
+        latitude: directionsArray[i].lat(), 
+        longitude: directionsArray[i].lng()
+      }
+      polylineArray.push(coordsObject);
+      latTotal += directionsArray[i].lat();
+      lngTotal += directionsArray[i].lng();
+    }
+
+    var latAvg = latTotal / directionsArray.length;
+    var lngAvg = lngTotal / directionsArray.length;
+
+    mapCoords = {
+      latitude: latAvg,
+      longitude: lngAvg
+    }
+
+    self.map = {
+      center: mapCoords, 
+      zoom: 8, 
+      bounds: {}
+    };
+
+    self.marker = {
+      id: 0,
+      coords: {
+        latitude: location.latitude,
+        longitude: location.longitude
+      }
+    }
+
+    self.marker = {
+      id: 1,
+      coords: {
+        latitude: location.latitude,
+        longitude: location.longitude
+      }
+    }
+
+    self.polylines = [
+    {
+      id: 1,
+      path: polylineArray,
+      stroke: {
+          color: '#6060FB',
+          weight: 3
+      },
+      editable: false,
+      draggable: false,
+      geodesic: true,
+      visible: true,
+      fit: true
+    }]
+  }
 
   /////////////////////API REQUESTS/////////////////////////////////
 
@@ -221,13 +250,13 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
 
   function showSingleTrip(trip){
+    mapBoolean = true;
     self.title  = "Single trip";
     Trip.get({id: trip._id}, function(data){
       self.trip = data;
       // self.stopovers = data.stopovers;
       // console.log(self.stopovers[0]);
-      setRouteMap(data);
-
+      setRoute(data, mapBoolean);
     });
     self.trip = {};
   }
