@@ -1,21 +1,46 @@
-<div id="wrapper">
-  <!-- Sidebar -->
-  <div id="sidebar-wrapper">
-    <!-- trips list -->
-    <h1>{{trips.title}}</h1>
+<div class="container-fluid">
+  <div class="row">
+    <div id="sidebar-container" class="col-sm-3 sidebar">
+      <div id="sidebar-navs">
+        <ul class="nav navbar-nav navbar-left">
+          <li ng-show="users.checkLoggedIn()">
+            <a href="#" ng-click="trips.getTrips()" ui-sref="viewTrips">View trips</a>
+          </li>
+        </ul> 
+        <ul class="nav navbar-nav navbar-left">
+          <li ng-show="users.checkLoggedIn()">
+            <a href="#" ng-click="trips.showCreateTripForm()" ui-sref="newTrip">New trip</a>
+          </li>
+        </ul>
+      </div>
 
-    <ul class="media-list">
-      <li id="tripWell" class="well" ng-repeat="trip in trips.allTrips  | filter :{ 'trips.currentUserId' : trip.user } | orderBy : '_id' : true" ng-click="trips.showSingleTrip(trip)" ui-sref="singleTrip">
-          <div class="media-body">
-            <!-- <p>trip.user = {{trip.user}}</p>
-            <p>{{trips.currentUserId}}</p> -->
-            <h4 class="media-heading">{{ trip.name }}</h4>
-            <p>{{ trip.startpoint }}</p>
-            <p>{{ trip.endpoint }}</p>
-          </div>
-      </li>
-    <div>   
+      <div class="sidebar-content">
+        <ul class="media-list">
+          <li id="tripWell" ng-repeat="trip in trips.allTrips  | filter :{ 'trips.currentUserId' : trip.user } | orderBy : '_id' : true" ng-click="trips.showSingleTrip(trip)" ui-sref="singleTrip">
+              <div class="media-body">
+                <!-- <p>trip.user = {{trip.user}}</p>
+                <p>{{trips.currentUserId}}</p> -->
+                <h4 class="media-heading">{{ trip.name }}</h4>
+                <p>{{ trip.startpoint }}</p>
+                <p>{{ trip.endpoint }}</p>
+              </div>
+          </li>
+        </ul>  
+      </div>       
+    </div>
+
+    <div class="col-sm-9">
+      <div id="map">
+      <ui-gmap-polyline ng-repeat="p in trips.polylines track by $index" path="p.path" stroke="p.stroke" visible='p.visible' geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline>
+
+      </ui-gmap-google-map>
+    
+      
+      </div>
+    </div>
+    <!-- row -->
   </div>
-  <!-- /#sidebar-wrapper -->
-</div>
-<!-- /#wrapper -->  
+  <!-- container-fluid -->
+</div> 
+ 
+ 

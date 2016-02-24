@@ -45,7 +45,7 @@ function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMa
     }
   }
 
-  function getInputs(){
+  
     // this is an event listener. it listens for a places_changed event – which comes from the Google API – and runs a function 
     var startpointEvents = {
       places_changed: function (searchBox) {
@@ -61,7 +61,7 @@ function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMa
           window.alert("Autocomplete's returned place contains no geometry");
           return;
         }
-        route(startpoint_place_id, endpoint_place_id);
+        // route(startpoint_place_id, endpoint_place_id);
       }
     }
 
@@ -101,81 +101,83 @@ function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMa
       parentdiv: "endpoint-input"
        
     };
+
+  
+  
+  // startpoint_place_id = 'ChIJdd4hrwug2EcRmSrV3Vo6llI';
+  // endpoint_place_id = 'ChIJD7fiBh9u5kcRYJSMaMOCCwQ';
+
+  function route(startpoint_place_id, endpoint_place_id) {
+    if (!startpoint_place_id || !endpoint_place_id) {
+      return;
+    }
+    // console.log("start: " + startpoint_place_id);
+    // console.log("end: " + endpoint_place_id);
+    directionsService.route({
+      origin: {'placeId': startpoint_place_id},
+      destination: {'placeId': endpoint_place_id},
+      travelMode: 'DRIVING'
+    }, function(response, status) {
+      
+      directionsDisplay.setDirections(response);
+      console.log(directionsDisplay);
+
+      var trip = directionsDisplay.directions;
+
+      console.log("origin_id: " + trip.request.origin.placeId);
+      console.log("origin_address: " + trip.routes[0].legs[0].start_address);
+      console.log("origin_lat: " + trip.routes[0].legs[0].start_location.lat());
+      console.log("origin_lng: " + trip.routes[0].legs[0].start_location.lng());
+
+      console.log("destination_id: " + trip.request.destination.placeId);
+      console.log("destination_address: " + trip.routes[0].legs[0].end_address);
+      console.log("destination_lat: " + trip.routes[0].legs[0].end_location.lat());
+      console.log("destination_lng: " + trip.routes[0].legs[0].end_location.lng());
+
+      console.log("trip distance: " + trip.routes[0].legs[0].distance.text);
+      console.log("trip duration: " + trip.routes[0].legs[0].duration.text);
+
+      // if (status === google.maps.DirectionsStatus.OK) {          
+      //   // set variable to the scope so that they can be picked up by ng-repeat on the page
+      //   
+      //   self.polylines = new google.maps.Polyline({
+      //     path: [],
+      //     strokeColor: '#FF0000',
+      //     strokeWeight: 3
+      //   });
+        
+      //   var bounds = new google.maps.LatLngBounds();
+
+      //   var legs = response.routes[0].legs;
+      //   for (i = 0; i < legs.length; i++) {
+      //     var steps = legs[i].steps;
+      //     for (j = 0; j < steps.length; j++) {
+      //       var nextSegment = steps[j].polyline;
+      //       for (k = 0; k < nextSegment.length; k++) {
+      //         console.log(nextSegment[k]);
+      //         self.polylines.getPath().push(nextSegment[k]);
+      //         bounds.extend(nextSegment[k]);
+      //       }
+      //     }
+      //   }
+      //   console.log(self.polylines);
+      // } else {
+      //   window.alert('Directions request failed due to ' + status);
+      // }
+    });
   }
 
 
   uiGmapGoogleMapApi.then(function(map) {
 
-    getInputs();
-    
+    console.log("hello");
+
     map = self.map;
-    
     var directionsService = new google.maps.DirectionsService;
     var directionsDisplay = new google.maps.DirectionsRenderer;
     
-    // startpoint_place_id = 'ChIJdd4hrwug2EcRmSrV3Vo6llI';
-    // endpoint_place_id = 'ChIJD7fiBh9u5kcRYJSMaMOCCwQ';
-
-    function route(startpoint_place_id, endpoint_place_id) {
-      if (!startpoint_place_id || !endpoint_place_id) {
-        return;
-      }
-      // console.log("start: " + startpoint_place_id);
-      // console.log("end: " + endpoint_place_id);
-      directionsService.route({
-        origin: {'placeId': startpoint_place_id},
-        destination: {'placeId': endpoint_place_id},
-        travelMode: 'DRIVING'
-      }, function(response, status) {
-        
-        directionsDisplay.setDirections(response);
-        console.log(directionsDisplay);
-
-        var trip = directionsDisplay.directions;
-
-        console.log("origin_id: " + trip.request.origin.placeId);
-        console.log("origin_address: " + trip.routes[0].legs[0].start_address);
-        console.log("origin_lat: " + trip.routes[0].legs[0].start_location.lat());
-        console.log("origin_lng: " + trip.routes[0].legs[0].start_location.lng());
-
-        console.log("destination_id: " + trip.request.destination.placeId);
-        console.log("destination_address: " + trip.routes[0].legs[0].end_address);
-        console.log("destination_lat: " + trip.routes[0].legs[0].end_location.lat());
-        console.log("destination_lng: " + trip.routes[0].legs[0].end_location.lng());
-
-        console.log("trip distance: " + trip.routes[0].legs[0].distance.text);
-        console.log("trip duration: " + trip.routes[0].legs[0].duration.text);
-
-        // if (status === google.maps.DirectionsStatus.OK) {          
-        //   // set variable to the scope so that they can be picked up by ng-repeat on the page
-        //   
-        //   self.polylines = new google.maps.Polyline({
-        //     path: [],
-        //     strokeColor: '#FF0000',
-        //     strokeWeight: 3
-        //   });
-          
-        //   var bounds = new google.maps.LatLngBounds();
-
-        //   var legs = response.routes[0].legs;
-        //   for (i = 0; i < legs.length; i++) {
-        //     var steps = legs[i].steps;
-        //     for (j = 0; j < steps.length; j++) {
-        //       var nextSegment = steps[j].polyline;
-        //       for (k = 0; k < nextSegment.length; k++) {
-        //         console.log(nextSegment[k]);
-        //         self.polylines.getPath().push(nextSegment[k]);
-        //         bounds.extend(nextSegment[k]);
-        //       }
-        //     }
-        //   }
-        //   console.log(self.polylines);
-        // } else {
-        //   window.alert('Directions request failed due to ' + status);
-        // }
-      });
-    }
-    // route(startpoint_place_id, endpoint_place_id);
+    
+    route(startpoint_place_id, endpoint_place_id);
   });
 
 

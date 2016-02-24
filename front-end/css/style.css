@@ -17,6 +17,7 @@ body {
 
 #tripWell {
     cursor: pointer;
+    border: 1px solid grey;
 }
 
 .navbar {
@@ -37,7 +38,13 @@ body {
     padding: 0px 0px 20px 0px !important;
 }
 
+#sidebar-navs {
+  display: block;
+  height: 50px;
+}
+
 .sidebar-content {
+    
     margin-left: 15px !important;
 }
 

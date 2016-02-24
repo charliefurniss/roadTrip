@@ -1,22 +1,37 @@
-<div id="wrapper">
-  <!-- Sidebar -->
-  <div id="sidebar-wrapper">
-    <!-- trips list -->
-    <h1>{{trips.title}}</h1>
-    <h4 class="media-heading">{{ trips.trip.name }}</h4>
-    <p>From: {{ trips.trip.startpoint }}</p>
-    <p>To: {{ trips.trip.endpoint }}</p>
-    <a href="#" class="btn btn-primary" ng-click="trips.editTrip(trips.trip)" ui-sref="editTrip">Edit</a>
-    <input type="submit" value="Delete" id="submit" class="btn btn-primary" ng-click="trips.deleteTrip(trips.trip)">
-   
-  </div>
-  <!-- /#sidebar-wrapper -->
-</div>
-<!-- /#wrapper -->
+<div class="container-fluid">
+  <div class="row">
+    <div id="sidebar-container" class="col-sm-3 sidebar">
+      <div id="sidebar-navs">
+        <ul class="nav navbar-nav navbar-left">
+          <li ng-show="users.checkLoggedIn()">
+            <a href="#" ng-click="trips.getTrips()" ui-sref="viewTrips">View trips</a>
+          </li>
+        </ul> 
+        <ul class="nav navbar-nav navbar-left">
+          <li ng-show="users.checkLoggedIn()">
+            <a href="#" ng-click="trips.showCreateTripForm()" ui-sref="newTrip">New trip</a>
+          </li>
+        </ul>
+      </div>
 
-<div ng-app="mapsApp" ng-controller="MapsController as Maps">
-  <div id="map"></div>
-  <div id="class" ng-repeat="marker in markers">
-       <!-- <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a> -->
+      <div class="sidebar-content">
+        <h4 class="media-heading">{{ trips.trip.name }}</h4>
+        <p>From: {{ trips.trip.startpoint }}</p>
+        <p>To: {{ trips.trip.endpoint }}</p>
+        <a href="#" class="btn btn-primary" ng-click="trips.editTrip(trips.trip)" ui-sref="editTrip">Edit</a>
+        <input type="submit" value="Delete" id="submit" class="btn btn-primary" ng-click="trips.deleteTrip(trips.trip)">
+      </div>       
+    </div>
+
+    <div class="col-sm-9">
+
+      <ui-gmap-polyline ng-repeat="p in trips.polylines track by $index" path="p.path" stroke="p.stroke" visible='p.visible' geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline>
+
+      </ui-gmap-google-map>
+    <!-- <div id="map">
+      
+    </div> -->
+    </div>
   </div>
 </div>
+
