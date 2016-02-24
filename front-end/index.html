@@ -39,8 +39,7 @@
   <link rel="stylesheet" type="text/css" href="./css/style.css">
 </head>
 <body ng-controller="UsersController as users">
-  <div ng-controller="TripsController as trips">
-
+  
   <header>
     <ul id="user-links-container">
       <!-- ui-sref binds the anchor tags to the respective state defined in MainRouter in app.js -->
@@ -54,15 +53,14 @@
         <a class="user-links" href="#" ui-sref="register">Register</a>
       </li>
       <li ng-show="users.checkLoggedIn()">
-        <a class="user-links" href="#" ui-sref="home" ng-click="users.logout()">Logout</a>
+        <a class="user-links" href="#" ui-sref="register" ng-click="users.logout()">Logout</a>
       </li>
     </ul>
   </header>
 
     <main class="container" ui-view>
-      <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Add trip</a>
     </main>
 
-</div>
+
 </body>
 </html>

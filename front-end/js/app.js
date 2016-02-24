@@ -10,8 +10,6 @@ angular
               //    key: 'your api key',
               libraries: 'places' // Required for SearchBox.
     });
-
-
   });
 
   // Inject dependencies into MainRouter function
@@ -63,5 +61,5 @@ angular
 
       
 
-    $urlRouterProvider.otherwise("/");
+    $urlRouterProvider.otherwise("/register");
   }
