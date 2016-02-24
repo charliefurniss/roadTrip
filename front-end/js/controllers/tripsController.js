@@ -24,7 +24,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   
   var startpoint          = {};
   var endpoint            = {};
-  var stopover            = {};
+  var stopover            = [];
 
   self.title              = "";
 
@@ -246,6 +246,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     newTrip.user = userObject._doc._id
     newTrip.startpoint = startpoint;
     newTrip.endpoint = endpoint;
+    newTrip.stopovers = [];
+    newTrip.stopovers.push(stopover);
     console.log(newTrip);
     
     Trip.save(newTrip, function(data){

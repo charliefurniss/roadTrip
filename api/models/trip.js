@@ -5,7 +5,7 @@ var tripSchema = mongoose.Schema({
   startpoint: Object,
   endpoint: Object,
   user: { type: mongoose.Schema.ObjectId, ref: 'User' },
-  stops: [{ type: mongoose.Schema.ObjectId, ref: 'Stop' }]
+  stopovers: [{ type: mongoose.Schema.ObjectId, ref: 'Stop' }]
 });
 
 module.exports = mongoose.model('Trip', tripSchema);

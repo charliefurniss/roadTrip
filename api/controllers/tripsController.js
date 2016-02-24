@@ -1,5 +1,6 @@
 var Trip = require("../models/trip");
 var User = require("../models/user");
+var Stop = require("../models/stop");
 
 function tripsIndex(req, res){
   var id = req.params.id;
@@ -11,7 +12,9 @@ function tripsIndex(req, res){
 
 function tripsCreate(req, res){
   var trip = new Trip(req.body);
-  trip.save(function(err){
+
+  trip.save(function(err, trip){
+    console.log(trip);
     if (err) return res.status(500).send(err);
     var id = trip.user;
     User.findById({ _id: id }, function(err, user){
