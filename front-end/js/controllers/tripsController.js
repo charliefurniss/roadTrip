@@ -20,7 +20,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   self.endPlaceholder     = "";
   self.updateTrip         = updateTrip;
   self.polylines          = {};
-
+  self.userLocation       = {};
   
   var startpoint         = {};
   var endpoint           = {};
@@ -29,12 +29,42 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   /////////////////////////**** MAP ****////////////////////////////////////
 
-  self.map = { 
-    center: { 
-      latitude: 45, longitude: -73 
-    }, 
-    zoom: 8 
-  };
+  // use HTML geolocation to get coordinates of user's position
+  function getLocation(){
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(setUserLocation);
+    } else {
+      console.log("geolocation error");
+    }
+  }
+  
+  // put coords from getLocation function into a bound object ready for Google maps
+  function setUserLocation(position){ 
+    var lat = position.coords.latitude; 
+    var lng = position.coords.longitude;
+    self.userLocation = { latitude: lat, longitude: lng };
+    setMap(self.userLocation);
+  }
+
+  function setMap(location){
+    self.map = { 
+      center: { 
+        latitude: location.latitude,
+        longitude: location.longitude
+      },
+      zoom: 12 
+    };
+    self.marker = {
+      id: 0,
+      coords: {
+        latitude: location.latitude,
+        longitude: location.longitude
+      }
+    } 
+  }
+
+  getLocation();
+  
   
   // this is an event listener. it listens for a places_changed event – which comes from the Google API – and runs a function 
   var startpointEvents = {
