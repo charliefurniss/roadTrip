@@ -147,6 +147,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     console.log(startpoint_place_id);
     console.log(endpoint_place_id);
 
+
+
     self.polylines = []
 
     directionsService.route({
@@ -154,18 +156,36 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       destination: {'placeId': endpoint_place_id},
       travelMode: 'DRIVING'
     }, function(response, status) {
-        // console.log(response);
+        console.log(response);
         var waypointsArray = response.routes[0].overview_path;
-        console.log(waypointsArray);
+        var latTotal = 0;
+        var lngTotal = 0;
 
         for (i = 0; i < waypointsArray.length; i++){
           var coordsObject = {
             latitude: waypointsArray[i].lat(), 
             longitude: waypointsArray[i].lng()
           }
-          polylineArray.push(coordsObject); 
+          polylineArray.push(coordsObject);
+          latTotal += waypointsArray[i].lat();
+          lngTotal += waypointsArray[i].lng();
         }
-        console.log(polylineArray);
+
+        var latAvg = latTotal / waypointsArray.length;
+        var lngAvg = lngTotal / waypointsArray.length;
+
+        mapCoords = {
+          latitude: latAvg,
+          longitude: lngAvg
+        }
+
+        console.log(mapCoords);
+
+        self.map = {
+          center: mapCoords, 
+          zoom: 8, 
+          bounds: {}
+        };
 
         self.polylines = [
         {
