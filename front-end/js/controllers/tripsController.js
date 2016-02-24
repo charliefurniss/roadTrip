@@ -16,8 +16,11 @@ function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMa
   self.showCreateTripForm = showCreateTripForm;
   self.deleteTrip         = deleteTrip;
   self.editTrip           = editTrip;
+  self.startPlaceholder   = "";
+  self.endPlaceholder     = "";
   self.updateTrip         = updateTrip;
   self.polylines          = {};
+
   
   var startpoint         = {};
   var endpoint           = {};
@@ -207,9 +210,6 @@ function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMa
 
   function createTrip(){
     var newTrip = self.trip;
-
-    console.log(startpoint);
-    console.log(endpoint);
     var userObject = CurrentUser.getUser();
     newTrip.user = userObject._doc._id
     newTrip.startpoint = startpoint;
@@ -226,11 +226,21 @@ function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMa
   // populate the form
   function editTrip(trip){
     self.trip = trip;
+    self.startPlaceholder = trip.startpoint.name;
+    self.endPlaceholder = trip.endpoint.name;
+
+    console.log(trip.startpoint.name);
+    console.log(trip.endpoint.name);
     self.title = "Edit trip";
   }
 
   function updateTrip(){
-    Trip.update(self.trip, function(data){
+    var updatedTrip = self.trip;
+    updatedTrip.startpoint = startpoint;
+    updatedTrip.endpoint = endpoint;
+    console.log(updatedTrip);
+
+    Trip.update(updatedTrip, function(data){
       self.trip = {};
     });
     getTrips();
