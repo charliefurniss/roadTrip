@@ -201,10 +201,9 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   function setRouteMap(trip){
 
-    console.log(trip);
-
     var startpoint_place_id = trip.startpoint.place_id;
     var endpoint_place_id = trip.endpoint.place_id;
+    var polylineArray = [];
 
     uiGmapGoogleMapApi.then(function(map) {
 
@@ -219,8 +218,18 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       destination: {'placeId': endpoint_place_id},
       travelMode: 'DRIVING'
     }, function(response, status) {
-      
-        console.log(response);
+        // console.log(response);
+        var waypointsArray = response.routes[0].overview_path;
+        console.log(waypointsArray);
+
+        for (i = 0; i < waypointsArray.length; i++){
+          var coordsObject = {
+            latitude: waypointsArray[i].lat(), 
+            longitude: waypointsArray[i].lng()
+          }
+          polylineArray.push(coordsObject); 
+        }
+        console.log(polylineArray);
 
       }
     )
