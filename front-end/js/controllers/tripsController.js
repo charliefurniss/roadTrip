@@ -22,8 +22,9 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   self.polylines          = {};
   self.userLocation       = {};
   
-  var startpoint         = {};
-  var endpoint           = {};
+  var startpoint          = {};
+  var endpoint            = {};
+  var stopover            = {};
 
   self.title              = "";
 
@@ -61,6 +62,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
         longitude: location.longitude
       }
     } 
+    $scope.$apply();
   }
 
   getLocation();
@@ -69,18 +71,13 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   // this is an event listener. it listens for a places_changed event – which comes from the Google API – and runs a function 
   var startpointEvents = {
     places_changed: function (searchBox) {
-      
       var place = searchBox.getPlaces();
       console.log("start place " + place[0].place_id);
       startpoint = place[0];
-
-      // expandViewportToFitPlace(self.map, place[0]);
-
       if (!place[0].geometry) {
         window.alert("Autocomplete's returned place contains no geometry");
         return;
       }
-      // route(startpoint_place_id, endpoint_place_id);
     }
   }
 
@@ -102,13 +99,10 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       var place = searchBox.getPlaces();
       endpoint = place[0];
 
-      // expandViewportToFitPlace(self.map, place);
-
       if (!place[0].geometry) {
         window.alert("Autocomplete's returned place contains no geometry");
         return;
       }
-      // route(startpoint_place_id, endpoint_place_id);
     }
   }
 
@@ -116,6 +110,24 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     template:'js/views/searchboxes/endpointSearchbox.tpl.html', 
     events: endpointEvents,
     parentdiv: "endpoint-input"
+     
+  };
+
+  var stopoverEvents = {
+    places_changed: function (searchBox) {
+      var place = searchBox.getPlaces();
+      stopover = place[0];
+      if (!place[0].geometry) {
+        window.alert("Autocomplete's returned place contains no geometry");
+        return;
+      }
+    }
+  }
+
+  self.stopoverSearchbox = { 
+    template:'js/views/searchboxes/stopoverSearchbox.tpl.html', 
+    events: stopoverEvents,
+    parentdiv: "stopover-input"
      
   };
 
