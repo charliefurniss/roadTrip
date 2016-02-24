@@ -191,6 +191,7 @@ function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMa
 
   function showSingleTrip(trip){
     self.title  = "Single trip";
+    console.log(trip);
     Trip.get({id: trip._id}, function(data){
       self.trip = data;
       // TripService.trip = data;

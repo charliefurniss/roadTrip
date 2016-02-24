@@ -12,7 +12,11 @@ body {
 }
 
 .media-list {
-    text-decoration: none !important;
+  text-decoration: none !important;
+}
+
+.tripPoint {
+  padding: 10px;
 }
 
 #tripWell {
