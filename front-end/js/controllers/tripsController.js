@@ -84,13 +84,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     }
   }
 
-  function getCoords(locationObject){
-    var location = {};
-    location.lat = locationObject.lat();
-    location.lng = locationObject.lng();
-    return location;
-  }
-
   self.startpointSearchbox = { 
     template:'js/views/searchboxes/startpointSearchbox.tpl.html', 
     events: startpointEvents,
@@ -133,6 +126,14 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     parentdiv: "stopover-input"
      
   };
+
+
+  function getCoords(locationObject){
+    var location = {};
+    location.lat = locationObject.lat();
+    location.lng = locationObject.lng();
+    return location;
+  }
   
 
   function setRoute(trip, mapBoolean){
@@ -143,9 +144,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     routeObject             = {};
 
     var startpoint_place_id = trip.startpoint.place_id;
-    var startpoint_coords   = {};
     var endpoint_place_id   = trip.endpoint.place_id;
-    var endpoint_coords   = {};
 
     uiGmapGoogleMapApi.then(function(mapBoolean) {
     console.log(mapBoolean);
@@ -162,7 +161,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     }, function(response, status, mapBoolean) {
         console.log(response);
 
-        routeObject = response;
+        routeObject = response.routes[0];
         
         if (!mapper){
           console.log(mapper);
@@ -176,10 +175,17 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
 
   function setRouteMap(routeObject){
-    var directionsArray = routeObject.routes[0].overview_path;
+    var directionsArray = routeObject.overview_path;
     var latTotal = 0;
     var lngTotal = 0;
     var polylineArray = [];
+    
+    var startpoint_coords = getCoords(routeObject.legs[0].start_location);
+    var endpoint_coords = getCoords(routeObject.legs[0].end_location);
+
+
+    console.log(startpoint_coords);  
+    var endpoint_coords = {};
 
     for (i = 0; i < directionsArray.length; i++){
       var coordsObject = {
@@ -206,19 +212,13 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     };
 
     self.marker = {
-      id: 0,
-      coords: {
-        latitude: location.latitude,
-        longitude: location.longitude
-      }
+      id: 1,
+      coords: startpoint_coords
     }
 
     self.marker = {
-      id: 1,
-      coords: {
-        latitude: location.latitude,
-        longitude: location.longitude
-      }
+      id: 2,
+      coords: endpoint_coords
     }
 
     self.polylines = [
@@ -235,6 +235,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       visible: true,
       fit: true
     }]
+
+    $scope.$apply();
   }
 
   /////////////////////API REQUESTS/////////////////////////////////
@@ -254,6 +256,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     self.title  = "Single trip";
     Trip.get({id: trip._id}, function(data){
       self.trip = data;
+      console.log(data);
       // self.stopovers = data.stopovers;
       // console.log(self.stopovers[0]);
       setRoute(data, mapBoolean);
