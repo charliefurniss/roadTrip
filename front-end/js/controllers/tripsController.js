@@ -19,10 +19,8 @@ function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMa
   self.updateTrip         = updateTrip;
   self.polylines          = {};
   
-  var startpoint_place_id      = null;
-  var startpoint_coords        = {};
-  var endpoint_place_id        = null;
-  var endpoint_coords          = {};
+  var startpoint         = {};
+  var endpoint           = {};
 
   self.title              = "";
 
@@ -44,16 +42,14 @@ function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMa
       map.setZoom(17);
     }
   }
-
   
     // this is an event listener. it listens for a places_changed event – which comes from the Google API – and runs a function 
     var startpointEvents = {
       places_changed: function (searchBox) {
         
         var place = searchBox.getPlaces();
-        console.log("start place" + place[0].place_id);
-        startpoint_place_id = place[0].place_id;
-        startpoint_coords = getCoords(place[0].geometry.location);
+        console.log("start place " + place[0].place_id);
+        startpoint = place[0];
 
         // expandViewportToFitPlace(self.map, place[0]);
 
@@ -81,9 +77,7 @@ function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMa
     var endpointEvents = {
       places_changed: function (searchBox) {
         var place = searchBox.getPlaces();
-        endpoint_place_id = place[0].place_id;
-        endpoint_coords = getCoords(place[0].geometry.location);
-        console.log(endpoint_place_id);
+        endpoint = place[0];
 
         // expandViewportToFitPlace(self.map, place);
 
@@ -177,7 +171,7 @@ function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMa
     var directionsDisplay = new google.maps.DirectionsRenderer;
     
     
-    route(startpoint_place_id, endpoint_place_id);
+    // route(startpoint_place_id, endpoint_place_id);
   });
 
 
@@ -212,8 +206,14 @@ function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMa
 
   function createTrip(){
     var newTrip = self.trip;
+
+    console.log(startpoint);
+    console.log(endpoint);
     var userObject = CurrentUser.getUser();
     newTrip.user = userObject._doc._id
+    newTrip.startpoint = startpoint;
+    newTrip.endpoint = endpoint;
+    console.log(newTrip);
     
     Trip.save(newTrip, function(data){
       self.allTrips.push(data);
@@ -239,6 +239,7 @@ function TripsController($scope, Trip, User, $state, CurrentUser, uiGmapGoogleMa
   function deleteTrip(trip){
     Trip.delete({id: trip._id});
     self.trip = {};
+    getTrips();
     $state.go('viewTrips');
   }
 

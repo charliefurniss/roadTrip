@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 var stopSchema = mongoose.Schema({
   title: { type: String, required: true },
   type: String,
-  googleID: String,
+  googleObject: Object,
   name: String,
   location: String,
   url: String,
