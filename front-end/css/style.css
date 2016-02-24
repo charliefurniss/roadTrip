@@ -2,6 +2,10 @@ body {
     margin-top: 20px;
 }
 
+a {
+  color: grey;
+}
+
 .media-object {
   max-width: 60px;
 }
@@ -15,13 +19,33 @@ body {
   text-decoration: none !important;
 }
 
-.tripPoint {
-  padding: 10px;
+.media-body:hover {
+  border-color: #4d90fe;
+}
+
+.trip-name {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+#edit-trip-name {
+  display: block !important;
+  text-align: left !important;
+  font-size: 18px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid grey;
 }
 
 #tripWell {
     cursor: pointer;
-    border: 1px solid grey;
+    display: block;
+    margin-top: 20px;
+    border: none;
+    border-bottom: 1px solid grey;
+}
+
+.input-buttons {
+  padding-bottom: 10px;
 }
 
 .navbar {
@@ -48,7 +72,7 @@ body {
 }
 
 .sidebar-content {
-    
+    clear: right;
     margin-left: 15px !important;
 }
 
@@ -78,8 +102,6 @@ body {
 }
 
 
-/*GOOGLE CSS*/
-
 .controls {
     display: block;
     margin-top: 10px;
@@ -91,7 +113,8 @@ body {
 
 #startpoint-input,
 #endpoint-input, 
-#stopover-input {
+#stopover-input,
+#trip-name-input {
   background-color: #fff;
   font-family: Roboto;
   font-size: 15px;
@@ -102,7 +125,8 @@ body {
 
 #startpoint-input:focus,
 #endpoint-input:focus, 
-#stopover-input:focus {
+#stopover-input:focus,
+#trip-name-input:focus {
   border-color: #4d90fe;
 }
 

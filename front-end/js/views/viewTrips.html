@@ -18,11 +18,9 @@
         <ul class="media-list">
           <li id="tripWell" ng-repeat="trip in trips.allTrips  | filter :{ 'trips.currentUserId' : trip.user } | orderBy : '_id' : true" ng-click="trips.showSingleTrip(trip)" ui-sref="singleTrip">
               <div class="media-body">
-                <!-- <p>trip.user = {{trip.user}}</p>
-                <p>{{trips.currentUserId}}</p> -->
-                <h4 class="media-heading">{{ trip.name }}</h4>
-                <p class="tripPoint">{{ trip.startpoint.name }}</p>
-                <p class="tripPoint">{{ trip.endpoint.name }}</p>
+                <h6 class="trip-name">{{ trip.name }}</h6>
+                <p class="tripPoint">{{ trip.startpoint.name }}
+                to {{ trip.endpoint.name }}</p>
               </div>
           </li>
         </ul>  

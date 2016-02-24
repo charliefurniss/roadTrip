@@ -251,6 +251,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     Trip.save(newTrip, function(data){
       self.allTrips.push(data);
       self.trip = {};
+      getTrips();
       $state.go('viewTrips');
     });
   };

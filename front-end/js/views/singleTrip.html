@@ -15,11 +15,15 @@
       </div>
 
       <div class="sidebar-content">
-        <h4 class="media-heading">{{ trips.trip.name }}</h4>
-        <p>From: {{ trips.trip.startpoint.name }}</p>
-        <p>To: {{ trips.trip.endpoint.name }}</p>
-        <a href="#" class="btn btn-primary" ng-click="trips.editTrip(trips.trip)" ui-sref="editTrip">Edit</a>
-        <input type="submit" value="Delete" id="submit" class="btn btn-primary" ng-click="trips.deleteTrip(trips.trip)">
+        <div id="tripWell">
+          <h6 class="trip-name">{{ trips.trip.name }}</h6>
+          <p class="tripPoint">{{ trips.trip.startpoint.name }}
+          to {{ trips.trip.endpoint.name }}</p>
+          <div class="input-buttons">
+            <a href="#" class="btn btn-primary" ng-click="trips.editTrip(trips.trip)" ui-sref="editTrip">Edit</a>
+            <input type="submit" value="Delete" id="submit" class="btn btn-primary" ng-click="trips.deleteTrip(trips.trip)">
+          </div>
+        </div>
       </div>       
     </div>
 

@@ -13,6 +13,9 @@
       </ul>
 
       <div class="sidebar-content">
+        <div id="edit-trip-name">  
+          <p>{{ trips.trip.name }} trip</p>
+        </div>  
         <form class="form" id="tripForm" ng-submit="trips.updateTrip()">
           <div id="startpoint-input">
             
@@ -22,20 +25,6 @@
           </div>
           <div id="stopover-input">
             
-          </div>
-          <div id="mode-container">
-            <div class="mode-selector">
-              <input type="radio" name="type" id="changemode-walking" checked="checked">
-              <label for="changemode-walking">Walking</label>
-            </div>
-            <div class="mode-selector">
-              <input type="radio" name="type" id="changemode-transit">
-              <label for="changemode-transit">Transit</label>
-            </div>
-            <div class="mode-selector"> 
-              <input type="radio" name="type" id="changemode-driving">
-              <label for="changemode-driving">Driving</label>
-            </div>
           </div>
 
           <input type="submit" value="Save" id="submit" class="save-button">

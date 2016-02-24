@@ -14,6 +14,9 @@
 
       <div class="sidebar-content">
         <form class="form" id="tripForm" ng-submit="trips.createTrip()">
+          <div id="trip-name-input">
+            <input id="trip-name-input" class="controls" type="text" ng-model="trips.trip.name" placeholder="Name...">
+          </div>
           <div id="startpoint-input">
             
           </div>
@@ -22,20 +25,6 @@
           </div>
           <div id="stopover-input">
             
-          </div>
-          <div id="mode-container">
-            <div class="mode-selector">
-              <input type="radio" name="type" id="changemode-walking" checked="checked">
-              <label for="changemode-walking">Walking</label>
-            </div>
-            <div class="mode-selector">
-              <input type="radio" name="type" id="changemode-transit">
-              <label for="changemode-transit">Transit</label>
-            </div>
-            <div class="mode-selector"> 
-              <input type="radio" name="type" id="changemode-driving">
-              <label for="changemode-driving">Driving</label>
-            </div>
           </div>
 
           <input type="submit" value="Save" id="submit" class="save-button">
