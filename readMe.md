@@ -5,6 +5,7 @@
 An app for planing road journeys. Users can store multiple trips by entering start and end points. They can subsequently view a route for each trip on a map, along with the distance and driving time.
 
 
+![alt tag](public/images/roadTrip-3.jpg)
 
 
 ## Technology
