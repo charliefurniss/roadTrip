@@ -174,11 +174,13 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   function setRouteMap(routeObject){
 
-    // console.log(routeObject);
+    console.log(routeObject);
     var directionsArray = routeObject.overview_path;
     var latTotal = 0;
     var lngTotal = 0;
     var polylineArray = [];
+    var zoom = 0;
+    var distance = routeObject.legs[0].distance.value/1000;
     
     var startpoint_coords = getCoords(routeObject.legs[0].start_location);
     var endpoint_coords = getCoords(routeObject.legs[0].end_location);
@@ -201,9 +203,21 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       longitude: lngAvg
     }
 
+
+
+    if (distance > 3000) {
+      zoom = 3;
+    } else if (distance > 1000) {
+      zoom = 6;
+    } else if (distance < 1000) {
+      zoom = 8;  
+    } else if (distance < 100) {
+      zoom = 11;
+    }
+
     self.map = {
       center: mapCoords, 
-      zoom: 8, 
+      zoom: zoom, 
       bounds: routeObject.bounds
     };
 
@@ -243,11 +257,14 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
 
   function getTrips(){
+    self.polylines = [];
     getLocation();
     self.title = "All trips";
-    if (!CurrentUser.user){
+    if (!CurrentUser.getUser()){
+      console.log("no user");
       return;
     } else {
+      console.log("here");
       var userObject = CurrentUser.getUser();
       self.currentUserId = userObject._doc._id
       Trip.query(function(data){
@@ -262,6 +279,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     self.title  = "Single trip";
     Trip.get({id: trip._id}, function(data){
       self.trip = data;
+      console.log(data);
       // self.stopovers = data.stopovers;
       // console.log(self.stopovers[0]);
       setRoute(data, mapBoolean);
@@ -282,10 +300,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     newTrip.startpoint = startpoint;
     newTrip.endpoint = endpoint;
     
-    // newTrip.stopovers = [];
-    // newTrip.stopovers.push(stopover);
-        
     Trip.save(newTrip, function(data){
+      console.log(data);
       self.allTrips.push(data);
       self.trip = {};
       getTrips();

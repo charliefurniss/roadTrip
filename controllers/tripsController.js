@@ -11,21 +11,13 @@ function tripsIndex(req, res){
 }
 
 function tripsCreate(req, res){
-  
-  /*stopovers.forEach(function(element, index, array){
-    console.log(element);
-    trip.stopovers.push(element);
-    console.log(element.length);
-  })*/
-
-  console.log(req.body);
-
-  Trip.create(req.body, function(err, trip){
-    console.log(err);
+  Trip.create(req.body, function(err, trip){    
+    console.log(trip);
     if (err) return res.status(500).send(err);
     var id = trip.user;
     User.findById({ _id: id }, function(err, user){
        user.trips.push(trip);
+       console.log(user);
        user.save();
        return res.status(201).send(trip);
     });
