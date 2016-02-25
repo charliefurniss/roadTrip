@@ -15,8 +15,8 @@ var config         = require('./config/config');
 var User           = require('./models/user');
 var secret         = require('./config/config').secret;
 // var port           = process.env.PORT || 3000;
-var port           = 3000;
-var ejs            = require('ejs');
+var port           = process.env.PORT || 3000;
+var ejs            = require('ejs')
 
 mongoose.connect(config.database);
 
