@@ -74,8 +74,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     } 
     $scope.$apply();
   }
-
-  getLocation();
   
   
   // this is an event listener. it listens for a places_changed event – which comes from the Google API – and runs a function 
@@ -224,8 +222,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       fit: true
     }]
 
-    console.log(startpoint_coords);
-
     self.markers = [{
       latitude: startpoint_coords.lat,
       longitude: startpoint_coords.lng,
@@ -238,8 +234,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       id: 2
     }];
 
-    console.log(self.markers);
-
     $scope.$apply();
   }
 
@@ -249,6 +243,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
 
   function getTrips(){
+    getLocation();
     self.title = "All trips";
     var userObject = CurrentUser.getUser();
     self.currentUserId = userObject._doc._id
@@ -270,6 +265,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
 
   function showCreateTripForm(){
+    getLocation();
     self.trip   = {};
     self.title  = "New trip";
   }
