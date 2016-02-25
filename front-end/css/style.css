@@ -154,7 +154,7 @@ a {
 }
 
 .sidebar-content {
-    clear: right;
+    clear: left;
     margin-left: 15px !important;
     height: 600px;
     overflow: scroll;

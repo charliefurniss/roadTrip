@@ -1,4 +1,4 @@
-<div ng-controller="TripsController as trips">
+<div>
   <div class="container-fluid">
     <div class="row">
       <div id="sidebar-container" class="col-sm-3 sidebar">
@@ -17,9 +17,12 @@
 
         <div class="sidebar-content">
           <div id="tripWell">
+          {{trips.bob}}
             <h6 class="trip-name">{{ trips.trip.name }}</h6>
             <p class="tripPoint">{{ trips.trip.startpoint.name }}
             to {{ trips.trip.endpoint.name }}</p>
+            <p>Duration: {{ trips.routeObject.legs[0].duration.text }}</p>
+            <p>Distance: {{ trips.routeObject.legs[0].distance.text }}</p>
 
 
             <li class="stopover-display" ng-repeat="stop in trips.stopovers">
