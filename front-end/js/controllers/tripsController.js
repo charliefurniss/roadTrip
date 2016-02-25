@@ -23,6 +23,10 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   self.userLocation       = {};
   self.stopovers          = [];
   self.routeObject        = {};
+  self.map                = {};
+  self.markers = [];
+
+  self.randomMarkers = [];
 
   
   var startpoint          = {};
@@ -58,7 +62,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
         latitude: location.latitude,
         longitude: location.longitude
       },
-      zoom: 12 
+      zoom: 12,
+      bounds: {} 
     };
     self.marker = {
       id: 0,
@@ -173,6 +178,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
 
   function setRouteMap(routeObject){
+
+    console.log(routeObject);
     var directionsArray = routeObject.overview_path;
     var latTotal = 0;
     var lngTotal = 0;
@@ -204,18 +211,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     self.map = {
       center: mapCoords, 
       zoom: 8, 
-      bounds: {}
+      bounds: routeObject.bounds
     };
-
-    self.marker = {
-      id: 1,
-      coords: startpoint_coords
-    }
-
-    self.marker = {
-      id: 2,
-      coords: endpoint_coords
-    }
 
     self.polylines = [
     {
@@ -232,8 +229,21 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       fit: true
     }]
 
+    console.log(self.map);
+
+    self.markers = [{
+      latitude: mapCoords.latitude,
+      longitude: mapCoords.longitude,
+      title: "Center",
+      id: 1
+    }];
+
+    console.log(self.markers);
+
     $scope.$apply();
   }
+
+  
 
   /////////////////////API REQUESTS/////////////////////////////////
 
