@@ -82,7 +82,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   var startpointEvents = {
     places_changed: function (searchBox) {
       var place = searchBox.getPlaces();
-      console.log("start place " + place[0].place_id);
       startpoint = place[0];
       if (!place[0].geometry) {
         window.alert("Autocomplete's returned place contains no geometry");
@@ -144,8 +143,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   
 
   function setRoute(trip, mapBoolean){
-    console.log(mapBoolean);
-
     var mapper = mapBoolean;
 
     var startpoint_place_id = trip.startpoint.place_id;
@@ -164,7 +161,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       travelMode: 'DRIVING'
     }, function(response, status) {
         self.routeObject = response.routes[0];
-        console.log(self.routeObject);
+        // console.log(self.routeObject);
         
         if (!mapper){
           console.log(mapper);
@@ -187,8 +184,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     
     var startpoint_coords = getCoords(routeObject.legs[0].start_location);
     var endpoint_coords = getCoords(routeObject.legs[0].end_location);
-
-    var endpoint_coords = {};
 
     for (i = 0; i < directionsArray.length; i++){
       var coordsObject = {
@@ -229,13 +224,18 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       fit: true
     }]
 
-    console.log(self.map);
+    console.log(startpoint_coords);
 
     self.markers = [{
-      latitude: mapCoords.latitude,
-      longitude: mapCoords.longitude,
-      title: "Center",
+      latitude: startpoint_coords.lat,
+      longitude: startpoint_coords.lng,
+      title: "startpoint",
       id: 1
+    }, {
+      latitude: endpoint_coords.lat,
+      longitude: endpoint_coords.lng,
+      title: "endpoint",
+      id: 2
     }];
 
     console.log(self.markers);
@@ -283,9 +283,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     
     // newTrip.stopovers = [];
     // newTrip.stopovers.push(stopover);
-    
-    console.log(newTrip);
-    
+        
     Trip.save(newTrip, function(data){
       self.allTrips.push(data);
       self.trip = {};
@@ -300,8 +298,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     self.startPlaceholder = trip.startpoint.name;
     self.endPlaceholder = trip.endpoint.name;
 
-    console.log(trip.startpoint.name);
-    console.log(trip.endpoint.name);
+    // console.log(trip.startpoint.name);
+    // console.log(trip.endpoint.name);
     self.title = "Edit trip";
   }
 
@@ -309,7 +307,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     var updatedTrip = self.trip;
     updatedTrip.startpoint = startpoint;
     updatedTrip.endpoint = endpoint;
-    console.log(updatedTrip);
+    // console.log(updatedTrip);
 
     Trip.update(updatedTrip, function(data){
       self.trip = {};
