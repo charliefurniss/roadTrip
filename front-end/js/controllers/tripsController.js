@@ -174,6 +174,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   function setRouteMap(routeObject){
 
+    // console.log(routeObject);
     var directionsArray = routeObject.overview_path;
     var latTotal = 0;
     var lngTotal = 0;
@@ -257,14 +258,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   function showSingleTrip(trip){
     mapBoolean = true;
-
-    var ObjectId = trip._id;
-
-    console.log(trip._id);
-
-    var time = ObjectId.getTimestamp();
-
-    console.log(time);
 
     self.title  = "Single trip";
     Trip.get({id: trip._id}, function(data){
