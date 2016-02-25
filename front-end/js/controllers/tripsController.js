@@ -174,7 +174,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   function setRouteMap(routeObject){
 
-    console.log(routeObject);
     var directionsArray = routeObject.overview_path;
     var latTotal = 0;
     var lngTotal = 0;
@@ -245,15 +244,28 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   function getTrips(){
     getLocation();
     self.title = "All trips";
-    var userObject = CurrentUser.getUser();
-    self.currentUserId = userObject._doc._id
-    Trip.query(function(data){
-      self.allTrips = data;
-    });
+    if (!CurrentUser){
+      return;
+    } else {
+      var userObject = CurrentUser.getUser();
+      self.currentUserId = userObject._doc._id
+      Trip.query(function(data){
+        self.allTrips = data;
+      });
+    }
   }
 
   function showSingleTrip(trip){
     mapBoolean = true;
+
+    var ObjectId = trip._id;
+
+    console.log(trip._id);
+
+    var time = ObjectId.getTimestamp();
+
+    console.log(time);
+
     self.title  = "Single trip";
     Trip.get({id: trip._id}, function(data){
       self.trip = data;
@@ -290,13 +302,9 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   // populate the form
   function editTrip(trip){
+    mapBoolean = true;
+    setRoute(trip, mapBoolean);
     self.trip = trip;
-    console.log(self.trip.name);
-    self.startPlaceholder = trip.startpoint.name;
-    self.endPlaceholder = trip.endpoint.name;
-
-    // console.log(trip.startpoint.name);
-    // console.log(trip.endpoint.name);
     self.title = "Edit trip";
   }
 
