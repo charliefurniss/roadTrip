@@ -2,13 +2,13 @@ angular
   .module('roadTrip')
   .controller('TripsController', TripsController);
 
-TripsController.$inject = ['MapService', '$scope', 'TripFactory', 'UserFactory', '$state', 'CurrentUser', 'uiGmapGoogleMapApi'];
+TripsController.$inject = ['MapService', '$scope', 'TripFactory', 'UserFactory', '$state', 'CurrentUser', 'uiGmapGoogleMapApi' , 'GlobalTrips'];
 
-function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, uiGmapGoogleMapApi){
+function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, uiGmapGoogleMapApi, GlobalTrips){
 
   var self = this;
 
-  self.allTrips           = [];
+  self.allTrips           = GlobalTrips;
   self.trip               = {};
   self.getTrips           = getTrips;
   self.createTrip         = createTrip;
@@ -257,20 +257,24 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
 
   function getTrips(){
+
+    self.allTrips = GlobalTrips;
+    console.log('getting trips....')
     self.polylines = [];
     getLocation();
     self.title = "All trips";
     if (!CurrentUser.getUser()){
       console.log("no user");
-      return;
+      
     } else {
       console.log("here");
       var userObject = CurrentUser.getUser();
       self.currentUserId = userObject._doc._id
-      Trip.query(function(data){
-        self.allTrips = data;
-      });
     }
+    Trip.query(function(data){
+      self.allTrips = data;
+      console.log(GlobalTrips)
+    });
   }
 
   function showSingleTrip(trip){
@@ -283,6 +287,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       // self.stopovers = data.stopovers;
       // console.log(self.stopovers[0]);
       setRoute(data, mapBoolean);
+    
+      $state.go('singleTrip')
     });
     self.trip = {};
   }
@@ -301,10 +307,9 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     newTrip.endpoint = endpoint;
     
     Trip.save(newTrip, function(data){
-      console.log(data);
       self.allTrips.push(data);
-      self.trip = {};
-      getTrips();
+      console.log(self.allTrips);
+      // self.showSingleTrip(data)
       $state.go('viewTrips');
     });
   };

@@ -17,7 +17,7 @@
 
         <div class="sidebar-content">
           <ul class="media-list">
-            <li id="tripWell" ng-repeat="trip in trips.allTrips  | filter :{ 'trips.currentUserId' : trip.user } | orderBy : '_id' : true" ng-click="trips.showSingleTrip(trip)" ui-sref="singleTrip">
+            <li id="tripWell" ng-repeat="trip in trips.allTrips | orderBy : '_id' : true" ng-click="trips.showSingleTrip(trip)">
                 <div class="media-body">
                   <h6 class="trip-name">{{ trip.name }}</h6>
                   <p class="tripPoint">{{ trip.startpoint.name }}
