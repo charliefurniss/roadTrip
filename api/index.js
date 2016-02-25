@@ -15,6 +15,7 @@ var config         = require('./config/config');
 var User           = require('./models/user');
 var secret         = require('./config/config').secret;
 var port           = process.env.PORT || 3000;
+var ejs            = require('ejs')
 
 mongoose.connect(config.database);
 
@@ -35,6 +36,10 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(cors());
 app.use(passport.initialize());
+app.set('view engine', ejs)
+// app.set('views', 'views')
+
+app.use(express.static(__dirname + '/public'));
 
 // deny access to non-registered users to all routes except login and register
 app.use('/api', expressJWT({ secret: secret })
@@ -54,6 +59,11 @@ app.use(function (err, req, res, next) {
 });
 
 var routes = require('./config/routes');
+
+app.get('/', function(req, res){
+  res.render('index.html.ejs')
+})
+
 app.use("/api", routes);
 
 app.listen(port);

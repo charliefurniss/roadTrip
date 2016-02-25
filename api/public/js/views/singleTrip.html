@@ -1,0 +1,57 @@
+<div>
+  <div class="container-fluid">
+    <div class="row">
+      <div id="sidebar-container" class="col-sm-3 sidebar">
+        <div id="sidebar-navs">
+          <ul class="nav navbar-nav navbar-left">
+            <li ng-show="users.checkLoggedIn()">
+              <a href="#" ng-click="trips.getTrips()" ui-sref="viewTrips">View trips</a>
+            </li>
+          </ul> 
+          <ul class="nav navbar-nav navbar-left">
+            <li ng-show="users.checkLoggedIn()">
+              <a href="#" ng-click="trips.showCreateTripForm()" ui-sref="newTrip">New trip</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="sidebar-content">
+          <div id="tripWell">
+            <h6 class="trip-name">{{ trips.trip.name }}</h6>
+            <p class="tripPoint">{{ trips.trip.startpoint.name }}
+            to {{ trips.trip.endpoint.name }}</p>
+            <p>Duration: {{ trips.routeObject.legs[0].duration.text }}</p>
+            <p>Distance: {{ trips.routeObject.legs[0].distance.text }}</p>
+            <li class="stopover-display" ng-repeat="stop in trips.stopovers">
+              <p class="tripPoint">{{ stop }}</p>
+            </li>
+            <div class="input-buttons">
+              <a href="#" class="btn btn-primary" ng-click="trips.editTrip(trips.trip)" ui-sref="editTrip">Edit</a>
+              <input type="submit" value="Delete" id="submit" class="btn btn-primary" ng-click="trips.deleteTrip(trips.trip)">
+            </div>
+          </div>
+        </div>       
+      </div>
+
+      <div class="col-sm-9">
+
+        <ui-gmap-google-map center='trips.map.center' zoom='trips.map.zoom'>
+          <!-- look for configuration (template, events and parentdiv) defined in tripsController -->
+          <ui-gmap-search-box template="trips.startpointSearchbox.template" events="trips.startpointSearchbox.events" parentdiv="trips.startpointSearchbox.parentdiv"></ui-gmap-search-box>
+          
+          <ui-gmap-search-box template="trips.endpointSearchbox.template" events="trips.endpointSearchbox.events" parentdiv="trips.endpointSearchbox.parentdiv"></ui-gmap-search-box>
+
+          <ui-gmap-markers models="trips.markers" coords="'self'" icon="'icon'"></ui-gmap-markers>
+
+          <ui-gmap-polyline ng-repeat="p in trips.polylines track by $index" path="p.path" stroke="p.stroke" visible='p.visible' geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline>
+
+        </ui-gmap-google-map>
+
+      <!-- <div id="map">
+        
+      </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+

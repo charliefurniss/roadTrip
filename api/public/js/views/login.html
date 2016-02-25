@@ -1,0 +1,36 @@
+<div class="homepage">
+  <div class="homepage-inner">
+    <div class="row" id="welcome">
+      <div class="col-sm-5 col-sm-offset-1">             
+        <section class="form-content" ng-hide="users.checkLoggedIn()">
+          <h1 class="form-head">Login</h1>
+          <form id="login" name="users.loginForm" ng-submit="users.login()" novalidate>
+            <div class="alert alert-danger" role="alert" ng-show="(!!users.error && users.loginForm.$submitted)">{{ users.error }}</div>
+
+            <div class="form-group">
+              <input type="email" class="form-control" id="email" placeholder="Email" name="email" ng-model="users.user.email" required>
+            </div>
+
+            <div class="alert alert-danger" role="alert" ng-messages="users.loginForm['email'].$error" ng-show="(users.loginForm.$submitted && users.loginForm['email'].$invalid)">
+              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Error:</span>
+              <span ng-message="required">Email is required.</span>
+            </div>
+
+            <div class="form-group">
+              <input type="text" class="form-control" id="password" name="password"  placeholder="Password" ng-model="users.user.password" required>
+            </div>
+
+            <div class="alert alert-danger" role="alert" ng-messages="users.loginForm['password'].$error" ng-show="(users.loginForm.$submitted && users.loginForm['password'].$invalid)">
+              <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+              <span class="sr-only">Error:</span>
+              <span ng-message="required">Password is required.</span>
+            </div>
+
+            <button type="submit" class="form-button">Submit</button>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
