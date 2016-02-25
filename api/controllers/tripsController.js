@@ -11,10 +11,17 @@ function tripsIndex(req, res){
 }
 
 function tripsCreate(req, res){
-  var trip = new Trip(req.body);
+  
+  /*stopovers.forEach(function(element, index, array){
+    console.log(element);
+    trip.stopovers.push(element);
+    console.log(element.length);
+  })*/
 
-  trip.save(function(err, trip){
-    console.log(trip);
+  console.log(req.body);
+
+  Trip.create(req.body, function(err, trip){
+    console.log(err);
     if (err) return res.status(500).send(err);
     var id = trip.user;
     User.findById({ _id: id }, function(err, user){

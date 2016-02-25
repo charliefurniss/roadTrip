@@ -291,6 +291,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   // populate the form
   function editTrip(trip){
     self.trip = trip;
+    console.log(self.trip.name);
     self.startPlaceholder = trip.startpoint.name;
     self.endPlaceholder = trip.endpoint.name;
 

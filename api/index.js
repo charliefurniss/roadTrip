@@ -42,7 +42,7 @@ app.use('/api', expressJWT({ secret: secret })
       { url: '/api/login', methods: ['POST'] },
       { url: '/api/register', methods: ['POST'] }
     ]
-  }));
+}));
 
 // return message and 402 status code to any request denied because the user is not authenticated
 app.use(function (err, req, res, next) {
