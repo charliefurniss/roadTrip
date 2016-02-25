@@ -1,6 +1,6 @@
 angular
   .module('roadTrip', ['ngResource', 'angular-jwt', 'ui.router', 'uiGmapgoogle-maps']) // tell angular to use the named services
-  .constant('API', process.env.API_URL || 'http://localhost:3000/api' ) // set front-end url as variable API
+  .constant('API', 'https://roadtrip-deploy.herokuapp.com/api' ) // set front-end url as variable API
   .config(MainRouter) // include MainRouter function defined below
   .config(function($httpProvider, uiGmapGoogleMapApiProvider){
     
