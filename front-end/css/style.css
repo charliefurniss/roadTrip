@@ -141,7 +141,7 @@ a {
 }
 
 .angular-google-map-container { 
-    height: 800px; 
+    height: 650px; 
 }
 
 #sidebar-container {
@@ -213,6 +213,10 @@ a {
 #stopover-input:focus,
 #trip-name-input:focus {
   border-color: #4d90fe;
+}
+
+div.col-sm-9 {
+  padding: 0px;
 }
 
 #mode-container {
