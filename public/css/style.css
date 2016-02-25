@@ -110,6 +110,52 @@ a {
   margin-bottom: 5px;
 }
 
+p {
+  margin: 0px;
+}
+
+.singleTrip-name {
+  font-size: 30px;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid grey;
+}
+
+.trip-point {
+  margin: 5px 0px;
+}
+
+.icon {
+  height: 20px;
+  width: 20px;
+}
+
+.info-tag {
+  display: inline;
+  margin-left: 10px;
+}
+
+.from-to {
+  margin-top: 10px;
+}
+
+.point-label {
+  margin-top: 10px;
+}
+
+.point-tag {
+  display: inline;
+}
+
+#trip-info {
+  margin: 20px 0px;
+}
+
+a.btn.btn-primary {
+  margin-right: 10px;
+  width: 80px;
+}
+
 #edit-trip-name {
   display: block !important;
   text-align: left !important;

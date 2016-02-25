@@ -17,17 +17,27 @@
 
         <div class="sidebar-content">
           <div id="tripWell">
-            <h6 class="trip-name">{{ trips.trip.name }}</h6>
-            <p class="tripPoint">{{ trips.trip.startpoint.name }}
-            to {{ trips.trip.endpoint.name }}</p>
-            <p>Duration: {{ trips.routeObject.legs[0].duration.text }}</p>
-            <p>Distance: {{ trips.routeObject.legs[0].distance.text }}</p>
+            <h2 class="singleTrip-name">{{ trips.trip.name }}</h6>
+            <p class="point-label">From</p>
+            <h3 class="trip-point">{{ trips.trip.startpoint.name }}</h3>
+            <p class="point-label">To</p>
+            <h3 class="trip-point">{{ trips.trip.endpoint.name }}</h3>
+            <div id="trip-info">
+              <div class="from-to">
+                <img class="icon" src="../images/png/clock.png">
+                <p class="info-tag"> {{ trips.routeObject.legs[0].duration.text }}</p><br>
+              </div>
+              <div class="from-to">
+                <img class="icon" src="../images/png/other.png">
+                <p class="info-tag"> {{ trips.routeObject.legs[0].distance.text }}</p>
+              </div>
+            </div>
             <li class="stopover-display" ng-repeat="stop in trips.stopovers">
               <p class="tripPoint">{{ stop }}</p>
             </li>
             <div class="input-buttons">
-              <a href="#" class="btn btn-primary" ng-click="trips.editTrip(trips.trip)" ui-sref="editTrip">Edit</a>
-              <input type="submit" value="Delete" id="submit" class="btn btn-primary" ng-click="trips.deleteTrip(trips.trip)">
+              <a href="#" class="btn btn-primary" ng-click="trips.editTrip(trips.trip)" ui-sref="editTrip"><img class="icon" src="../images/png/draw.png"></a>
+              <a href="#" class="btn btn-primary" ng-click="trips.deleteTrip(trips.trip)"><img class="icon" src="../images/png/other-1.png"></a>
             </div>
           </div>
         </div>       
