@@ -14,6 +14,7 @@ var app            = express();
 var config         = require('./config/config');
 var User           = require('./models/user');
 var secret         = require('./config/config').secret;
+var port           = process.env.PORT || 3000;
 
 mongoose.connect(config.database);
 
@@ -55,4 +56,4 @@ app.use(function (err, req, res, next) {
 var routes = require('./config/routes');
 app.use("/api", routes);
 
-app.listen(3000);
+app.listen(port);
