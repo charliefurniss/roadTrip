@@ -139,7 +139,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     return location;
   }
   
-
+  // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
   function setRoute(trip, mapBoolean){
     var mapper = mapBoolean;
 
@@ -172,19 +172,25 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     })
   }
 
+  // USES GOOGLE MAPS ROUTE OBJECT TO RENDER MAP, ROUTE LINE AND MARKERS
   function setRouteMap(routeObject){
 
     console.log(routeObject);
+    // directions array contains route coordinates
     var directionsArray = routeObject.overview_path;
     var latTotal = 0;
     var lngTotal = 0;
     var polylineArray = [];
     var zoom = 0;
+
+
     var distance = routeObject.legs[0].distance.value/1000;
     
+    // these are for the startpoint and endpoint markers
     var startpoint_coords = getCoords(routeObject.legs[0].start_location);
     var endpoint_coords = getCoords(routeObject.legs[0].end_location);
 
+    // this loop extracts coords from directions array and pushes into another which can be used to create GM polyline
     for (i = 0; i < directionsArray.length; i++){
       var coordsObject = {
         latitude: directionsArray[i].lat(), 
@@ -194,7 +200,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       latTotal += directionsArray[i].lat();
       lngTotal += directionsArray[i].lng();
     }
-
+    // get average of route coords to centre the map
     var latAvg = latTotal / directionsArray.length;
     var lngAvg = lngTotal / directionsArray.length;
 
@@ -203,8 +209,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       longitude: lngAvg
     }
 
-
-
+    //calculate map zoom based on the distance of the route
     if (distance > 3000) {
       zoom = 3;
     } else if (distance > 1000) {
@@ -215,12 +220,14 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       zoom = 11;
     }
 
+    //create map object that AGM will render on the page
     self.map = {
       center: mapCoords, 
       zoom: zoom, 
       bounds: routeObject.bounds
     };
 
+    //create polyline array that AGM will render on the page
     self.polylines = [
     {
       id: 1,
@@ -236,6 +243,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       fit: true
     }]
 
+    //create markers array that AGM will render on the page
     self.markers = [{
       latitude: startpoint_coords.lat,
       longitude: startpoint_coords.lng,
@@ -248,6 +256,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       id: 2
     }];
 
+    //tell angular to watch for changes
     $scope.$apply();
   }
 
@@ -336,10 +345,11 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
 
   function deleteTrip(trip){
-    Trip.delete({id: trip._id});
-    self.trip = {};
-    getTrips();
-    $state.go('viewTrips');
+    Trip.delete({id: trip._id}, function(data){
+      self.trip = {};
+      getTrips();
+      $state.go('viewTrips');
+    });    
   }
 
   getTrips();
