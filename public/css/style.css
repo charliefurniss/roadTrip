@@ -132,8 +132,8 @@ p {
 
 .info-tag {
   display: inline;
-  margin-left: 10px;
-}
+/*  margin-left: 10px;
+*/}
 
 .from-to {
   margin-top: 10px;
@@ -202,6 +202,7 @@ a.btn.btn-primary {
 .sidebar-content {
     clear: left;
     margin-left: 15px !important;
+    margin-right: 15px;
     height: 600px;
     overflow: scroll;
 }
@@ -280,11 +281,36 @@ div.col-sm-9 {
   margin-left: 10px;
 }
 
-.save-button {
+.save-button, 
+.edit-button, 
+.delete-button {
     margin-top: 20px;
     width: 100%;
     height: 32px;
     color: white;
-    background-color: #43B943;
     border: none;
+    display: block;
+}
+
+.save-button {
+  background-color: #43B943;
+}
+
+.edit-button {
+  background-color: #A7C8FD;
+  text-align: center;
+  padding: 6px 6px;
+}
+
+.delete-button {
+  background-color: #FF5656;
+  text-align: center;
+  padding: 6px 6px;
+}
+
+.edit-button:hover, 
+.delete-button:hover {
+  text-decoration:none; 
+  cursor:pointer;
+  color: white; 
 }
