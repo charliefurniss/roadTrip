@@ -148,7 +148,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     console.log(trip);
     startpoint_place_id = trip.startpoint.place_id;
     endpoint_place_id   = trip.endpoint.place_id;
-    waypoint_address   = trip.stopover.formatted_address;
+    waypoint_address   = trip.stopovers[0].formatted_address;
 
     uiGmapGoogleMapApi.then(function() {
 
@@ -280,9 +280,9 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
 
   function showSingleTrip(trip){
-    console.log(trip);
     self.title  = "Single trip";
     Trip.get({id: trip._id}, function(data){
+      console.log(data);
       self.trip = data;
       setRoute(data);
       $state.go('singleTrip')
