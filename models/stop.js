@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 
 var stopSchema = mongoose.Schema({
-  googleObject: String
+  googleObject: Object
   // trip: { type: mongoose.Schema.ObjectId, ref: 'Trip' }
 });
 
