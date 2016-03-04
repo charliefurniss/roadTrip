@@ -141,10 +141,13 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
   function setRoute(trip, mapBoolean){
+    console.log(trip);
+
     var mapper = mapBoolean;
 
     var startpoint_place_id = trip.startpoint.place_id;
     var endpoint_place_id   = trip.endpoint.place_id;
+    var waypoint_address   = trip.stopover.formatted_address;
 
     uiGmapGoogleMapApi.then(function() {
 
@@ -156,13 +159,17 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     directionsService.route({
       origin: {'placeId': startpoint_place_id},
       destination: {'placeId': endpoint_place_id},
-      travelMode: 'DRIVING'
+      travelMode: 'DRIVING',
+      waypoints: [{
+        location: waypoint_address,
+        stopover: true
+      }],
     }, function(response, status) {
         self.routeObject = response.routes[0];
-        // console.log(self.routeObject);
+        console.log(self.routeObject);
         
         if (!mapper){
-          console.log(mapper);
+          // console.log(self.routeObject);
           return self.routeObject;
         } else {  
           setRouteMap(self.routeObject);
@@ -182,7 +189,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     var lngTotal = 0;
     var polylineArray = [];
     var zoom = 0;
-
 
     var distance = routeObject.legs[0].distance.value/1000;
     
@@ -309,19 +315,29 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
 
   function createTrip(){
+    mapBoolean = false;
     var newTrip = self.trip;
     var userObject = CurrentUser.getUser();
     newTrip.user = userObject._doc._id
     newTrip.startpoint = startpoint;
     newTrip.endpoint = endpoint;
+    newTrip.stopover = stopover;
+
+    createRoute(newTrip, function(data){
+      console.log("called back");
+      console.log(data);
+    })
     
     Trip.save(newTrip, function(data){
       self.allTrips.push(data);
-      console.log(self.allTrips);
-      // self.showSingleTrip(data)
       $state.go('viewTrips');
     });
   };
+
+
+  function createRoute(newTrip, callback){
+    return setRoute(self.trip, mapBoolean);
+  }
 
   // populate the form
   function editTrip(trip){

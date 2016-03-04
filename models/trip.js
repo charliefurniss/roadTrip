@@ -4,6 +4,7 @@ var tripSchema = mongoose.Schema({
   name: String,
   startpoint: Object,
   endpoint: Object,
+  route: Object,
   user: { type: mongoose.Schema.ObjectId, ref: 'User' },
   stopovers: [Object]
 });
