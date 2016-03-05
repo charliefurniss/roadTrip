@@ -26,6 +26,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   self.map                = {};
   self.polylines          = [];
   self.markers            = [];
+  self.distance           = 0;
+  self.duration           = 0;
 
   self.randomMarkers = [];
 
@@ -180,12 +182,28 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     var lngTotal = 0;
     var polylineArray = [];
     var zoom = 0;
-
-    var distance = routeObject.legs[0].distance.value/1000;
+    var routeArray = routeObject.legs;
     
     // these are for the startpoint and endpoint markers
-    var startpoint_coords = getCoords(routeObject.legs[0].start_location);
-    var endpoint_coords = getCoords(routeObject.legs[0].end_location);
+    var startpoint_coords = getCoords(routeArray[0].start_location);
+    var endpoint_coords = getCoords(routeArray[routeArray.length - 1].end_location);
+    var stopover_coords_array = [];
+
+    for (i = 0; i < routeArray.length; i++){
+      self.distance = self.distance + routeObject.legs[i].distance.value/1000;
+      self.duration = self.duration + routeObject.legs[i].duration.value/3600;
+      stopover_coords_array.push(getCoords(routeArray[i].start_location));
+    }
+
+    stopover_coords_array.splice(0, 1);
+
+    console.log(startpoint_coords);
+    console.log(stopover_coords_array);
+    console.log(endpoint_coords);
+    console.log(self.distance);
+    console.log(self.duration);
+
+
 
     // this loop extracts coords from directions array and pushes into another which can be used to create GM polyline
     for (i = 0; i < directionsArray.length; i++){
@@ -207,13 +225,13 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     }
 
     //calculate map zoom based on the distance of the route
-    if (distance > 3000) {
+    if (self.distance > 3000) {
       zoom = 3;
-    } else if (distance > 1000) {
+    } else if (self.distance > 1000) {
       zoom = 6;
-    } else if (distance < 1000) {
+    } else if (self.distance < 1000) {
       zoom = 8;  
-    } else if (distance < 100) {
+    } else if (self.distance < 100) {
       zoom = 11;
     }
 
