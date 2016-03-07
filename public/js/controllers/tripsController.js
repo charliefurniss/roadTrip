@@ -47,6 +47,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   // use HTML geolocation to get coordinates of user's position
   function getLocation(){
+    self.polylines = [];
+    self.markers = [];
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(setUserLocation);
     } else {
@@ -77,7 +79,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
         latitude: location.latitude,
         longitude: location.longitude
       }
-    } 
+    }
     $scope.$apply();
   }
   
@@ -333,9 +335,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
 
   function create_route_markers(startpoint_coords, endpoint_coords, stopover_coords_array){
-
     var marker_coords_array = [];
-
     for (i = 0; i < stopover_coords_array.length; i++) {
       marker_coords_array.push(stopover_coords_array[i]);
     }
@@ -411,9 +411,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
 
   function getTrips(){
-
     self.allTrips = GlobalTrips;
-    self.polylines = [];
     getLocation();
     self.title = "All trips";
     if (!CurrentUser.getUser()){
