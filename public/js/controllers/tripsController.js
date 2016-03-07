@@ -40,11 +40,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   var startpoint_place_id = "";
   var endpoint_place_id   = "";
   var waypoint_address    = "";
-  var stopover_coords_array = [];
-  var directionsArray     = [];
-  var routeArray          = [];
-  var latAvg              = 0;
-  var lngAvg              = 0;
 
   self.title              = "";
 
@@ -163,17 +158,19 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
   
   function calculate_stopover_coords(routeArray, routeObject){
+    var stopover_coords_array = [];
     for (i = 0; i < routeArray.length; i++){
       stopover_coords_array.push(getCoords(routeArray[i].start_location));
     }
     stopover_coords_array.splice(0, 1);
+    return stopover_coords_array;
   }
 
   function centre_map(latTotal, lngTotal, directionsArray){
     var coords = {};
     // get average of route coords to centre the map
-    latAvg = latTotal / directionsArray.length;
-    lngAvg = lngTotal / directionsArray.length;
+    var latAvg = latTotal / directionsArray.length;
+    var lngAvg = lngTotal / directionsArray.length;
     coords = {
       latitude: latAvg,
       longitude: lngAvg
@@ -225,7 +222,16 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     return lngTotal;
   }
 
-  function create_polyline(polyline_array){
+  function create_route_map(mapCoords, zoom, bounds){
+    //create map object that AGM will render on the page
+    self.map = {
+      center: mapCoords, 
+      zoom: zoom, 
+      bounds: bounds
+    };
+  }
+
+  function create_route_polyline(polyline_array){
     //create polyline array that AGM will render on the page
     self.polylines = [
     {
@@ -243,19 +249,31 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     }]
   }
 
-  function create_markers(startpoint_coords, endpoint_coords){
-    //create markers array that AGM will render on the page
-    self.markers = [{
+  function create_startpoint_marker(startpoint_coords){
+    return {
       latitude: startpoint_coords.lat,
       longitude: startpoint_coords.lng,
-      title: "startpoint",
+      title: "Startpoint",
       id: 1
-    }, {
+    }
+  }
+
+  function create_endpoint_marker(endpoint_coords){
+    return {
       latitude: endpoint_coords.lat,
       longitude: endpoint_coords.lng,
-      title: "endpoint",
-      id: 2
-    }];
+      title: "Destination",
+      id: 0
+    }
+  }
+
+  function create_route_markers(startpoint_coords, endpoint_coords){
+    //create markers array that AGM will render on the page
+
+    var startpoint_marker = create_startpoint_marker(startpoint_coords);
+    var endpoint_marker = create_endpoint_marker(endpoint_coords);
+
+    self.markers = [startpoint_marker, endpoint_marker];
   }
   
 
@@ -288,42 +306,35 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   // USES GOOGLE MAPS ROUTE OBJECT TO RENDER MAP, ROUTE LINE AND MARKERS
   function setRouteMap(routeObject){
-
     console.log(routeObject);
     // directions array contains route coordinates
-    directionsArray = routeObject.overview_path;
-    routeArray = routeObject.legs;
-    
-    // these are for the startpoint and endpoint markers
-    var startpoint_coords = getCoords(routeArray[0].start_location);
-    var endpoint_coords = getCoords(routeArray[routeArray.length - 1].end_location);
-
+    var directionsArray = routeObject.overview_path;
+    var routeArray = routeObject.legs;
+        
     calculate_distance(routeArray, routeObject);
     calculate_duration(routeArray, routeObject);
-    calculate_stopover_coords(routeArray, routeObject);
+    
+    var stopover_coords_array = calculate_stopover_coords(routeArray, routeObject);
 
-    console.log(startpoint_coords);
     console.log(stopover_coords_array);
-    console.log(endpoint_coords);
     console.log(self.distance);
     console.log(self.duration);
 
-    var polyline_array = create_polyline_array(directionsArray);
+    //create route_map
     var latTotal = create_latTotal(directionsArray);
     var lngTotal = create_lngTotal(directionsArray);
-    
     var mapCoords = centre_map(latTotal, lngTotal, directionsArray);
     var zoom = calculate_map_zoom(self.distance);
+    create_route_map(mapCoords, zoom, routeObject.bounds);
 
-    //create map object that AGM will render on the page
-    self.map = {
-      center: mapCoords, 
-      zoom: zoom, 
-      bounds: routeObject.bounds
-    };
+    //create polyline
+    var polyline_array = create_polyline_array(directionsArray);
+    create_route_polyline(polyline_array);
 
-    create_polyline(polyline_array);
-    create_markers(startpoint_coords, endpoint_coords);
+    //create route_markers
+    var startpoint_coords = getCoords(routeArray[0].start_location);
+    var endpoint_coords = getCoords(routeArray[routeArray.length - 1].end_location);
+    create_route_markers(startpoint_coords, endpoint_coords);
 
     //tell angular to watch for changes
     $scope.$apply();
