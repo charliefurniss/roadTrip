@@ -124,7 +124,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   var stopoverEvents = {
     places_changed: function (searchBox) {
       var place = searchBox.getPlaces();
-      stopover = place[0];
+      stopover.push(place[0]);
+      console.log(stopover);
       if (!place[0].geometry) {
         window.alert("Autocomplete's returned place contains no geometry");
         return;
@@ -135,9 +136,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   self.stopoverSearchbox = { 
     template:'js/views/searchboxes/stopoverSearchbox.tpl.html', 
     events: stopoverEvents,
-    parentdiv: "stopover1-input"
+    parentdiv: "stopover-input"
   };
-
 
   function addStopoverField(){
     self.stopover_input++;
@@ -353,8 +353,11 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
   function setRoute(trip){
+    console.log(trip.stopovers);
     startpoint_place_id = trip.startpoint.place_id;
     endpoint_place_id   = trip.endpoint.place_id;
+    
+    // need to iterate through trip.stopovers and store waypoint addresses in an array
     waypoint_address   = trip.stopovers[0].formatted_address;
 
     uiGmapGoogleMapApi.then(function() {
@@ -387,6 +390,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     calculate_duration(routeArray, routeObject);
     
     var stopover_coords_array = calculate_stopover_coords(routeArray, routeObject);
+    console.log(stopover_coords_array);
 
     //create route_map
     var latTotal = create_latTotal(directionsArray);
@@ -452,7 +456,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     newTrip.startpoint = startpoint;
     newTrip.endpoint = endpoint;
     newTrip.stopovers = [];
-    newTrip.stopovers.push(stopover);
+    newTrip.stopovers = stopover;
 
     Trip.save(newTrip, function(data){
       console.log(data);
