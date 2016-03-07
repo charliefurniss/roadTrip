@@ -40,6 +40,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   var startpoint_place_id = "";
   var endpoint_place_id   = "";
   var waypoint_address    = "";
+  var stopover_coords_array = [];
 
   self.title              = "";
 
@@ -144,7 +145,25 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     location.lng = locationObject.lng();
     return location;
   }
+
+  function calculate_distance(routeArray, routeObject){
+    for (i = 0; i < routeArray.length; i++){
+      self.distance = Math.round(self.distance + routeObject.legs[i].distance.value/1000);
+    }
+  }
+
+  function calculate_duration(routeArray, routeObject){
+    for (i = 0; i < routeArray.length; i++){
+      self.duration = self.duration + routeObject.legs[i].duration.value/3600;
+    }  
+  }
   
+  function calculate_stopover_coords(routeArray, routeObject){
+    for (i = 0; i < routeArray.length; i++){
+      stopover_coords_array.push(getCoords(routeArray[i].start_location));
+    }
+  }
+
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
   function setRoute(trip){
     console.log(trip);
@@ -187,13 +206,10 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     // these are for the startpoint and endpoint markers
     var startpoint_coords = getCoords(routeArray[0].start_location);
     var endpoint_coords = getCoords(routeArray[routeArray.length - 1].end_location);
-    var stopover_coords_array = [];
 
-    for (i = 0; i < routeArray.length; i++){
-      self.distance = self.distance + routeObject.legs[i].distance.value/1000;
-      self.duration = self.duration + routeObject.legs[i].duration.value/3600;
-      stopover_coords_array.push(getCoords(routeArray[i].start_location));
-    }
+    calculate_distance(routeArray, routeObject);
+    calculate_duration(routeArray, routeObject);
+    calculate_stopover_coords(routeArray, routeObject);
 
     stopover_coords_array.splice(0, 1);
 
