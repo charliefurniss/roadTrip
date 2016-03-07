@@ -254,7 +254,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       latitude: startpoint_coords.lat,
       longitude: startpoint_coords.lng,
       title: "Startpoint",
-      id: 1
+      id: 0
     }
   }
 
@@ -263,17 +263,73 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       latitude: endpoint_coords.lat,
       longitude: endpoint_coords.lng,
       title: "Destination",
-      id: 0
+      id: 1
     }
   }
 
-  function create_route_markers(startpoint_coords, endpoint_coords){
-    //create markers array that AGM will render on the page
+  function create_stopover_markers(stopover_coords_array){
+    var markers_array = [];
+    var marker_object = {};
+    for (i = 0; i < stopover_coords_array.length; i++){
+      var stopover_number = i + 1;
+      var marker_id = i + 2;
+      marker_object = {
+        latitude: stopover_coords_array[i].lat,
+        longitude: stopover_coords_array[i].lng,
+        title: "Stopover " + stopover_number,
+        id: marker_id
+      }
+      markers_array.push(marker_object);
+    }
+    return markers_array;
+  }
 
-    var startpoint_marker = create_startpoint_marker(startpoint_coords);
-    var endpoint_marker = create_endpoint_marker(endpoint_coords);
+  function create_marker_objects_array(marker_coords_array){
+    var marker_title  = "";
+    var marker_objects_array  = [];
+    for (i = 0; i < marker_coords_array.length; i++){
+      var marker_id = i;
+      if (i == 0) {
+        marker_title  = "Origin";
+        marker_id     = 0;
+      }
+      else if (i == marker_coords_array.length - 1){
+        marker_title  = "Destination";
+      }
+      else {
+        marker_title = "Stopover " + (i + 1);
+      }
+      marker_object = {
+        latitude: marker_coords_array[i].lat,
+        longitude: marker_coords_array[i].lng,
+        title: marker_title,
+        id: marker_id
+      }
+      marker_objects_array.push(marker_object);
+    }
+    return marker_objects_array;
+  }
 
-    self.markers = [startpoint_marker, endpoint_marker];
+  function create_route_markers(startpoint_coords, endpoint_coords, stopover_coords_array){
+
+    var marker_coords_array = [];
+
+    for (i = 0; i < stopover_coords_array.length; i++) {
+      marker_coords_array.push(stopover_coords_array[i]);
+    }
+    marker_coords_array.unshift(startpoint_coords);
+    marker_coords_array.push(endpoint_coords);
+
+    self.markers = create_marker_objects_array(marker_coords_array);
+
+    // //create markers array that AGM will render on the page
+    // var startpoint_marker = create_startpoint_marker(startpoint_coords);
+    // var stopover_markers = create_stopover_markers(stopover_coords_array);
+    // var endpoint_marker = create_endpoint_marker(endpoint_coords);
+
+    // self.markers.push(startpoint_marker);
+    // // self.markers.push(stopover_markers);
+    // self.markers.push(endpoint_marker);
   }
   
 
@@ -334,7 +390,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     //create route_markers
     var startpoint_coords = getCoords(routeArray[0].start_location);
     var endpoint_coords = getCoords(routeArray[routeArray.length - 1].end_location);
-    create_route_markers(startpoint_coords, endpoint_coords);
+    create_route_markers(startpoint_coords, endpoint_coords,stopover_coords_array);
 
     //tell angular to watch for changes
     $scope.$apply();
