@@ -146,12 +146,14 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
 
   function calculate_distance(routeArray, routeObject){
+    self.distance = 0;
     for (i = 0; i < routeArray.length; i++){
       self.distance = Math.round(self.distance + routeObject.legs[i].distance.value/1000);
     }
   }
 
   function calculate_duration(routeArray, routeObject){
+    self.duration = 0;
     for (i = 0; i < routeArray.length; i++){
       self.duration = self.duration + routeObject.legs[i].duration.value/3600;
     }  
@@ -322,20 +324,11 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
     self.markers = create_marker_objects_array(marker_coords_array);
 
-    // //create markers array that AGM will render on the page
-    // var startpoint_marker = create_startpoint_marker(startpoint_coords);
-    // var stopover_markers = create_stopover_markers(stopover_coords_array);
-    // var endpoint_marker = create_endpoint_marker(endpoint_coords);
-
-    // self.markers.push(startpoint_marker);
-    // // self.markers.push(stopover_markers);
-    // self.markers.push(endpoint_marker);
   }
   
 
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
   function setRoute(trip){
-    console.log(trip);
     startpoint_place_id = trip.startpoint.place_id;
     endpoint_place_id   = trip.endpoint.place_id;
     waypoint_address   = trip.stopovers[0].formatted_address;
@@ -362,7 +355,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   // USES GOOGLE MAPS ROUTE OBJECT TO RENDER MAP, ROUTE LINE AND MARKERS
   function setRouteMap(routeObject){
-    console.log(routeObject);
     // directions array contains route coordinates
     var directionsArray = routeObject.overview_path;
     var routeArray = routeObject.legs;
@@ -371,10 +363,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     calculate_duration(routeArray, routeObject);
     
     var stopover_coords_array = calculate_stopover_coords(routeArray, routeObject);
-
-    console.log(stopover_coords_array);
-    console.log(self.distance);
-    console.log(self.duration);
 
     //create route_map
     var latTotal = create_latTotal(directionsArray);
@@ -421,7 +409,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   function showSingleTrip(trip){
     self.title  = "Single trip";
     Trip.get({id: trip._id}, function(data){
-      console.log(data);
       self.trip = data;
       setRoute(data);
       $state.go('singleTrip')
