@@ -41,6 +41,10 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   var endpoint_place_id   = "";
   var waypoint_address    = "";
   var stopover_coords_array = [];
+  var directionsArray     = [];
+  var routeArray          = [];
+  var latAvg              = 0;
+  var lngAvg              = 0;
 
   self.title              = "";
 
@@ -162,7 +166,65 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     for (i = 0; i < routeArray.length; i++){
       stopover_coords_array.push(getCoords(routeArray[i].start_location));
     }
+    stopover_coords_array.splice(0, 1);
   }
+
+  function centre_map(latTotal, lngTotal, directionsArray){
+    var coords = {};
+    // get average of route coords to centre the map
+    latAvg = latTotal / directionsArray.length;
+    lngAvg = lngTotal / directionsArray.length;
+    coords = {
+      latitude: latAvg,
+      longitude: lngAvg
+    }
+    return coords;
+  }
+
+  function calculate_map_zoom(trip_distance){
+    var zoom = 0;
+    //calculate map zoom based on the distance of the route
+    if (trip_distance > 3000) {
+      zoom = 3;
+    } else if (trip_distance > 1000) {
+      zoom = 6;
+    } else if (trip_distance < 1000) {
+      zoom = 8;  
+    } else if (trip_distance < 100) {
+      zoom = 11;
+    }
+    return zoom;
+  }
+
+  function create_polyline_array(directionsArray){
+    var polyline_array = [];
+    // this loop extracts coords from directions array and pushes into another which can be used to create GM polyline
+    for (i = 0; i < directionsArray.length; i++){
+      var coordsObject = {
+        latitude: directionsArray[i].lat(), 
+        longitude: directionsArray[i].lng()
+      }
+      polyline_array.push(coordsObject);
+    }
+    return polyline_array;
+  }
+
+  function create_latTotal(directionsArray) {
+    var latTotal = 0;
+    for (i = 0; i < directionsArray.length; i++){
+      latTotal += directionsArray[i].lat();
+    }
+    return latTotal;
+  }
+
+  function create_lngTotal(directionsArray) {
+    var lngTotal = 0;
+    for (i = 0; i < directionsArray.length; i++){
+      lngTotal += directionsArray[i].lng();
+    }
+    return lngTotal;
+  }
+  
 
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
   function setRoute(trip){
@@ -196,12 +258,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
     console.log(routeObject);
     // directions array contains route coordinates
-    var directionsArray = routeObject.overview_path;
-    var latTotal = 0;
-    var lngTotal = 0;
-    var polylineArray = [];
-    var zoom = 0;
-    var routeArray = routeObject.legs;
+    directionsArray = routeObject.overview_path;
+    routeArray = routeObject.legs;
     
     // these are for the startpoint and endpoint markers
     var startpoint_coords = getCoords(routeArray[0].start_location);
@@ -211,45 +269,18 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     calculate_duration(routeArray, routeObject);
     calculate_stopover_coords(routeArray, routeObject);
 
-    stopover_coords_array.splice(0, 1);
-
     console.log(startpoint_coords);
     console.log(stopover_coords_array);
     console.log(endpoint_coords);
     console.log(self.distance);
     console.log(self.duration);
 
-
-
-    // this loop extracts coords from directions array and pushes into another which can be used to create GM polyline
-    for (i = 0; i < directionsArray.length; i++){
-      var coordsObject = {
-        latitude: directionsArray[i].lat(), 
-        longitude: directionsArray[i].lng()
-      }
-      polylineArray.push(coordsObject);
-      latTotal += directionsArray[i].lat();
-      lngTotal += directionsArray[i].lng();
-    }
-    // get average of route coords to centre the map
-    var latAvg = latTotal / directionsArray.length;
-    var lngAvg = lngTotal / directionsArray.length;
-
-    mapCoords = {
-      latitude: latAvg,
-      longitude: lngAvg
-    }
-
-    //calculate map zoom based on the distance of the route
-    if (self.distance > 3000) {
-      zoom = 3;
-    } else if (self.distance > 1000) {
-      zoom = 6;
-    } else if (self.distance < 1000) {
-      zoom = 8;  
-    } else if (self.distance < 100) {
-      zoom = 11;
-    }
+    var polyline_array = create_polyline_array(directionsArray);
+    var latTotal = create_latTotal(directionsArray);
+    var lngTotal = create_lngTotal(directionsArray);
+    
+    var mapCoords = centre_map(latTotal, lngTotal, directionsArray);
+    var zoom = calculate_map_zoom(self.distance);
 
     //create map object that AGM will render on the page
     self.map = {
@@ -258,11 +289,12 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       bounds: routeObject.bounds
     };
 
+    console.log(polyline_array);
     //create polyline array that AGM will render on the page
     self.polylines = [
     {
       id: 1,
-      path: polylineArray,
+      path: polyline_array,
       stroke: {
           color: '#6060FB',
           weight: 3
