@@ -145,18 +145,28 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     return location;
   }
 
+  function add_commas_to_number(number) {
+      return number.toLocaleString();
+  }
+
   function calculate_distance(routeArray, routeObject){
     self.distance = 0;
+    self.distance_for_display = 0;
     for (i = 0; i < routeArray.length; i++){
       self.distance = Math.round(self.distance + routeObject.legs[i].distance.value/1000);
     }
+    self.distance_for_display = add_commas_to_number(self.distance);
   }
 
   function calculate_duration(routeArray, routeObject){
-    self.duration = 0;
+    self.hours = 0;
+    self.minutes = 0;
+    var time = 0;
     for (i = 0; i < routeArray.length; i++){
-      self.duration = self.duration + routeObject.legs[i].duration.value/3600;
-    }  
+      time = (time + routeObject.legs[i].duration.value/3600);
+    }
+    self.hours = Math.floor(time); 
+    self.minutes = Math.floor((time - Math.floor(time)) * 60); 
   }
   
   function calculate_stopover_coords(routeArray, routeObject){
@@ -378,6 +388,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     var latTotal = create_latTotal(directionsArray);
     var lngTotal = create_lngTotal(directionsArray);
     var mapCoords = centre_map(latTotal, lngTotal, directionsArray);
+    var distance = self.distance;
     var zoom = calculate_map_zoom(self.distance);
     create_route_map(mapCoords, zoom, routeObject.bounds);
 

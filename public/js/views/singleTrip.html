@@ -27,11 +27,11 @@
             <div id="trip-info">
               <div class="from-to">
 <!--                 <img class="icon" src="../images/png/clock.png">
- -->                <p class="info-tag"> {{ trips.distance }} kilometres</p><br>
+ -->                <p class="info-tag"> {{ trips.distance_for_display }} kilometres</p><br>
               </div>
               <div class="from-to">
 <!--                 <img class="icon" src="../images/png/other.png">
- -->                <p class="info-tag"> {{ trips.duration }}</p>
+ -->                <p class="info-tag"> {{ trips.hours }} hours, {{ trips.minutes }} minutes</p>
               </div>
             </div>
             <li class="stopover-display" ng-repeat="stop in trips.stopovers">
