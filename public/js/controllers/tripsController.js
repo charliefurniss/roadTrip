@@ -185,10 +185,20 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     //calculate map zoom based on the distance of the route
     if (trip_distance > 3000) {
       zoom = 3;
-    } else if (trip_distance > 1000) {
+    } else if (trip_distance > 2000 && trip_distance < 3000) {
+      zoom = 4;
+    } else if (trip_distance > 1000 && trip_distance < 2000) {
+      zoom = 5;
+    } else if (trip_distance > 800 && trip_distance < 1000) {
       zoom = 6;
-    } else if (trip_distance < 1000) {
-      zoom = 8;  
+    } else if (trip_distance > 600 && trip_distance < 800) {
+      zoom = 7;  
+    } else if (trip_distance > 400 && trip_distance < 600) {
+      zoom = 8;
+    } else if (trip_distance > 200 && trip_distance < 400) {
+      zoom = 9;  
+    } else if (trip_distance > 100 && trip_distance < 200) {
+      zoom = 10;  
     } else if (trip_distance < 100) {
       zoom = 11;
     }
