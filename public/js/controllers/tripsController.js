@@ -16,6 +16,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   self.showCreateTripForm = showCreateTripForm;
   self.deleteTrip         = deleteTrip;
   self.editTrip           = editTrip;
+  self.addStopoverField  = addStopoverField;
   self.startPlaceholder   = "";
   self.endPlaceholder     = "";
   self.updateTrip         = updateTrip;
@@ -118,7 +119,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     template:'js/views/searchboxes/endpointSearchbox.tpl.html', 
     events: endpointEvents,
     parentdiv: "endpoint-input"
-     
   };
 
   var stopoverEvents = {
@@ -135,10 +135,14 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   self.stopoverSearchbox = { 
     template:'js/views/searchboxes/stopoverSearchbox.tpl.html', 
     events: stopoverEvents,
-    parentdiv: "stopover-input"
-     
+    parentdiv: "stopover1-input"
   };
 
+
+  function addStopoverField(){
+    self.stopover_input++;
+    console.log("button working");
+  }
 
   function getCoords(locationObject){
     var location = {};

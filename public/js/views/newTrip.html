@@ -24,10 +24,22 @@
             <div id="endpoint-input">
               
             </div>
-            <div id="stopover-input">
+            <div id="stopover1-input">
               
             </div>
-            <input type="button" value="Add stopover" id="stopover" class="stopover-button">
+            <div id="stopover2-input">
+              
+            </div>
+            <div id="stopover3-input">
+              
+            </div>
+            <div id="stopover4-input">
+              
+            </div>
+            <div id="stopover5-input">
+              
+            </div>
+            <input type="button" value="Add stopover" id="stopover" class="stopover-button" ng-click="trips.addStopoverField()">
             <input type="submit" value="Save" id="submit" class="save-button">
           </form>
         </div>   
@@ -39,6 +51,12 @@
           <ui-gmap-search-box template="trips.startpointSearchbox.template" events="trips.startpointSearchbox.events" parentdiv="trips.startpointSearchbox.parentdiv"></ui-gmap-search-box>
           
           <ui-gmap-search-box template="trips.endpointSearchbox.template" events="trips.endpointSearchbox.events" parentdiv="trips.endpointSearchbox.parentdiv"></ui-gmap-search-box>
+
+          <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
+
+          <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
+
+          <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
 
           <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
 
