@@ -224,6 +224,39 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     }
     return lngTotal;
   }
+
+  function create_polyline(polyline_array){
+    //create polyline array that AGM will render on the page
+    self.polylines = [
+    {
+      id: 1,
+      path: polyline_array,
+      stroke: {
+          color: '#6060FB',
+          weight: 3
+      },
+      editable: false,
+      draggable: false,
+      geodesic: true,
+      visible: true,
+      fit: true
+    }]
+  }
+
+  function create_markers(startpoint_coords, endpoint_coords){
+    //create markers array that AGM will render on the page
+    self.markers = [{
+      latitude: startpoint_coords.lat,
+      longitude: startpoint_coords.lng,
+      title: "startpoint",
+      id: 1
+    }, {
+      latitude: endpoint_coords.lat,
+      longitude: endpoint_coords.lng,
+      title: "endpoint",
+      id: 2
+    }];
+  }
   
 
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
@@ -289,35 +322,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       bounds: routeObject.bounds
     };
 
-    console.log(polyline_array);
-    //create polyline array that AGM will render on the page
-    self.polylines = [
-    {
-      id: 1,
-      path: polyline_array,
-      stroke: {
-          color: '#6060FB',
-          weight: 3
-      },
-      editable: false,
-      draggable: false,
-      geodesic: true,
-      visible: true,
-      fit: true
-    }]
-
-    //create markers array that AGM will render on the page
-    self.markers = [{
-      latitude: startpoint_coords.lat,
-      longitude: startpoint_coords.lng,
-      title: "startpoint",
-      id: 1
-    }, {
-      latitude: endpoint_coords.lat,
-      longitude: endpoint_coords.lng,
-      title: "endpoint",
-      id: 2
-    }];
+    create_polyline(polyline_array);
+    create_markers(startpoint_coords, endpoint_coords);
 
     //tell angular to watch for changes
     $scope.$apply();
