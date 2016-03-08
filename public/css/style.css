@@ -147,10 +147,6 @@ p {
   display: inline;
 }
 
-#trip-info {
-  margin: 20px 0px;
-}
-
 a.btn.btn-primary {
   margin-right: 10px;
   width: 80px;
@@ -170,6 +166,21 @@ a.btn.btn-primary {
     margin-top: 20px;
     border: none;
     border-bottom: 1px solid grey;
+}
+
+#trip-main {
+  margin-bottom: 10px;
+  border-bottom: 1px solid grey;
+}
+
+#trip-info {
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+#stopover-list {
+  list-style: none;
+  padding-left: 0px;
 }
 
 .input-buttons {

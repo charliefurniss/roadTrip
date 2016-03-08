@@ -360,11 +360,22 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
         })
     }
     return waypoint_array;
-  }  
+  }
+
+  function adapt_leg_addresses(routeArray){
+    //removes everything after 
+    for (i = 0; i < routeArray.length; i++){
+      var leg_start_location = (routeArray[i].start_address).substring(0, routeArray[i].start_address.indexOf(','));
+      var leg_end_location = (routeArray[i].end_address).substring(0, routeArray[i].end_address.indexOf(','));
+      routeArray[i].start_address = leg_start_location;
+      routeArray[i].end_address = leg_end_location;
+    }
+    return routeArray;
+  }
 
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
   function setRoute(trip){
-    console.log(trip.stopovers);
+    console.log(trip);
     startpoint_place_id = trip.startpoint.place_id;
     endpoint_place_id   = trip.endpoint.place_id;
     
@@ -392,15 +403,15 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   // USES GOOGLE MAPS ROUTE OBJECT TO RENDER MAP, ROUTE LINE AND MARKERS
   function setRouteMap(routeObject){
+    console.log(routeObject.legs);
     // directions array contains route coordinates
     var directionsArray = routeObject.overview_path;
-    var routeArray = routeObject.legs;
+    self.routeArray = adapt_leg_addresses(routeObject.legs);    
         
-    calculate_distance(routeArray, routeObject);
-    calculate_duration(routeArray, routeObject);
+    calculate_distance(self.routeArray, routeObject);
+    calculate_duration(self.routeArray, routeObject);
     
-    var stopover_coords_array = calculate_stopover_coords(routeArray, routeObject);
-    console.log(stopover_coords_array);
+    var stopover_coords_array = calculate_stopover_coords(self.routeArray, routeObject);
 
     //create route_map
     var latTotal = create_latTotal(directionsArray);
@@ -415,8 +426,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     create_route_polyline(polyline_array);
 
     //create route_markers
-    var startpoint_coords = getCoords(routeArray[0].start_location);
-    var endpoint_coords = getCoords(routeArray[routeArray.length - 1].end_location);
+    var startpoint_coords = getCoords(self.routeArray[0].start_location);
+    var endpoint_coords = getCoords(self.routeArray[self.routeArray.length - 1].end_location);
     create_route_markers(startpoint_coords, endpoint_coords,stopover_coords_array);
 
     //tell angular to watch for changes

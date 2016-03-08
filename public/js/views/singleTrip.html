@@ -17,26 +17,33 @@
 
         <div class="sidebar-content">
           <div id="tripWell">
-            <h2 class="singleTrip-name">{{ trips.trip.name }}</h6>
-            <p class="point-label">From</p>
-            <h3 class="trip-point">{{ trips.trip.startpoint.name }}</h3>
-            <p class="point-label">To</p>
-            <h3 class="trip-point">{{ trips.trip.endpoint.name }}</h3>
-            <p class="point-label">Via</p>
-            <h3 class="trip-point">{{ trips.trip.stopovers[0].name }}</h3>
-            <div id="trip-info">
-              <div class="from-to">
-<!--                 <img class="icon" src="../images/png/clock.png">
- -->                <p class="info-tag"> {{ trips.distance_for_display }} kilometres</p><br>
+            <div id="trip-main">
+              <h2 class="singleTrip-name">{{ trips.trip.name }}</h6>
+              <p class="point-label">From</p>
+              <h3 class="trip-point">{{ trips.trip.startpoint.name }}</h3>
+              <p class="point-label">To</p>
+              <h3 class="trip-point">{{ trips.trip.endpoint.name }}</h3>
+              <!-- <p class="point-label">Via</p>
+              <h3 class="trip-point">{{ trips.trip.stopovers[0].name }}</h3>
+               -->
+               <div id="trip-info">
+                <div class="from-to">
+  <!--                 <img class="icon" src="../images/png/clock.png">
+   -->                <p class="info-tag"> {{ trips.distance_for_display }} kilometres</p><br>
+                </div>
+                <div class="from-to">
+  <!--                 <img class="icon" src="../images/png/other.png">
+   -->                <p class="info-tag"> {{ trips.hours }} hours, {{ trips.minutes }} minutes</p>
+                </div>
               </div>
-              <div class="from-to">
-<!--                 <img class="icon" src="../images/png/other.png">
- -->                <p class="info-tag"> {{ trips.hours }} hours, {{ trips.minutes }} minutes</p>
-              </div>
-            </div>
-            <li class="stopover-display" ng-repeat="stop in trips.stopovers">
-              <p class="tripPoint">{{ stop }}</p>
-            </li>
+            </div>  
+            <ul id="stopover-list">
+              <li class="stopover-display" ng-repeat="stop in trips.routeArray">
+                <p class="tripPoint">{{ stop.start_address }} to {{ stop.end_address }}</p>
+                <p class="tripPoint">{{ stop.distance.text }}</p>
+                <p class="tripPoint">{{ stop.duration.text }}</p>
+              </li>
+            </ul>  
             <div class="input-buttons">
               <a href="#" class="edit-button" ng-click="trips.editTrip(trips.trip)" ui-sref="editTrip">Edit</a>
               <a href="#" class="delete-button" ng-click="trips.deleteTrip(trips.trip)">Delete</a>
