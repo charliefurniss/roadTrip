@@ -40,7 +40,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   var mapBoolean          = null;
   var startpoint_place_id = "";
   var endpoint_place_id   = "";
-  var waypoint_address    = "";
+  var waypoint_array      = [];
 
   self.title              = "";
 
@@ -349,7 +349,18 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     self.markers = create_marker_objects_array(marker_coords_array);
 
   }
-  
+
+  function create_waypoint_array(stopovers){
+    var waypoint_array = [];
+    for (i = 0; i < stopovers.length; i++){
+      waypoint_array.push(
+        {
+          location: stopovers[i].formatted_address,
+          stopover: true
+        })
+    }
+    return waypoint_array;
+  }  
 
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
   function setRoute(trip){
@@ -358,7 +369,9 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     endpoint_place_id   = trip.endpoint.place_id;
     
     // need to iterate through trip.stopovers and store waypoint addresses in an array
-    waypoint_address   = trip.stopovers[0].formatted_address;
+    var waypoint_array = [];
+
+    waypoint_array = create_waypoint_array(trip.stopovers);
 
     uiGmapGoogleMapApi.then(function() {
 
@@ -368,10 +381,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
         origin: {'placeId': startpoint_place_id},
         destination: {'placeId': endpoint_place_id},
         travelMode: 'DRIVING',
-        waypoints: [{
-          location: waypoint_address,
-          stopover: true
-        }],
+        waypoints: waypoint_array,
       }, function(response, status) {
           self.routeObject = response.routes[0];        
           setRouteMap(self.routeObject);
@@ -460,8 +470,9 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
     Trip.save(newTrip, function(data){
       console.log(data);
-      self.allTrips.push(data);
-      $state.go('viewTrips');
+      self.trip = data;
+      setRoute(data);
+      $state.go('singleTrip');
     });
   };
 
