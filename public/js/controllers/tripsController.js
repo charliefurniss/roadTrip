@@ -333,7 +333,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
         latitude: marker_coords_array[i].lat,
         longitude: marker_coords_array[i].lng,
         title: marker_title,
-        id: marker_id
+        id: marker_id,
+        icon: '../images/png/green-pin-40.png'
       }
       marker_objects_array.push(marker_object);
     }
