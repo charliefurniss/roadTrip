@@ -16,7 +16,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   self.showCreateTripForm = showCreateTripForm;
   self.deleteTrip         = deleteTrip;
   self.editTrip           = editTrip;
-  self.addStopoverField  = addStopoverField;
+  self.addStopoverField   = addStopoverField;
   self.startPlaceholder   = "";
   self.endPlaceholder     = "";
   self.updateTrip         = updateTrip;
@@ -29,6 +29,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   self.markers            = [];
   self.distance           = 0;
   self.duration           = 0;
+  self.stopover_name_array = [];
+  self.routeArray         = [];
 
   self.randomMarkers = [];
 
@@ -363,7 +365,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
 
   function adapt_leg_addresses(routeArray){
-    //removes everything after 
+    //removes everything after a comma, ie the name of the country in Google's address
     for (i = 0; i < routeArray.length; i++){
       var leg_start_location = (routeArray[i].start_address).substring(0, routeArray[i].start_address.indexOf(','));
       var leg_end_location = (routeArray[i].end_address).substring(0, routeArray[i].end_address.indexOf(','));
@@ -371,6 +373,16 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       routeArray[i].end_address = leg_end_location;
     }
     return routeArray;
+  }
+
+  function get_stopover_names(routeArray){
+    //creates an array containing the names on the stopovers only
+    var stopover_name_array = [];
+    for (i = 0; i < routeArray.length; i++){
+      stopover_name_array.push(routeArray[i].start_address);
+    }
+    stopover_name_array.splice(0 , 1);
+    return stopover_name_array;
   }
 
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
@@ -412,6 +424,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     calculate_duration(self.routeArray, routeObject);
     
     var stopover_coords_array = calculate_stopover_coords(self.routeArray, routeObject);
+    self.stopover_name_array = get_stopover_names(self.routeArray);
+    console.log(self.stopover_name_array);
 
     //create route_map
     var latTotal = create_latTotal(directionsArray);

@@ -100,7 +100,6 @@ a {
   text-decoration: none !important;
 }
 
-
 .media-body:hover {
   border-color: #4d90fe;
 }
@@ -121,13 +120,41 @@ p {
   border-bottom: 1px solid grey;
 }
 
-.trip-point {
-  margin: 5px 0px;
+.trip-point, .stopover-name {
+  margin: 0px 5px 0px 0px;
+  display: inline;
 }
 
-.icon {
+.trip-point-container {
+  margin: 20px 0px 10px 0px;;
+}
+
+#route-head {
+  margin: 20px 0px 10px 0px;
+}
+
+.trip-icon {
+  margin-top: 3px;
+  vertical-align: top;
   height: 20px;
   width: 20px;
+}
+
+.route-icon {
+  margin-top: 3px;
+  vertical-align: top;
+  height: 15px;
+  width: 15px;
+}
+
+.trip-flag-container {
+  display: inline;
+  margin-right: 5px;
+}
+
+.route-flag-container {
+  display: inline;
+  margin-right: 5px;
 }
 
 .info-tag {
@@ -178,9 +205,22 @@ a.btn.btn-primary {
   margin-bottom: 5px;
 }
 
+.stopover-name {
+  margin: 5px 0px 10px 0px;
+}
+
 #stopover-list {
   list-style: none;
   padding-left: 0px;
+}
+
+.stopover-display {
+  margin-bottom: 10px;
+}
+
+.stopover-route {
+  margin: 10px 0px 5px 0px;
+  display: inline;
 }
 
 .input-buttons {

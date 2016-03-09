@@ -19,29 +19,46 @@
           <div id="tripWell">
             <div id="trip-main">
               <h2 class="singleTrip-name">{{ trips.trip.name }}</h6>
-              <p class="point-label">From</p>
-              <h3 class="trip-point">{{ trips.trip.startpoint.name }}</h3>
-              <p class="point-label">To</p>
-              <h3 class="trip-point">{{ trips.trip.endpoint.name }}</h3>
-              <!-- <p class="point-label">Via</p>
-              <h3 class="trip-point">{{ trips.trip.stopovers[0].name }}</h3>
-               -->
+<!--               <p class="point-label">from</p>
+ -->          
+              <div class="trip-point-container">
+                <div class="trip-flag-container">
+                  <img class="trip-icon" src="../images/png/green-flag.png">
+                </div>
+                <h3 class="trip-point">{{ trips.trip.startpoint.name }}</h3>
+              </div>
+              <p class="point-label">to</p>
+              <div class="trip-point-container">
+                <div class="trip-flag-container">
+                  <img class="trip-icon" src="../images/png/red-flag.png">
+                </div>
+                <h3 class="trip-point">{{ trips.trip.endpoint.name }}</h3>
+              </div>
+              <p class="point-label">via</p>
+              <div ng-repeat="stop in trips.stopover_name_array">
+              <div class="route-flag-container">
+                <img class="route-icon" src="../images/png/orange-flag.png">
+              </div>  
+                <p class="stopover-name">{{ stop }}</p>
+              </div> 
                <div id="trip-info">
                 <div class="from-to">
-  <!--                 <img class="icon" src="../images/png/clock.png">
-   -->                <p class="info-tag"> {{ trips.distance_for_display }} kilometres</p><br>
+                  <p class="info-tag"> {{ trips.distance_for_display }} kilometres</p><br>
                 </div>
                 <div class="from-to">
-  <!--                 <img class="icon" src="../images/png/other.png">
-   -->                <p class="info-tag"> {{ trips.hours }} hours, {{ trips.minutes }} minutes</p>
+                  <p class="info-tag"> {{ trips.hours }}hrs {{ trips.minutes }}mins</p>
                 </div>
               </div>
             </div>  
             <ul id="stopover-list">
+              <h4 id="route-head">Route</h4> 
               <li class="stopover-display" ng-repeat="stop in trips.routeArray">
-                <p class="tripPoint">{{ stop.start_address }} to {{ stop.end_address }}</p>
-                <p class="tripPoint">{{ stop.distance.text }}</p>
-                <p class="tripPoint">{{ stop.duration.text }}</p>
+              <div class="route-flag-container">
+                <img class="route-icon" src="../images/png/orange-flag.png">
+              </div>  
+                 <h5 class="stopover-route">{{ stop.start_address }} to {{ stop.end_address }}</h5>
+                <p class="stopover-distance">{{ stop.distance.text }}</p>
+                <p class="stopover-duration">{{ stop.duration.text }}</p>
               </li>
             </ul>  
             <div class="input-buttons">
