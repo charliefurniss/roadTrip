@@ -17,11 +17,24 @@
 
         <div class="sidebar-content">
           <ul class="media-list">
-            <li id="tripWell" ng-repeat="trip in trips.allTrips | orderBy : '_id' : true" ng-click="trips.showSingleTrip(trip)">
+            <li class="tripWell" ng-repeat="trip in trips.allTrips | orderBy : '_id' : true" ng-click="trips.showSingleTrip(trip)">
                 <div class="media-body">
                   <h6 class="trip-name">{{ trip.name }}</h6>
-                  <p class="tripPoint">{{ trip.startpoint.name }}
-                  to {{ trip.endpoint.name }}</p>
+                  <div class="trip-start-container">
+                    <div class="trip-flag-container">
+                      <img class="trip-icon" src="../images/png/green-flag.png">
+                    </div>
+                    <p class="tripPoint">{{ trip.startpoint.name }}</p>
+                  </div>
+                  <div class="trip-arrow-container">
+                    <img class="route-icon" src="../images/png/long-arrow.png">
+                  </div>
+                  <div class="trip-end-container">
+                    <div class="trip-flag-container">
+                      <img class="trip-icon" src="../images/png/red-flag.png">
+                    </div>
+                    <p class="tripPoint">{{ trip.endpoint.name }}</p>
+                  </div>
                 </div>
             </li>
           </ul>  

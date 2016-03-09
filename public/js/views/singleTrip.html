@@ -18,7 +18,7 @@
         <div class="sidebar-content">
           <div id="tripWell">
             <div id="trip-main">
-              <h2 class="singleTrip-name">{{ trips.trip.name }}</h6>
+              <h2 class="trip-name-head">{{ trips.trip.name }}</h6>
 <!--               <p class="point-label">from</p>
  -->          
               <div class="trip-point-container">
@@ -27,7 +27,10 @@
                 </div>
                 <h3 class="trip-point">{{ trips.trip.startpoint.name }}</h3>
               </div>
-              <p class="point-label">to</p>
+              <!-- <p class="point-label">to</p> -->
+              <div class="trip-flag-container">
+                <img class="down-arrow-icon" src="../images/png/down-arrow.png">
+              </div>
               <div class="trip-point-container">
                 <div class="trip-flag-container">
                   <img class="trip-icon" src="../images/png/red-flag.png">
@@ -56,7 +59,12 @@
               <div class="route-flag-container">
                 <img class="route-icon" src="../images/png/orange-flag.png">
               </div>  
-                 <h5 class="stopover-route">{{ stop.start_address }} to {{ stop.end_address }}</h5>
+                 <!-- <h5 class="stopover-route">{{ stop.start_address }} to {{ stop.end_address }}</h5> -->
+                 <h5 class="stopover-route">{{ stop.start_address }}</h5> 
+                 <div class="route-arrow-container">
+                   <img class="route-icon" src="../images/png/long-arrow.png">
+                 </div> 
+                 <h5 class="stopover-route">{{ stop.end_address }}</h5>
                 <p class="stopover-distance">{{ stop.distance.text }}</p>
                 <p class="stopover-duration">{{ stop.duration.text }}</p>
               </li>

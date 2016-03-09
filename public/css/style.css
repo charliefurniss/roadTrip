@@ -113,7 +113,7 @@ p {
   margin: 0px;
 }
 
-.singleTrip-name {
+.trip-name-head {
   font-size: 30px;
   padding-bottom: 5px;
   margin-bottom: 5px;
@@ -126,7 +126,7 @@ p {
 }
 
 .trip-point-container {
-  margin: 20px 0px 10px 0px;;
+  margin: 20px 0px 10px 0px;
 }
 
 #route-head {
@@ -140,6 +140,14 @@ p {
   width: 20px;
 }
 
+.down-arrow-icon {
+  margin-left: 20px;
+  margin-top: 3px;
+  vertical-align: top;
+  height: 30px;
+  width: 30px
+}
+
 .route-icon {
   margin-top: 3px;
   vertical-align: top;
@@ -150,6 +158,18 @@ p {
 .trip-flag-container {
   display: inline;
   margin-right: 5px;
+}
+
+.trip-start-container {
+  display: inline;
+}
+
+.trip-end-container {
+  display: block;
+}
+
+.route-arrow-container, .trip-arrow-container {
+  display: inline;
 }
 
 .route-flag-container {
@@ -187,10 +207,11 @@ a.btn.btn-primary {
   border-bottom: 1px solid grey;
 }
 
-#tripWell {
+.tripWell {
     cursor: pointer;
     display: block;
     margin-top: 20px;
+    padding-bottom: 10px;
     border: none;
     border-bottom: 1px solid grey;
 }
@@ -218,7 +239,7 @@ a.btn.btn-primary {
   margin-bottom: 10px;
 }
 
-.stopover-route {
+.stopover-route, .tripPoint {
   margin: 10px 0px 5px 0px;
   display: inline;
 }
@@ -304,6 +325,26 @@ a.btn.btn-primary {
   font-weight: 300;
   width: 100% !important;
   text-overflow: ellipsis;
+  background-size: 20px 20px;
+  background-position: top 5px;
+  background-repeat: no-repeat;
+  text-indent: 30px;
+}
+
+#trip-name-input {
+  background-image: url(../images/png/grey-map.png);
+}
+
+#startpoint-input {
+  background-image: url(../images/png/green-flag.png);
+}
+
+#endpoint-input {
+  background-image: url(../images/png/red-flag.png);
+}
+
+#stopover-input {
+  background-image: url(../images/png/orange-flag.png);
 }
 
 #startpoint-input:focus,

@@ -14,9 +14,9 @@
         </ul>
 
         <div class="sidebar-content">
-          <div id="edit-trip-name">
-            <p>{{ trips.trip.name }} trip</p>
-          </div>  
+          
+            <h2 class="trip-name-head">{{ trips.trip.name }} trip</h2>
+          
           <form class="form" id="tripForm" ng-submit="trips.updateTrip()">
             <div id="startpoint-input">
               
@@ -42,7 +42,13 @@
 
           <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
 
-          <ui-gmap-marker coords="trips.marker.coords" options="trips.marker.options" events="trips.marker.events" idkey="trips.marker.id"></ui-gmap-marker>
+          <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
+
+          <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
+
+          <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
+
+          <ui-gmap-markers models="trips.markers" coords="'self'" icon="'icon'"></ui-gmap-markers>
 
           <ui-gmap-polyline ng-repeat="p in trips.polylines track by $index" path="p.path" stroke="p.stroke" visible='p.visible' geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline>
 
