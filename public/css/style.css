@@ -417,11 +417,16 @@ div.col-sm-9 {
 }
 
 .hidden{
-  display: none;
+  height: 0px;
 }
 
 .revealed {
-  display: block;
+  height: 100%;
+  -webkit-transition:height, 0.5s ease;
+  -moz-transition: height, 0.5s ease;
+  -ms-transition: height, 0.5s ease;
+  -o-transition: height, 0.5s ease;
+  transition: height, 0.5s ease;
 }
 
 .edit-button:hover, 
@@ -430,4 +435,9 @@ div.col-sm-9 {
   text-decoration: none; 
   cursor: pointer;
   color: white; 
+}
+
+.details-button:visited, .details-button:link {
+  text-decoration: none;
+  color: white;
 }
