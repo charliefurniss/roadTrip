@@ -257,7 +257,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   function create_route_map(mapCoords, zoom, bounds){
     //create map object that AGM will render on the page
-    self.map = {
+    self.route_map = {
       center: mapCoords, 
       zoom: zoom, 
       bounds: bounds
