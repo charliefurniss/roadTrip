@@ -416,9 +416,17 @@ div.col-sm-9 {
   padding: 6px 6px;
 }
 
+.hidden{
+  display: none;
+}
+
+.revealed {
+  display: block;
+}
+
 .edit-button:hover, 
 .delete-button:hover,
-.details-button {
+.details-button:hover {
   text-decoration: none; 
   cursor: pointer;
   color: white; 
