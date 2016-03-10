@@ -339,15 +339,15 @@ a.btn.btn-primary {
 }
 
 #startpoint-input {
-  background-image: url(../images/png/green-flag.png);
+  background-image: url(../images/png/green-pin.png);
 }
 
 #endpoint-input {
-  background-image: url(../images/png/red-flag.png);
+  background-image: url(../images/png/red-pin.png);
 }
 
 #stopover-input {
-  background-image: url(../images/png/orange-flag.png);
+  background-image: url(../images/png/orange-pin.png);
 }
 
 #startpoint-input:focus,

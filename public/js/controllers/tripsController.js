@@ -81,6 +81,9 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       coords: {
         latitude: location.latitude,
         longitude: location.longitude
+      },
+      options: {
+        icon: "../images/png/red-pin.png"
       }
     }
     $scope.$apply();
