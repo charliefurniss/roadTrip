@@ -125,8 +125,12 @@ p {
   display: inline;
 }
 
-.trip-point-container {
+.big-trip-start-container {
   margin: 20px 0px 10px 0px;
+}
+
+.big-trip-end-container {
+  margin: 10px 0px 10px 0px;
 }
 
 #route-head {
@@ -140,12 +144,11 @@ p {
   width: 20px;
 }
 
-.down-arrow-icon {
-  margin-left: 20px;
+.trip-arrow-icon {
   margin-top: 3px;
   vertical-align: top;
-  height: 30px;
-  width: 30px
+  height: 25px;
+  width: 25px
 }
 
 .route-icon {
