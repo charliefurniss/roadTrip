@@ -42,7 +42,10 @@
                 <img class="route-icon" src="../images/png/orange-pin.png">
               </div>  
                 <p class="stopover-name">{{ stop }}</p>
-              </div> 
+              </div>
+            </div>  
+            <ul id="stopover-list">
+              <h4 id="route-head">Details</h4>
                <div id="trip-info">
                 <div class="from-to">
                   <p class="info-tag"> {{ trips.distance_for_display }} kilometres</p><br>
@@ -51,9 +54,6 @@
                   <p class="info-tag"> {{ trips.hours }}hrs {{ trips.minutes }}mins</p>
                 </div>
               </div>
-            </div>  
-            <ul id="stopover-list">
-              <h4 id="route-head">Route</h4> 
               <li class="stopover-display" ng-repeat="stop in trips.routeArray">
               <div class="route-flag-container">
                 <img class="route-icon" src="../images/png/orange-pin.png">

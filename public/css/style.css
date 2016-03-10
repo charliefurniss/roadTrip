@@ -186,7 +186,7 @@ p {
 */}
 
 .from-to {
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 .point-label {
@@ -221,12 +221,13 @@ a.btn.btn-primary {
 
 #trip-main {
   margin-bottom: 10px;
+  padding-bottom: 10px;
   border-bottom: 1px solid grey;
 }
 
 #trip-info {
-  margin-top: 20px;
-  margin-bottom: 5px;
+  margin-top: 10px;
+  margin-bottom: 15px;
 }
 
 .stopover-name {
