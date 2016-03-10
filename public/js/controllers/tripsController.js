@@ -271,7 +271,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       id: 1,
       path: polyline_array,
       stroke: {
-          color: '#6060FB',
+          color: '#EA44FF',
           weight: 3
       },
       editable: false,
