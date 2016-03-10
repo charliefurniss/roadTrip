@@ -43,7 +43,12 @@
               </div>  
                 <p class="stopover-name">{{ stop }}</p>
               </div>
-            </div>  
+            </div>
+            <div class="input-buttons">
+              <a href="#" class="edit-button" ng-click="trips.editTrip(trips.trip)" ui-sref="editTrip">Edit</a>
+              <a href="#" class="delete-button" ng-click="trips.deleteTrip(trips.trip)">Delete</a>
+              <a href="#" class="details-button">Details</a>
+            </div> 
             <ul id="stopover-list">
               <h4 id="route-head">Details</h4>
                <div id="trip-info">
@@ -67,11 +72,7 @@
                 <p class="stopover-distance">{{ stop.distance.text }}</p>
                 <p class="stopover-duration">{{ stop.duration.text }}</p>
               </li>
-            </ul>  
-            <div class="input-buttons">
-              <a href="#" class="edit-button" ng-click="trips.editTrip(trips.trip)" ui-sref="editTrip">Edit</a>
-              <a href="#" class="delete-button" ng-click="trips.deleteTrip(trips.trip)">Delete</a>
-            </div>
+            </ul>
           </div>
         </div>       
       </div>
