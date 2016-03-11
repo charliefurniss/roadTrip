@@ -249,7 +249,7 @@ a.btn.btn-primary {
 }
 
 .input-buttons {
-  padding-bottom: 10px;
+  padding-bottom: 0px;
 }
 
 .navbar {
@@ -411,7 +411,9 @@ div.col-sm-9 {
 }
 
 .details-button {
-  background-color: #FF9E44;
+/*  background-color: #FF9E44;
+*/    
+  background-color: #EA44FF;
   text-align: center;
   padding: 6px 6px;
 }
@@ -421,7 +423,7 @@ div.col-sm-9 {
 }
 
 .revealed {
-  height: 100%;
+  max-height: 400px;
   -webkit-transition:height, 0.5s ease;
   -moz-transition: height, 0.5s ease;
   -ms-transition: height, 0.5s ease;

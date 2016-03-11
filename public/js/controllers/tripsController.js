@@ -493,6 +493,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
 
   function createTrip(){
+    console.log(self.trip);
     var newTrip = self.trip;
     var userObject = CurrentUser.getUser();
     newTrip.user = userObject._doc._id
@@ -500,6 +501,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     newTrip.endpoint = endpoint;
     newTrip.stopovers = [];
     newTrip.stopovers = stopover;
+    stopover          = [];
 
     Trip.save(newTrip, function(data){
       console.log(data);
