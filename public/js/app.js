@@ -30,14 +30,6 @@ angular
         url: "/register",
         templateUrl: "./js/views/register.html"
       })
-      .state('profile', {
-        url: "/profile",
-        templateUrl: "./js/views/profile.html"
-      })
-      .state('users', {
-        url: "/users",
-        templateUrl: "./js/views/users.html"
-      })
       .state('newTrip', {
         url: "/newTrip",
         templateUrl: "./js/views/newTrip.html"
@@ -54,12 +46,6 @@ angular
         url: "/editTrip",
         templateUrl: "./js/views/editTrip.html"
       })
-      .state('testForm', {
-        url: "/testForm",
-        templateUrl: "./js/views/testForm.html"
-      });
-
-      
 
     $urlRouterProvider.otherwise("/register");
   }

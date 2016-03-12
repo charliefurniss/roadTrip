@@ -11,9 +11,7 @@ function tripsIndex(req, res){
 }
 
 function tripsCreate(req, res){
-  console.log(req.body);
   Trip.create(req.body, function(err, trip){
-    console.log(trip);   
     if (err) return res.status(500).send(err);
     var id = trip.user;
     User.findById({ _id: id }, function(err, user){
@@ -35,7 +33,6 @@ function tripsShow(req, res){
 
 function tripsUpdate(req, res){
   var id = req.params.id;
-  console.log(req.body);
   Trip.findByIdAndUpdate({ _id: id }, req.body, { new: true }, function(err, trip){
     if (err) return res.status(500).send(err);
     if (!trip) return res.status(404).send(err);

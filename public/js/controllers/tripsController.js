@@ -395,7 +395,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
   function setRoute(trip){
-    console.log(trip);
+    // console.log(trip);
     startpoint_place_id = trip.startpoint.place_id;
     endpoint_place_id   = trip.endpoint.place_id;
     
@@ -423,7 +423,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   // USES GOOGLE MAPS ROUTE OBJECT TO RENDER MAP, ROUTE LINE AND MARKERS
   function setRouteMap(routeObject){
-    console.log(routeObject.legs);
+    // console.log(routeObject.legs);
     // directions array contains route coordinates
     var directionsArray = routeObject.overview_path;
     self.routeArray = adapt_leg_addresses(routeObject.legs);    
@@ -433,7 +433,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     
     var stopover_coords_array = calculate_stopover_coords(self.routeArray, routeObject);
     self.stopover_name_array = get_stopover_names(self.routeArray);
-    console.log(self.stopover_name_array);
 
     //create route_map
     var latTotal = create_latTotal(directionsArray);
@@ -493,8 +492,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
 
   function createTrip(){
-    console.log(self.trip);
     var newTrip = self.trip;
+    console.log(newTrip);
     var userObject = CurrentUser.getUser();
     newTrip.user = userObject._doc._id
     newTrip.startpoint = startpoint;
@@ -503,8 +502,10 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     newTrip.stopovers = stopover;
     stopover          = [];
 
+    console.log(newTrip.stopovers);
+    console.log(newTrip);
+
     Trip.save(newTrip, function(data){
-      console.log(data);
       self.trip = data;
       setRoute(data);
       $state.go('singleTrip');
@@ -518,19 +519,27 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     setRoute(trip, mapBoolean);
     self.trip = trip;
     self.title = "Edit trip";
+    console.log(self.trip);
   }
 
   function updateTrip(){
-    var updatedTrip = self.trip;
-    updatedTrip.startpoint = startpoint;
-    updatedTrip.endpoint = endpoint;
-    // console.log(updatedTrip);
-
+    var updatedTrip = {};
+    updatedTrip = {
+      name: self.trip.name,
+      _id: self.trip._id,
+      user: self.trip.user,
+      startpoint: startpoint,
+      endpoint: endpoint,
+      stopovers: stopover
+    };
+      
     Trip.update(updatedTrip, function(data){
-      self.trip = {};
+      self.trip = data;
+      setRoute(data);
+      $state.go('singleTrip');
     });
-    getTrips();
-    $state.go('viewTrips');
+
+    stopover                = [];
   }
 
   function deleteTrip(trip){

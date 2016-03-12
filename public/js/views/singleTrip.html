@@ -34,19 +34,19 @@
                 </div>
                 <h3 class="trip-point">{{ trips.trip.endpoint.name }}</h3>
               </div>
-              <p class="point-label">via</p>
+              <p class="point-label">Stopping at...</p>
               <div ng-repeat="stop in trips.stopover_name_array">
               <div class="route-flag-container">
                 <img class="route-icon" src="../images/png/orange-pin.png">
               </div>  
-                <p class="stopover-name">{{ stop }}</p>
+                <h5 class="stopover-route">{{ stop }}</h5>
               </div>
                <div id="trip-info">
                 <div class="from-to">
-                  <p class="info-tag"> {{ trips.distance_for_display }} kilometres</p><br>
+                  <p class="info-tag"> {{ trips.distance_for_display }} km</p><br>
                 </div>
                 <div class="from-to">
-                  <p class="info-tag"> {{ trips.hours }}hrs {{ trips.minutes }}mins</p>
+                  <p class="info-tag"> {{ trips.hours }} hours {{ trips.minutes }} mins</p>
                 </div>
               </div> 
             </div>

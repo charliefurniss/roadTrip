@@ -190,7 +190,7 @@ p {
 }
 
 .point-label {
-  margin-top: 10px;
+  margin: 10px 0px;
 }
 
 .point-tag {
@@ -237,6 +237,7 @@ a.btn.btn-primary {
 #stopover-list {
   list-style: none;
   padding-left: 0px;
+  margin-top: 20px;
 }
 
 .stopover-display {
