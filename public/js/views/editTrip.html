@@ -14,20 +14,29 @@
         </ul>
 
         <div class="sidebar-content">
-          
-            <h2 class="trip-name-head">{{ trips.trip.name }} trip</h2>
+          <div id="tripWell">
+            <div id="trip-main">
+              <h2 class="trip-name-head">{{ trips.trip.name }}</h2>
+              <div class="big-trip-start-container">
+                <div class="trip-flag-container">
+                  <img class="trip-icon" src="../images/png/green-pin.png">
+                </div>
+                <h3 class="trip-point">{{ trips.trip.startpoint.name }}</h3>
+                <div class="trip-arrow-container">
+                  <img class="trip-arrow-icon" src="../images/png/long-arrow.png">
+                </div>
+              </div>
+              <div class="big-trip-end-container">
+                <div class="trip-flag-container">
+                  <img class="trip-icon" src="../images/png/red-pin.png">
+                </div>
+                <h3 class="trip-point">{{ trips.trip.endpoint.name }}</h3>
+              </div>
+            </div>
+          </div>   
           
           <form class="form" id="tripForm" ng-submit="trips.updateTrip()">
-            <div id="startpoint-input">
-              
-            </div>
-            <div id="endpoint-input">
-              
-            </div>
-            <div id="stopover-input">
-              
-            </div>
-
+            <div id="stopover-input"></div>
             <input type="submit" value="Save" id="submit" class="save-button">
           </form>
         </div>   
@@ -35,11 +44,6 @@
       </div>
       <div class="col-sm-9">
         <ui-gmap-google-map center='trips.route_map.center' zoom='trips.route_map.zoom'>
-          <!-- look for configuration (template, events and parentdiv) defined in tripsController -->
-          <ui-gmap-search-box template="trips.startpointSearchbox.template" events="trips.startpointSearchbox.events" parentdiv="trips.startpointSearchbox.parentdiv"></ui-gmap-search-box>
-          
-          <ui-gmap-search-box template="trips.endpointSearchbox.template" events="trips.endpointSearchbox.events" parentdiv="trips.endpointSearchbox.parentdiv"></ui-gmap-search-box>
-
           <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
 
           <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>

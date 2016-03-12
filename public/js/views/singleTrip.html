@@ -51,7 +51,7 @@
               </div> 
             </div>
             <div class="input-buttons">
-              <a href="#" class="details-button" ng-click="show=!show">Route</a>
+              <a href="#" class="details-button" ng-click="show=!show">View route</a>
             </div>
             <ul id="stopover-list" ng-class="{ hidden: !show, revealed: show }">
               <li class="stopover-display" ng-repeat="stop in trips.routeArray">
@@ -69,8 +69,8 @@
               </li>
             </ul>
             <div class="input-buttons">
-              <a href="#" class="edit-button" ng-click="trips.editTrip(trips.trip)" ui-sref="editTrip">Edit</a>
-              <a href="#" class="delete-button" ng-click="trips.deleteTrip(trips.trip)">Delete</a>
+              <a href="#" class="edit-button" ng-click="trips.editTrip(trips.trip)" ui-sref="editTrip">Edit route</a>
+              <a href="#" class="delete-button" ng-click="trips.deleteTrip(trips.trip)">Delete route</a>
             </div>
           </div>
         </div>       

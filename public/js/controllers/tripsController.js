@@ -515,7 +515,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   // populate the form
   function editTrip(trip){
-    mapBoolean = true;
+    trip.stopovers = [];
     setRoute(trip, mapBoolean);
     self.trip = trip;
     self.title = "Edit trip";
@@ -528,8 +528,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
       name: self.trip.name,
       _id: self.trip._id,
       user: self.trip.user,
-      startpoint: startpoint,
-      endpoint: endpoint,
+      startpoint: self.trip.startpoint,
+      endpoint: self.trip.endpoint,
       stopovers: stopover
     };
       
