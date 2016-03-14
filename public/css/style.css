@@ -41,6 +41,12 @@ div.homepage div#welcome h1 {
   height: 100%;
 }
 
+div.col-sm-9 {
+  padding: 0px;
+}
+
+/*FORMS*/
+
 .form-content {
   color: white;
   padding: 40px;
@@ -75,242 +81,6 @@ div.homepage div#welcome h1 {
   background-color: #B9A543;
 }
 
-a {
-  color: grey;
-}
-
-.media-object {
-  max-width: 60px;
-}
-
-.angular-google-map {
-  height: 100%;
-}
-
-.notActive {
-	pointer-events: none;
-	cursor: default;
-}
-
-.main-link {
-  text-decoration: none !important;
-}
-
-.media-list, .stopover-display {
-  text-decoration: none !important;
-}
-
-.media-body:hover {
-  border-color: #4d90fe;
-}
-
-.trip-name {
-  font-size: 18px;
-  margin-bottom: 5px;
-}
-
-p {
-  margin: 0px;
-}
-
-.trip-name-head {
-  font-size: 30px;
-  padding-bottom: 5px;
-  margin-bottom: 5px;
-  border-bottom: 1px solid grey;
-}
-
-.trip-point, .stopover-name {
-  margin: 0px 5px 0px 0px;
-  display: inline;
-}
-
-.big-trip-start-container {
-  margin: 20px 0px 10px 0px;
-}
-
-.big-trip-end-container {
-  margin: 10px 0px 10px 0px;
-}
-
-#route-head {
-  margin: 20px 0px 10px 0px;
-}
-
-.trip-icon {
-  margin-top: 3px;
-  vertical-align: top;
-  height: 20px;
-  width: 20px;
-}
-
-.trip-arrow-icon {
-  margin-top: 3px;
-  vertical-align: top;
-  height: 25px;
-  width: 25px
-}
-
-.route-icon {
-  margin-top: 3px;
-  vertical-align: top;
-  height: 15px;
-  width: 15px;
-}
-
-.trip-flag-container {
-  display: inline;
-  margin-right: 5px;
-}
-
-.trip-start-container {
-  display: inline;
-}
-
-.trip-end-container {
-  display: block;
-}
-
-.route-arrow-container, .trip-arrow-container {
-  display: inline;
-}
-
-.route-flag-container {
-  display: inline;
-  margin-right: 5px;
-}
-
-.info-tag {
-  display: inline;
-/*  margin-left: 10px;
-*/}
-
-.from-to {
-  margin-top: 0px;
-}
-
-.point-label {
-  margin: 10px 0px;
-}
-
-.point-tag {
-  display: inline;
-}
-
-a.btn.btn-primary {
-  margin-right: 10px;
-  width: 80px;
-}
-
-#edit-trip-name {
-  display: block !important;
-  text-align: left !important;
-  font-size: 18px;
-  margin-bottom: 5px;
-  border-bottom: 1px solid grey;
-}
-
-.tripWell {
-    cursor: pointer;
-    display: block;
-    margin-top: 20px;
-    padding-bottom: 10px;
-    border: none;
-    border-bottom: 1px solid grey;
-}
-
-#trip-main {
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid grey;
-}
-
-#trip-info {
-  margin-top: 10px;
-  margin-bottom: 15px;
-}
-
-.stopover-name {
-  margin: 5px 0px 10px 0px;
-}
-
-#stopover-list {
-  list-style: none;
-  padding-left: 0px;
-  margin-top: 20px;
-}
-
-.stopover-display {
-  margin-bottom: 10px;
-}
-
-.stopover-route, .tripPoint {
-  margin: 10px 0px 5px 0px;
-  display: inline;
-}
-
-.input-buttons {
-  padding-bottom: 0px;
-}
-
-.navbar {
-	margin-bottom: 0px;
-}
-
-#map {
-    height: 400px;
-    width: 100%;
-    float: right;
-}
-
-.angular-google-map-container { 
-    height: 650px; 
-}
-
-#sidebar-container {
-    padding: 0px 0px 20px 0px !important;
-}
-
-#sidebar-navs {
-  display: block;
-  height: 50px;
-}
-
-.sidebar-content {
-    clear: left;
-    margin-left: 15px !important;
-    margin-right: 15px;
-    height: 600px;
-    overflow: scroll;
-}
-
-.navbar-nav {
-    float: left !important;
-}
-
-.nav-links {
-    position: relative;
-    display: block;
-    padding: 10px 15px 10px 0px !important;;
-    list-style: none;
-    cursor: pointer;
-}
-
-#user-links-container {
-    background-color: white;
-    position: absolute;
-    padding: 10px;
-    list-style: none;
-    top: 30px; 
-    right: 50px;
-    z-index: 1000;
-}
-
-#user-links-container>li {
-    display: inline;
-    padding: 10px; 
-}
-
 .controls {
     display: block;
     margin-top: 10px;
@@ -318,6 +88,17 @@ a.btn.btn-primary {
     border-bottom: 1px solid grey;
     height: 32px;
     outline: none;
+}
+
+/*END OF FORMS*/
+
+
+
+
+/*BUTTONS*/
+
+.input-buttons {
+  padding-bottom: 0px;
 }
 
 #startpoint-input,
@@ -359,25 +140,6 @@ a.btn.btn-primary {
   border-color: #4d90fe;
 }
 
-div.col-sm-9 {
-  padding: 0px;
-}
-
-#mode-container {
-    margin-top: 20px;
-}
-
-.mode-selector {
-  color: black;
-}
-
-.mode-selector label {
-  font-family: Roboto;
-  font-size: 15px;
-  font-weight: 300;
-  margin-left: 10px;
-}
-
 .save-button, 
 .edit-button, 
 .delete-button,
@@ -412,24 +174,9 @@ div.col-sm-9 {
 }
 
 .details-button {
-/*  background-color: #FF9E44;
-*/    
   background-color: #EA44FF;
   text-align: center;
   padding: 6px 6px;
-}
-
-.hidden{
-  height: 0px;
-}
-
-.revealed {
-  max-height: 400px;
-  -webkit-transition:height, 0.5s ease;
-  -moz-transition: height, 0.5s ease;
-  -ms-transition: height, 0.5s ease;
-  -o-transition: height, 0.5s ease;
-  transition: height, 0.5s ease;
 }
 
 .edit-button:hover, 
@@ -444,3 +191,269 @@ div.col-sm-9 {
   text-decoration: none;
   color: white;
 }
+
+/*END OF BUTTONS*/
+
+.hidden s{
+  height: 0px;
+}
+
+.revealed {
+  max-height: 400px;
+  -webkit-transition:height, 0.5s ease;
+  -moz-transition: height, 0.5s ease;
+  -ms-transition: height, 0.5s ease;
+  -o-transition: height, 0.5s ease;
+  transition: height, 0.5s ease;
+}
+
+.media-object {
+  max-width: 60px;
+}
+
+.angular-google-map {
+  height: 100%;
+}
+
+.notActive {
+	pointer-events: none;
+	cursor: default;
+}
+
+.main-link {
+  text-decoration: none !important;
+}
+
+.media-list, .stopover-display {
+  text-decoration: none !important;
+}
+
+.media-body:hover {
+  border-color: #4d90fe;
+}
+
+/*TRIP/ROUTE DETAILS*/
+
+.trip-name {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+p {
+  margin: 0px;
+}
+
+.trip-name-head {
+  font-size: 30px;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid grey;
+}
+
+.trip-point, .stopover-name {
+  margin: 0px 5px 0px 0px;
+  display: inline;
+}
+
+.big-trip-start-container {
+  margin: 20px 0px 10px 0px;
+}
+
+.big-trip-end-container {
+  margin: 10px 0px 10px 0px;
+}
+
+.trip-icon {
+  margin-top: 3px;
+  vertical-align: top;
+  height: 20px;
+  width: 20px;
+}
+
+.trip-arrow-icon {
+  margin-top: 3px;
+  vertical-align: top;
+  height: 25px;
+  width: 25px
+}
+
+.trip-flag-container {
+  display: inline;
+  margin-right: 5px;
+}
+
+.trip-start-container {
+  display: inline;
+}
+
+.trip-end-container {
+  display: block;
+}
+
+#route-head {
+  margin: 20px 0px 10px 0px;
+}
+
+.route-icon {
+  margin-top: 3px;
+  vertical-align: top;
+  height: 15px;
+  width: 15px;
+}
+
+.route-arrow-container, .trip-arrow-container {
+  display: inline;
+}
+
+.route-flag-container {
+  display: inline;
+  margin-right: 5px;
+}
+
+.info-tag {
+  display: inline;
+}
+
+.from-to {
+  margin-top: 0px;
+}
+
+.point-label {
+  margin: 10px 0px;
+}
+
+.point-tag {
+  display: inline;
+}
+
+
+
+#edit-trip-name {
+  display: block !important;
+  text-align: left !important;
+  font-size: 18px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid grey;
+}
+
+.tripWell {
+  cursor: pointer;
+  display: block;
+  margin-top: 20px;
+  padding-bottom: 10px;
+  border: none;
+  border-bottom: 1px solid grey;
+}
+
+#trip-main {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid grey;
+}
+
+#trip-info {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.stopover-name {
+  margin: 5px 0px 10px 0px;
+}
+
+#stopover-list {
+  list-style: none;
+  padding-left: 0px;
+  margin-top: 20px;
+}
+
+.stopover-display {
+  margin-bottom: 10px;
+}
+
+.stopover-route, .tripPoint {
+  margin: 10px 0px 5px 0px;
+  display: inline;
+}
+
+
+/*MAP*/
+
+#map {
+  height: 400px;
+  width: 100%;
+  float: right;
+}
+
+.angular-google-map-container { 
+  height: 650px; 
+}
+
+/*END OF MAP*/
+
+/*SIDEBAR GENERAL*/
+
+#sidebar-container {
+    padding: 0px 0px 20px 0px !important;
+}
+
+#sidebar-navs {
+  display: block;
+  height: 50px;
+}
+
+.sidebar-content {
+    clear: left;
+    margin-left: 15px !important;
+    margin-right: 15px;
+    height: 600px;
+    overflow: scroll;
+}
+
+/*END OF SIDEBAR*/
+
+/*LINKS*/
+
+a {
+  color: grey;
+}
+
+a.btn.btn-primary {
+  margin-right: 10px;
+  width: 80px;
+}
+
+.navbar {
+  margin-bottom: 0px;
+}
+
+.navbar-nav {
+    float: left !important;
+}
+
+.nav-links {
+    position: relative;
+    display: block;
+    padding: 10px 15px 10px 0px !important;;
+    list-style: none;
+    cursor: pointer;
+}
+
+#user-links-container {
+    background-color: white;
+    position: absolute;
+    padding: 10px;
+    list-style: none;
+    top: 30px; 
+    right: 50px;
+    z-index: 1000;
+}
+
+#user-links-container>li {
+    display: inline;
+    padding: 10px; 
+}
+
+
+
+/*END OF LINKS*/
+

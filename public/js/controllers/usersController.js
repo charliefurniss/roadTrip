@@ -27,7 +27,7 @@ function UsersController(User, TokenService, $state, CurrentUser){
     var token = res.token ? res.token : null;
     if (token) {
       self.getUsers();
-      $state.go('home');
+      $state.go('newTrip');
     }
     self.user = TokenService.decodeToken();
     CurrentUser.saveUser(self.user);

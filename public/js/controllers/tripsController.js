@@ -466,6 +466,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     self.title = "All trips";
     if (!CurrentUser.getUser()){
       console.log("no user");
+      $state.go('register');
     } else {
       var userObject = CurrentUser.getUser();
       self.currentUserId = userObject._doc._id
@@ -523,22 +524,19 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
 
   function updateTrip(){
-    var updatedTrip = {};
-    updatedTrip = {
+    var updatedTrip = {
       name: self.trip.name,
       _id: self.trip._id,
       user: self.trip.user,
       startpoint: self.trip.startpoint,
       endpoint: self.trip.endpoint,
       stopovers: stopover
-    };
-      
+    }; 
     Trip.update(updatedTrip, function(data){
       self.trip = data;
       setRoute(data);
       $state.go('singleTrip');
     });
-
     stopover                = [];
   }
 
