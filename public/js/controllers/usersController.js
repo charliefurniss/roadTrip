@@ -53,6 +53,7 @@ function UsersController(User, TokenService, $state, CurrentUser){
     self.all  = [];
     self.user = {};
     CurrentUser.clearUser();
+    $state.go('login');
   }
 
   function checkLoggedIn() {

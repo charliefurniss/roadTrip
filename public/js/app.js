@@ -7,9 +7,18 @@ angular
     $httpProvider.interceptors.push('authInterceptor'); // ???
 
     uiGmapGoogleMapApiProvider.configure({
-              //    key: 'your api key',
-              libraries: 'places' // Required for SearchBox.
+      //    key: 'your api key',
+      libraries: 'places' // Required for SearchBox.
     });
+  })
+  .run(function ($rootScope, $state, TokenService) {
+   $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
+     if (toState.authenticate && !TokenService.getToken()){
+       // User is not authenticated
+       $state.transitionTo('login');
+       event.preventDefault(); 
+     }
+   });
   });
 
   // Inject dependencies into MainRouter function
@@ -32,19 +41,23 @@ angular
       })
       .state('singleTrip', {
         url: "/singleTrip",
-        templateUrl: "./js/views/singleTrip.html"
+        templateUrl: "./js/views/singleTrip.html",
+        authenticate: true
       })
       .state('newTrip', {
         url: "/newTrip",
-        templateUrl: "./js/views/newTrip.html"
+        templateUrl: "./js/views/newTrip.html",
+        authenticate: true
       })
       .state('viewTrips', {
         url: "/viewTrips",
-        templateUrl: "./js/views/viewTrips.html"
+        templateUrl: "./js/views/viewTrips.html",
+        authenticate: true
       })
       .state('editTrip', {
         url: "/editTrip",
-        templateUrl: "./js/views/editTrip.html"
+        templateUrl: "./js/views/editTrip.html",
+        authenticate: true
       })
 
     $urlRouterProvider.otherwise("/register");
