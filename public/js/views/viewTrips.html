@@ -17,7 +17,7 @@
 
         <div class="sidebar-content">
           <ul class="media-list">
-            <li class="tripWell" ng-repeat="trip in trips.allTrips | orderBy : '_id' : true" ng-click="trips.showSingleTrip(trip)">
+            <li class="tripWell" ng-repeat="trip in trips.allTrips | orderBy : '_id' : true" ng-click="trips.showSingleTrip(trip)" ui-sref="singleTrip">
                 <div class="media-body">
                   <h6 class="trip-name">{{ trip.name }}</h6>
                   <div class="trip-start-container">

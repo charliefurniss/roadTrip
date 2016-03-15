@@ -204,23 +204,23 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   function calculate_map_zoom(trip_distance){
     var zoom = 0;
     //calculate map zoom based on the distance of the route
-    if (trip_distance > 3000) {
+    if (trip_distance > 4500) {
       zoom = 3;
-    } else if (trip_distance > 2000 && trip_distance < 3000) {
+    } else if (trip_distance > 3000 && trip_distance < 4500) {
       zoom = 4;
-    } else if (trip_distance > 1000 && trip_distance < 2000) {
+    } else if (trip_distance > 1000 && trip_distance < 3000) {
       zoom = 5;
-    } else if (trip_distance > 800 && trip_distance < 1000) {
-      zoom = 6;
-    } else if (trip_distance > 600 && trip_distance < 800) {
-      zoom = 7;  
+    } else if (trip_distance > 600 && trip_distance < 1000) {
+      zoom = 6;  
     } else if (trip_distance > 400 && trip_distance < 600) {
+      zoom = 7;
+    } else if (trip_distance > 250 && trip_distance < 400) {
       zoom = 8;
-    } else if (trip_distance > 200 && trip_distance < 400) {
-      zoom = 9;  
-    } else if (trip_distance > 100 && trip_distance < 200) {
+    } else if (trip_distance > 50 && trip_distance < 250) {
+      zoom = 9;    
+    } else if (trip_distance > 25 && trip_distance < 50) {
       zoom = 10;  
-    } else if (trip_distance < 100) {
+    } else if (trip_distance < 25) {
       zoom = 11;
     }
     return zoom;
@@ -256,6 +256,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
 
   function create_route_map(mapCoords, zoom, bounds){
+    self.route_map = {};
+    console.log("zoom = " + zoom)
     //create map object that AGM will render on the page
     self.route_map = {
       center: mapCoords, 
@@ -423,7 +425,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   // USES GOOGLE MAPS ROUTE OBJECT TO RENDER MAP, ROUTE LINE AND MARKERS
   function setRouteMap(routeObject){
-    // console.log(routeObject.legs);
+    console.log(routeObject);
     // directions array contains route coordinates
     var directionsArray = routeObject.overview_path;
     self.routeArray = adapt_leg_addresses(routeObject.legs);    
@@ -441,6 +443,8 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     var distance = self.distance;
     var zoom = calculate_map_zoom(self.distance);
     create_route_map(mapCoords, zoom, routeObject.bounds);
+
+    console.log(routeObject.bounds);
 
     //create polyline
     var polyline_array = create_polyline_array(directionsArray);
@@ -461,27 +465,28 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
 
   function getTrips(){
-    self.allTrips = GlobalTrips;
-    getLocation();
-    self.title = "All trips";
     if (!CurrentUser.getUser()){
       console.log("no user");
       $state.go('register');
+      return;
     } else {
+      self.allTrips = GlobalTrips;
+      getLocation();
+      self.title = "All trips";
       var userObject = CurrentUser.getUser();
-      self.currentUserId = userObject._doc._id
+      self.currentUserId = userObject._doc._id;
+      Trip.query(function(data){
+        self.allTrips = data;
+      });
     }
-    Trip.query(function(data){
-      self.allTrips = data;
-    });
   }
 
   function showSingleTrip(trip){
     self.title  = "Single trip";
+    console.log(self.title);
     Trip.get({id: trip._id}, function(data){
       self.trip = data;
       setRoute(data);
-      $state.go('singleTrip')
     });
     self.trip = {};
   }
@@ -494,7 +499,6 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
 
   function createTrip(){
     var newTrip = self.trip;
-    console.log(newTrip);
     var userObject = CurrentUser.getUser();
     newTrip.user = userObject._doc._id
     newTrip.startpoint = startpoint;
@@ -503,16 +507,12 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
     newTrip.stopovers = stopover;
     stopover          = [];
 
-    console.log(newTrip.stopovers);
-    console.log(newTrip);
-
     Trip.save(newTrip, function(data){
       self.trip = data;
       setRoute(data);
       $state.go('singleTrip');
     });
   };
-
 
   // populate the form
   function editTrip(trip){

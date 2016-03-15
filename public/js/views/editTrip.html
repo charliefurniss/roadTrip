@@ -43,18 +43,19 @@
         
       </div>
       <div class="col-sm-9">
-        <ui-gmap-google-map center='trips.route_map.center' zoom='trips.route_map.zoom'>
-          <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
+        <ui-gmap-google-map center='trips.route_map.center' zoom='trips.route_map.zoom' bounds='trips.route_map.bounds'>
+          
+        <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
 
-          <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
+        <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
 
-          <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
+        <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
 
-          <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
+        <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
 
-          <ui-gmap-markers models="trips.markers" coords="'self'" icon="'icon'"></ui-gmap-markers>
+        <ui-gmap-markers models="trips.markers" coords="'self'" icon="'icon'"></ui-gmap-markers>
 
-          <ui-gmap-polyline ng-repeat="p in trips.polylines track by $index" path="p.path" stroke="p.stroke" visible='p.visible' geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline>
+        <ui-gmap-polyline ng-repeat="p in trips.polylines track by $index" path="p.path" stroke="p.stroke" visible='p.visible' geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline>
 
         </ui-gmap-google-map>
         <!-- <div id="map">

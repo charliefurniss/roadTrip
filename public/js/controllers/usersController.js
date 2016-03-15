@@ -4,6 +4,7 @@ angular
 
 // Inject and pass in arguments for currentUser and TokenService services, $state (for directing), and the UserFactory
 UsersController.$inject = ['UserFactory', 'TokenService', '$state', 'CurrentUser'];
+
 function UsersController(User, TokenService, $state, CurrentUser){
 
   var self = this;
@@ -58,6 +59,7 @@ function UsersController(User, TokenService, $state, CurrentUser){
     var loggedIn = !!TokenService.getToken();
     return loggedIn;
   }
+
 
   // if there is no current user, run the getUser function defined in the CurrentUser service, set the currentuser to self.user
   if (!!CurrentUser.getUser()) {

@@ -30,6 +30,10 @@ angular
         url: "/register",
         templateUrl: "./js/views/register.html"
       })
+      .state('singleTrip', {
+        url: "/singleTrip",
+        templateUrl: "./js/views/singleTrip.html"
+      })
       .state('newTrip', {
         url: "/newTrip",
         templateUrl: "./js/views/newTrip.html"
@@ -37,10 +41,6 @@ angular
       .state('viewTrips', {
         url: "/viewTrips",
         templateUrl: "./js/views/viewTrips.html"
-      })
-      .state('singleTrip', {
-        url: "/singleTrip",
-        templateUrl: "./js/views/singleTrip.html"
       })
       .state('editTrip', {
         url: "/editTrip",
