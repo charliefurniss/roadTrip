@@ -61,5 +61,14 @@ function CalculationsService() {
     }
     return duration; 
   }
+
+  self.calculate_stopover_coords = function(routeArray, routeObject){
+    var stopover_coords_array = [];
+    for (i = 0; i < routeArray.length; i++){
+      stopover_coords_array.push(self.getCoords(routeArray[i].start_location));
+    }
+    stopover_coords_array.splice(0, 1);
+    return stopover_coords_array;
+  }
   
 }

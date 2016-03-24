@@ -90,15 +90,6 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
   function add_commas_to_number(number) {
       return number.toLocaleString();
   }
-  
-  function calculate_stopover_coords(routeArray, routeObject){
-    var stopover_coords_array = [];
-    for (i = 0; i < routeArray.length; i++){
-      stopover_coords_array.push(Calc.getCoords(routeArray[i].start_location));
-    }
-    stopover_coords_array.splice(0, 1);
-    return stopover_coords_array;
-  }
 
   function centre_map(latTotal, lngTotal, directionsArray){
     var coords = {};
@@ -314,7 +305,7 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     self.distance_with_commas = add_commas_to_number(trip_distance);
     self.duration = Calc.calculate_duration(self.routeArray, routeObject);
     
-    var stopover_coords_array = calculate_stopover_coords(self.routeArray, routeObject);
+    var stopover_coords_array = Calc.calculate_stopover_coords(self.routeArray, routeObject);
     self.stopover_name_array = get_stopover_names(self.routeArray);
 
     //create route_map
