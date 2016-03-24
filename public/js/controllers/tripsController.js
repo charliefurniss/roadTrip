@@ -90,26 +90,6 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
   function add_commas_to_number(number) {
       return number.toLocaleString();
   }
-
-  function calculate_distance(routeArray, routeObject){
-    var trip_distance = 0;
-    for (i = 0; i < routeArray.length; i++){
-      trip_distance = Math.round(trip_distance + routeObject.legs[i].distance.value/1000);
-    }
-    return add_commas_to_number(trip_distance);
-  }
-
-  function calculate_duration(routeArray, routeObject){
-    var time = 0;
-    for (i = 0; i < routeArray.length; i++){
-      time = (time + routeObject.legs[i].duration.value/3600);
-    }
-    var duration = {
-      hours: Math.floor(time),
-      minutes: Math.floor((time - Math.floor(time)) * 60)
-    }
-    return duration; 
-  }
   
   function calculate_stopover_coords(routeArray, routeObject){
     var stopover_coords_array = [];
@@ -132,28 +112,30 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     return coords;
   }
 
-  function calculate_map_zoom(trip_distance){
+  function calculate_map_zoom(distance){
+    console.log(distance);
     var zoom = 0;
     //calculate map zoom based on the distance of the route
-    if (trip_distance > 4500) {
+    if (distance > 4500) {
       zoom = 3;
-    } else if (trip_distance > 3000 && trip_distance < 4500) {
+    } else if (distance > 3000 && distance < 4500) {
       zoom = 4;
-    } else if (trip_distance > 1000 && trip_distance < 3000) {
+    } else if (distance > 1000 && distance < 3000) {
       zoom = 5;
-    } else if (trip_distance > 600 && trip_distance < 1000) {
+    } else if (distance > 600 && distance < 1000) {
       zoom = 6;  
-    } else if (trip_distance > 400 && trip_distance < 600) {
+    } else if (distance > 400 && distance < 600) {
       zoom = 7;
-    } else if (trip_distance > 250 && trip_distance < 400) {
+    } else if (distance > 250 && distance < 400) {
       zoom = 8;
-    } else if (trip_distance > 50 && trip_distance < 250) {
+    } else if (distance > 50 && distance < 250) {
       zoom = 9;    
-    } else if (trip_distance > 25 && trip_distance < 50) {
+    } else if (distance > 25 && distance < 50) {
       zoom = 10;  
-    } else if (trip_distance < 25) {
+    } else if (distance < 25) {
       zoom = 11;
     }
+    console.log(zoom);
     return zoom;
   }
 
@@ -328,8 +310,9 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     var directionsArray = routeObject.overview_path;
     self.routeArray = adapt_leg_addresses(routeObject.legs);    
         
-    self.trip_distance = calculate_distance(self.routeArray, routeObject);
-    self.duration = calculate_duration(self.routeArray, routeObject);
+    var trip_distance = Calc.calculate_distance(self.routeArray, routeObject);
+    self.distance_with_commas = add_commas_to_number(trip_distance);
+    self.duration = Calc.calculate_duration(self.routeArray, routeObject);
     
     var stopover_coords_array = calculate_stopover_coords(self.routeArray, routeObject);
     self.stopover_name_array = get_stopover_names(self.routeArray);
@@ -338,7 +321,7 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     var latTotal = Calc.create_latTotal(directionsArray);
     var lngTotal = Calc.create_lngTotal(directionsArray);
     var mapCoords = centre_map(latTotal, lngTotal, directionsArray);
-    var zoom = calculate_map_zoom(self.trip_distance);
+    var zoom = calculate_map_zoom(trip_distance);
     create_route_map(mapCoords, zoom, routeObject.bounds);
 
     //create polyline

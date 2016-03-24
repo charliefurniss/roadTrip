@@ -41,5 +41,25 @@ function CalculationsService() {
     }
     return lngTotal;
   }
+
+  self.calculate_distance = function(routeArray, routeObject){
+    var trip_distance = 0;
+    for (i = 0; i < routeArray.length; i++){
+      trip_distance = Math.round(trip_distance + routeObject.legs[i].distance.value/1000);
+    }
+    return trip_distance;
+  }
+
+  self.calculate_duration = function(routeArray, routeObject){
+    var time = 0;
+    for (i = 0; i < routeArray.length; i++){
+      time = (time + routeObject.legs[i].duration.value/3600);
+    }
+    var duration = {
+      hours: Math.floor(time),
+      minutes: Math.floor((time - Math.floor(time)) * 60)
+    }
+    return duration; 
+  }
   
 }
