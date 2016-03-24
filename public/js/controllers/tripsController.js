@@ -2,14 +2,14 @@ angular
   .module('roadTrip')
   .controller('TripsController', TripsController);
 
-TripsController.$inject = ['MapService', '$scope', 'TripFactory', 'UserFactory', '$state', 'CurrentUser', 'uiGmapGoogleMapApi' , 'GlobalTrips'];
+TripsController.$inject = ['InputService', '$scope', 'TripFactory', 'UserFactory', '$state', 'CurrentUser', 'uiGmapGoogleMapApi' , 'GlobalTrips'];
 
-function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, uiGmapGoogleMapApi, GlobalTrips){
+function TripsController(Input, $scope, Trip, User, $state, CurrentUser, uiGmapGoogleMapApi, GlobalTrips){
 
   var self = this;
 
   self.allTrips           = GlobalTrips;
-  self.trip               = {};
+  self.trip               = Input.trip;
   self.getTrips           = getTrips;
   self.createTrip         = createTrip;
   self.showSingleTrip     = showSingleTrip;
@@ -35,9 +35,10 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   self.randomMarkers = [];
 
   
-  var startpoint          = {};
-  var endpoint            = {};
-  var stopover            = [];
+  self.startpointSearchbox = Input.startpointSearchbox;
+  self.endpointSearchbox = Input.endpointSearchbox;
+  self.stopoverSearchbox = Input.stopoverSearchbox;
+
   var routeObject         = {};
   var mapBoolean          = null;
   var startpoint_place_id = "";
@@ -90,59 +91,7 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
   
   
-  // this is an event listener. it listens for a places_changed event – which comes from the Google API – and runs a function 
-  var startpointEvents = {
-    places_changed: function (searchBox) {
-      var place = searchBox.getPlaces();
-      startpoint = place[0];
-      if (!place[0].geometry) {
-        window.alert("Autocomplete's returned place contains no geometry");
-        return;
-      }
-    }
-  }
-
-  self.startpointSearchbox = { 
-    template:'js/views/searchboxes/startpointSearchbox.tpl.html', 
-    events: startpointEvents,
-    parentdiv: "startpoint-input"
-  };
-
-  var endpointEvents = {
-    places_changed: function (searchBox) {
-      var place = searchBox.getPlaces();
-      endpoint = place[0];
-
-      if (!place[0].geometry) {
-        window.alert("Autocomplete's returned place contains no geometry");
-        return;
-      }
-    }
-  }
-
-  self.endpointSearchbox = { 
-    template:'js/views/searchboxes/endpointSearchbox.tpl.html', 
-    events: endpointEvents,
-    parentdiv: "endpoint-input"
-  };
-
-  var stopoverEvents = {
-    places_changed: function (searchBox) {
-      var place = searchBox.getPlaces();
-      stopover.push(place[0]);
-      console.log(stopover);
-      if (!place[0].geometry) {
-        window.alert("Autocomplete's returned place contains no geometry");
-        return;
-      }
-    }
-  }
-
-  self.stopoverSearchbox = { 
-    template:'js/views/searchboxes/stopoverSearchbox.tpl.html', 
-    events: stopoverEvents,
-    parentdiv: "stopover-input"
-  };
+  
 
   function addStopoverField(){
     self.stopover_input++;
@@ -498,13 +447,13 @@ function TripsController(MapService, $scope, Trip, User, $state, CurrentUser, ui
   }
 
   function createTrip(){
-    var newTrip = self.trip;
+    var newTrip = {};
     var userObject = CurrentUser.getUser();
     newTrip.user = userObject._doc._id
-    newTrip.startpoint = startpoint;
-    newTrip.endpoint = endpoint;
+    newTrip.startpoint = Input.startpoint;
+    newTrip.endpoint = Input.endpoint;
     newTrip.stopovers = [];
-    newTrip.stopovers = stopover;
+    newTrip.stopovers = Input.stopover;
     stopover          = [];
 
     Trip.save(newTrip, function(data){

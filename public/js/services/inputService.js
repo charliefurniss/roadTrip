@@ -1,0 +1,72 @@
+angular
+  .module('roadTrip')
+  .service('InputService', InputService);
+
+InputService.$inject = ['uiGmapGoogleMapApi'];
+function InputService(uiGmapGoogleMapApi) {
+
+  var self = this;
+
+  console.log("InputService");
+
+  self.startpoint = {};
+  self.endpoint   = {};
+  self.stopover   = [];
+  self.trip       = {};
+
+  // this is an event listener. it listens for a places_changed event – which comes from the Google API – and runs a function 
+  var startpointEvents = {
+    places_changed: function (searchBox) {
+      var place = searchBox.getPlaces();
+      self.startpoint = place[0];
+      console.log(self.startpoint);
+      if (!place[0].geometry) {
+        window.alert("Autocomplete's returned place contains no geometry");
+        return;
+      }
+    }
+  }
+
+  self.startpointSearchbox = { 
+    template:'js/views/searchboxes/startpointSearchbox.tpl.html', 
+    events: startpointEvents,
+    parentdiv: "startpoint-input"
+  };
+
+  var endpointEvents = {
+    places_changed: function (searchBox) {
+      var place = searchBox.getPlaces();
+      self.endpoint = place[0];
+      console.log(self.endpoint);
+      if (!place[0].geometry) {
+        window.alert("Autocomplete's returned place contains no geometry");
+        return;
+      }
+    }
+  }
+
+  self.endpointSearchbox = { 
+    template:'js/views/searchboxes/endpointSearchbox.tpl.html', 
+    events: endpointEvents,
+    parentdiv: "endpoint-input"
+  };
+
+  var stopoverEvents = {
+    places_changed: function (searchBox) {
+      var place = searchBox.getPlaces();
+      self.stopover.push(place[0]);
+      console.log(self.stopover);
+      if (!place[0].geometry) {
+        window.alert("Autocomplete's returned place contains no geometry");
+        return;
+      }
+    }
+  }
+
+  self.stopoverSearchbox = { 
+    template:'js/views/searchboxes/stopoverSearchbox.tpl.html', 
+    events: stopoverEvents,
+    parentdiv: "stopover-input"
+  };
+  
+}
