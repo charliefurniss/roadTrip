@@ -20,14 +20,12 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
   self.endPlaceholder     = "";
   self.updateTrip         = updateTrip;
   self.polylines          = {};
-  self.userLocation       = {};
   self.stopovers          = [];
   self.routeObject        = {};
   self.map                = {};
   self.polylines          = [];
   self.markers            = [];
-  self.distance           = 0;
-  self.duration           = 0;
+  self.duration           = {};
   self.stopover_name_array = [];
   self.routeArray         = [];
 
@@ -63,8 +61,8 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
   function setUserLocation(position){ 
     var lat = position.coords.latitude; 
     var lng = position.coords.longitude;
-    self.userLocation = { latitude: lat, longitude: lng };
-    setMap(self.userLocation);
+    var userLocation = { latitude: lat, longitude: lng };
+    setMap(userLocation);
   }
 
   function setMap(location){
@@ -94,23 +92,23 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
   }
 
   function calculate_distance(routeArray, routeObject){
-    self.distance = 0;
-    self.distance_for_display = 0;
+    var trip_distance = 0;
     for (i = 0; i < routeArray.length; i++){
-      self.distance = Math.round(self.distance + routeObject.legs[i].distance.value/1000);
+      trip_distance = Math.round(trip_distance + routeObject.legs[i].distance.value/1000);
     }
-    self.distance_for_display = add_commas_to_number(self.distance);
+    return add_commas_to_number(trip_distance);
   }
 
   function calculate_duration(routeArray, routeObject){
-    self.hours = 0;
-    self.minutes = 0;
     var time = 0;
     for (i = 0; i < routeArray.length; i++){
       time = (time + routeObject.legs[i].duration.value/3600);
     }
-    self.hours = Math.floor(time); 
-    self.minutes = Math.floor((time - Math.floor(time)) * 60); 
+    var duration = {
+      hours: Math.floor(time),
+      minutes: Math.floor((time - Math.floor(time)) * 60)
+    }
+    return duration; 
   }
   
   function calculate_stopover_coords(routeArray, routeObject){
@@ -330,8 +328,8 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     var directionsArray = routeObject.overview_path;
     self.routeArray = adapt_leg_addresses(routeObject.legs);    
         
-    calculate_distance(self.routeArray, routeObject);
-    calculate_duration(self.routeArray, routeObject);
+    self.trip_distance = calculate_distance(self.routeArray, routeObject);
+    self.duration = calculate_duration(self.routeArray, routeObject);
     
     var stopover_coords_array = calculate_stopover_coords(self.routeArray, routeObject);
     self.stopover_name_array = get_stopover_names(self.routeArray);
@@ -340,8 +338,7 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     var latTotal = Calc.create_latTotal(directionsArray);
     var lngTotal = Calc.create_lngTotal(directionsArray);
     var mapCoords = centre_map(latTotal, lngTotal, directionsArray);
-    var distance = self.distance;
-    var zoom = calculate_map_zoom(self.distance);
+    var zoom = calculate_map_zoom(self.trip_distance);
     create_route_map(mapCoords, zoom, routeObject.bounds);
 
     //create polyline
