@@ -197,27 +197,6 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
 
   }
 
-  function adapt_leg_addresses(routeArray){
-    //removes everything after a comma, ie the name of the country in Google's address
-    for (i = 0; i < routeArray.length; i++){
-      var leg_start_location = (routeArray[i].start_address).substring(0, routeArray[i].start_address.indexOf(','));
-      var leg_end_location = (routeArray[i].end_address).substring(0, routeArray[i].end_address.indexOf(','));
-      routeArray[i].start_address = leg_start_location;
-      routeArray[i].end_address = leg_end_location;
-    }
-    return routeArray;
-  }
-
-  function get_stopover_names(routeArray){
-    //creates an array containing the names on the stopovers only
-    var stopover_name_array = [];
-    for (i = 0; i < routeArray.length; i++){
-      stopover_name_array.push(routeArray[i].start_address);
-    }
-    stopover_name_array.splice(0 , 1);
-    return stopover_name_array;
-  }
-
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
   function setRoute(trip){
     // console.log(trip);
@@ -247,14 +226,14 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
   function setRouteMap(routeObject){
     // directions array contains route coordinates
     var directionsArray = routeObject.overview_path;
-    self.routeArray = adapt_leg_addresses(routeObject.legs);    
+    self.routeArray = Calc.adapt_leg_addresses(routeObject.legs);    
         
     var trip_distance = Calc.calculate_distance(self.routeArray, routeObject);
     self.distance_with_commas = add_commas_to_number(trip_distance);
     self.duration = Calc.calculate_duration(self.routeArray, routeObject);
     
     var stopover_coords_array = Calc.calculate_stopover_coords(self.routeArray, routeObject);
-    self.stopover_name_array = get_stopover_names(self.routeArray);
+    self.stopover_name_array = Calc.get_stopover_names(self.routeArray);
 
     //create route_map
     var latTotal = Calc.create_latTotal(directionsArray);

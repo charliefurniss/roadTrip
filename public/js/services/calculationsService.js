@@ -119,5 +119,26 @@ function CalculationsService() {
     }
     return coords;
   }
+
+  self.adapt_leg_addresses = function(routeArray){
+    //removes everything after a comma, ie the name of the country in Google's address
+    for (i = 0; i < routeArray.length; i++){
+      var leg_start_location = (routeArray[i].start_address).substring(0, routeArray[i].start_address.indexOf(','));
+      var leg_end_location = (routeArray[i].end_address).substring(0, routeArray[i].end_address.indexOf(','));
+      routeArray[i].start_address = leg_start_location;
+      routeArray[i].end_address = leg_end_location;
+    }
+    return routeArray;
+  }
+
+  self.get_stopover_names = function(routeArray){
+    //creates an array containing the names on the stopovers only
+    var stopover_name_array = [];
+    for (i = 0; i < routeArray.length; i++){
+      stopover_name_array.push(routeArray[i].start_address);
+    }
+    stopover_name_array.splice(0 , 1);
+    return stopover_name_array;
+  }
   
 }
