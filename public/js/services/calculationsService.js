@@ -70,5 +70,18 @@ function CalculationsService() {
     stopover_coords_array.splice(0, 1);
     return stopover_coords_array;
   }
+
+  self.create_polyline_array = function(directionsArray){
+    var polyline_array = [];
+    // this loop extracts coords from directions array and pushes into another which can be used to create GM polyline
+    for (i = 0; i < directionsArray.length; i++){
+      var coordsObject = {
+        latitude: directionsArray[i].lat(), 
+        longitude: directionsArray[i].lng()
+      }
+      polyline_array.push(coordsObject);
+    }
+    return polyline_array;
+  }
   
 }

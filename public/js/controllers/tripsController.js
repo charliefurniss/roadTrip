@@ -129,19 +129,6 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     return zoom;
   }
 
-  function create_polyline_array(directionsArray){
-    var polyline_array = [];
-    // this loop extracts coords from directions array and pushes into another which can be used to create GM polyline
-    for (i = 0; i < directionsArray.length; i++){
-      var coordsObject = {
-        latitude: directionsArray[i].lat(), 
-        longitude: directionsArray[i].lng()
-      }
-      polyline_array.push(coordsObject);
-    }
-    return polyline_array;
-  }
-
   function create_route_map(mapCoords, zoom, bounds){
     //create map object that AGM will render on the page
     var route_map = {
@@ -316,7 +303,7 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     self.route_map = create_route_map(mapCoords, zoom, routeObject.bounds);
 
     //create polyline
-    var polyline_array = create_polyline_array(directionsArray);
+    var polyline_array = Calc.create_polyline_array(directionsArray);
     self.polyline = create_route_polyline(polyline_array);
 
     //create route_markers
