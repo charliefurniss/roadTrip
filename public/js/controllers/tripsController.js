@@ -19,11 +19,10 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
   self.startPlaceholder   = "";
   self.endPlaceholder     = "";
   self.updateTrip         = updateTrip;
-  self.polylines          = {};
   self.stopovers          = [];
   self.routeObject        = {};
   self.map                = {};
-  self.polylines          = [];
+  self.polyline           = [];
   self.markers            = [];
   self.duration           = {};
   self.stopover_name_array = [];
@@ -48,7 +47,7 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
 
   // use HTML geolocation to get coordinates of user's position
   function getLocation(){
-    self.polylines = [];
+    self.polyline = [];
     self.markers = [];
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(setUserLocation);
@@ -144,18 +143,18 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
   }
 
   function create_route_map(mapCoords, zoom, bounds){
-    self.route_map = {};
     //create map object that AGM will render on the page
-    self.route_map = {
+    var route_map = {
       center: mapCoords, 
       zoom: zoom, 
       bounds: bounds
     };
+    return route_map;
   }
 
   function create_route_polyline(polyline_array){
     //create polyline array that AGM will render on the page
-    self.polylines = [
+    var polyline = [
     {
       id: 1,
       path: polyline_array,
@@ -169,6 +168,7 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
       visible: true,
       fit: true
     }]
+    return polyline;
   }
 
   function create_startpoint_marker(startpoint_coords){
@@ -313,11 +313,11 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     var lngTotal = Calc.create_lngTotal(directionsArray);
     var mapCoords = centre_map(latTotal, lngTotal, directionsArray);
     var zoom = calculate_map_zoom(trip_distance);
-    create_route_map(mapCoords, zoom, routeObject.bounds);
+    self.route_map = create_route_map(mapCoords, zoom, routeObject.bounds);
 
     //create polyline
     var polyline_array = create_polyline_array(directionsArray);
-    create_route_polyline(polyline_array);
+    self.polyline = create_route_polyline(polyline_array);
 
     //create route_markers
     var startpoint_coords = Calc.getCoords(self.routeArray[0].start_location);

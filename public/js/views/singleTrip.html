@@ -88,7 +88,7 @@
 
           <ui-gmap-markers models="trips.markers" coords="'self'" icon="'icon'"></ui-gmap-markers>
 
-          <ui-gmap-polyline ng-repeat="p in trips.polylines track by $index" path="p.path" stroke="p.stroke" visible='p.visible' geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline>
+          <ui-gmap-polyline ng-repeat="p in trips.polyline track by $index" path="p.path" stroke="p.stroke" visible='p.visible' geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline>
 
         </ui-gmap-google-map>
 
