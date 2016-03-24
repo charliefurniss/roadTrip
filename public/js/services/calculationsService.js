@@ -83,5 +83,41 @@ function CalculationsService() {
     }
     return polyline_array;
   }
+
+  self.calculate_map_zoom = function(distance){
+    var zoom = 0;
+    //calculate map zoom based on the distance of the route
+    if (distance > 4500) {
+      zoom = 3;
+    } else if (distance > 3000 && distance < 4500) {
+      zoom = 4;
+    } else if (distance > 1000 && distance < 3000) {
+      zoom = 5;
+    } else if (distance > 600 && distance < 1000) {
+      zoom = 6;  
+    } else if (distance > 400 && distance < 600) {
+      zoom = 7;
+    } else if (distance > 250 && distance < 400) {
+      zoom = 8;
+    } else if (distance > 50 && distance < 250) {
+      zoom = 9;    
+    } else if (distance > 25 && distance < 50) {
+      zoom = 10;  
+    } else if (distance < 25) {
+      zoom = 11;
+    }
+    return zoom;
+  }
+
+  self.create_map_coords = function(latTotal, lngTotal, directionsArray){
+    // get average of route coords to centre the map
+    var latAvg = latTotal / directionsArray.length;
+    var lngAvg = lngTotal / directionsArray.length;
+    var coords = {
+      latitude: latAvg,
+      longitude: lngAvg
+    }
+    return coords;
+  }
   
 }
