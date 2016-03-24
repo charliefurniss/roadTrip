@@ -7,7 +7,6 @@ function CalculationsService() {
   var self = this;
 
   self.getCoords = function(locationObject){
-    
     var location = {};
     location.lat = locationObject.lat();
     location.lng = locationObject.lng();
@@ -24,6 +23,23 @@ function CalculationsService() {
         })
     }
     return waypoint_array;
+  }
+
+  self.create_latTotal = function(directionsArray){
+    var latTotal = 0;
+    for (i = 0; i < directionsArray.length; i++){
+      latTotal += directionsArray[i].lat();
+    }
+    return latTotal;
+  }
+
+  self.create_lngTotal = function(directionsArray){
+    console.log("create_latTotal");
+    var lngTotal = 0;
+    for (i = 0; i < directionsArray.length; i++){
+      lngTotal += directionsArray[i].lng();
+    }
+    return lngTotal;
   }
   
 }

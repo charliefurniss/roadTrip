@@ -172,22 +172,6 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     return polyline_array;
   }
 
-  function create_latTotal(directionsArray) {
-    var latTotal = 0;
-    for (i = 0; i < directionsArray.length; i++){
-      latTotal += directionsArray[i].lat();
-    }
-    return latTotal;
-  }
-
-  function create_lngTotal(directionsArray) {
-    var lngTotal = 0;
-    for (i = 0; i < directionsArray.length; i++){
-      lngTotal += directionsArray[i].lng();
-    }
-    return lngTotal;
-  }
-
   function create_route_map(mapCoords, zoom, bounds){
     self.route_map = {};
     //create map object that AGM will render on the page
@@ -323,13 +307,10 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     
     // need to iterate through trip.stopovers and store waypoint addresses in an array
     var waypoint_array = [];
-
     waypoint_array = Calc.create_waypoint_array(trip.stopovers);
 
     uiGmapGoogleMapApi.then(function() {
-
       var directionsService = new google.maps.DirectionsService;
-
       directionsService.route({
         origin: {'placeId': startpoint_place_id},
         destination: {'placeId': endpoint_place_id},
@@ -356,8 +337,8 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     self.stopover_name_array = get_stopover_names(self.routeArray);
 
     //create route_map
-    var latTotal = create_latTotal(directionsArray);
-    var lngTotal = create_lngTotal(directionsArray);
+    var latTotal = Calc.create_latTotal(directionsArray);
+    var lngTotal = Calc.create_lngTotal(directionsArray);
     var mapCoords = centre_map(latTotal, lngTotal, directionsArray);
     var distance = self.distance;
     var zoom = calculate_map_zoom(self.distance);
