@@ -53,7 +53,10 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
   function setUserLocation(position){ 
     var lat = position.coords.latitude; 
     var lng = position.coords.longitude;
-    var userLocation = { latitude: lat, longitude: lng };
+    var userLocation = { 
+      latitude: lat, 
+      longitude: lng 
+    };
     setMap(userLocation);
   }
 
@@ -77,39 +80,6 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
       }
     }
     $scope.$apply();
-  }
-
-  function add_commas_to_number(number) {
-      return number.toLocaleString();
-  }
-
-  function create_route_map(mapCoords, zoom, bounds){
-    //create map object that AGM will render on the page
-    var route_map = {
-      center: mapCoords, 
-      zoom: zoom, 
-      bounds: bounds
-    };
-    return route_map;
-  }
-
-  function create_route_polyline(polyline_array){
-    //create polyline array that AGM will render on the page
-    var route_polyline = [
-    {
-      id: 1,
-      path: polyline_array,
-      stroke: {
-          color: '#EA44FF',
-          weight: 3
-      },
-      editable: false,
-      draggable: false,
-      geodesic: true,
-      visible: true,
-      fit: true
-    }]
-    return route_polyline;
   }
 
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
@@ -142,7 +112,7 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     self.routeArray = Calc.adapt_leg_addresses(routeObject.legs);    
         
     var trip_distance = Calc.calculate_distance(self.routeArray, routeObject);
-    self.distance_with_commas = add_commas_to_number(trip_distance);
+    self.distance_with_commas = Calc.add_commas_to_number(trip_distance);
     self.duration = Calc.calculate_duration(self.routeArray, routeObject);
     
     var stopover_coords_array = Calc.calculate_stopover_coords(self.routeArray, routeObject);
@@ -153,11 +123,11 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     var lngTotal = Calc.create_lngTotal(directionsArray);
     var map_coords = Calc.create_map_coords(latTotal, lngTotal, directionsArray);
     var zoom = Calc.calculate_map_zoom(trip_distance);
-    self.route_map = create_route_map(map_coords, zoom, routeObject.bounds);
+    self.route_map = Calc.create_route_map(map_coords, zoom, routeObject.bounds);
 
     //create polyline
     var polyline_array = Calc.create_polyline_array(directionsArray);
-    self.polyline = create_route_polyline(polyline_array);
+    self.polyline = Calc.create_route_polyline(polyline_array);
 
     //create route_markers
     var startpoint_coords = Calc.getCoords(self.routeArray[0].start_location);

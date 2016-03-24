@@ -6,6 +6,10 @@ function CalculationsService() {
 
   var self = this;
 
+  self.add_commas_to_number = function (number) {
+      return number.toLocaleString();
+  }
+
   self.getCoords = function(locationObject){
     var location = {};
     location.lat = locationObject.lat();
@@ -181,6 +185,35 @@ function CalculationsService() {
     marker_coords_array.push(endpoint_coords);
 
     return create_marker_objects_array(marker_coords_array);
+  }
+
+  self.create_route_map = function(mapCoords, zoom, bounds){
+    //create map object that AGM will render on the page
+    var route_map = {
+      center: mapCoords, 
+      zoom: zoom, 
+      bounds: bounds
+    };
+    return route_map;
+  }
+
+  self.create_route_polyline = function(polyline_array){
+    //create polyline array that AGM will render on the page
+    var route_polyline = [
+    {
+      id: 1,
+      path: polyline_array,
+      stroke: {
+          color: '#EA44FF',
+          weight: 3
+      },
+      editable: false,
+      draggable: false,
+      geodesic: true,
+      visible: true,
+      fit: true
+    }]
+    return route_polyline;
   }
   
 }
