@@ -19,7 +19,6 @@ function InputService(uiGmapGoogleMapApi) {
     places_changed: function (searchBox) {
       var place = searchBox.getPlaces();
       self.startpoint = place[0];
-      console.log(self.startpoint);
       if (!place[0].geometry) {
         window.alert("Autocomplete's returned place contains no geometry");
         return;
@@ -37,7 +36,6 @@ function InputService(uiGmapGoogleMapApi) {
     places_changed: function (searchBox) {
       var place = searchBox.getPlaces();
       self.endpoint = place[0];
-      console.log(self.endpoint);
       if (!place[0].geometry) {
         window.alert("Autocomplete's returned place contains no geometry");
         return;
@@ -55,7 +53,6 @@ function InputService(uiGmapGoogleMapApi) {
     places_changed: function (searchBox) {
       var place = searchBox.getPlaces();
       self.stopover.push(place[0]);
-      console.log(self.stopover);
       if (!place[0].geometry) {
         window.alert("Autocomplete's returned place contains no geometry");
         return;
