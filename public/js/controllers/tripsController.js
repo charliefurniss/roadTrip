@@ -2,9 +2,9 @@ angular
   .module('roadTrip')
   .controller('TripsController', TripsController);
 
-TripsController.$inject = ['InputService', '$scope', 'TripFactory', 'UserFactory', '$state', 'CurrentUser', 'uiGmapGoogleMapApi' , 'GlobalTrips'];
+TripsController.$inject = ['CalculationsService', 'InputService', '$scope', 'TripFactory', 'UserFactory', '$state', 'CurrentUser', 'uiGmapGoogleMapApi' , 'GlobalTrips'];
 
-function TripsController(Input, $scope, Trip, User, $state, CurrentUser, uiGmapGoogleMapApi, GlobalTrips){
+function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, uiGmapGoogleMapApi, GlobalTrips){
 
   var self = this;
 
@@ -16,7 +16,6 @@ function TripsController(Input, $scope, Trip, User, $state, CurrentUser, uiGmapG
   self.showCreateTripForm = showCreateTripForm;
   self.deleteTrip         = deleteTrip;
   self.editTrip           = editTrip;
-  self.addStopoverField   = addStopoverField;
   self.startPlaceholder   = "";
   self.endPlaceholder     = "";
   self.updateTrip         = updateTrip;
@@ -89,21 +88,6 @@ function TripsController(Input, $scope, Trip, User, $state, CurrentUser, uiGmapG
     }
     $scope.$apply();
   }
-  
-  
-  
-
-  function addStopoverField(){
-    self.stopover_input++;
-    console.log("button working");
-  }
-
-  function getCoords(locationObject){
-    var location = {};
-    location.lat = locationObject.lat();
-    location.lng = locationObject.lng();
-    return location;
-  }
 
   function add_commas_to_number(number) {
       return number.toLocaleString();
@@ -132,7 +116,7 @@ function TripsController(Input, $scope, Trip, User, $state, CurrentUser, uiGmapG
   function calculate_stopover_coords(routeArray, routeObject){
     var stopover_coords_array = [];
     for (i = 0; i < routeArray.length; i++){
-      stopover_coords_array.push(getCoords(routeArray[i].start_location));
+      stopover_coords_array.push(Calc.getCoords(routeArray[i].start_location));
     }
     stopover_coords_array.splice(0, 1);
     return stopover_coords_array;
@@ -393,15 +377,13 @@ function TripsController(Input, $scope, Trip, User, $state, CurrentUser, uiGmapG
     var zoom = calculate_map_zoom(self.distance);
     create_route_map(mapCoords, zoom, routeObject.bounds);
 
-    console.log(routeObject.bounds);
-
     //create polyline
     var polyline_array = create_polyline_array(directionsArray);
     create_route_polyline(polyline_array);
 
     //create route_markers
-    var startpoint_coords = getCoords(self.routeArray[0].start_location);
-    var endpoint_coords = getCoords(self.routeArray[self.routeArray.length - 1].end_location);
+    var startpoint_coords = Calc.getCoords(self.routeArray[0].start_location);
+    var endpoint_coords = Calc.getCoords(self.routeArray[self.routeArray.length - 1].end_location);
     create_route_markers(startpoint_coords, endpoint_coords,stopover_coords_array);
 
     //tell angular to watch for changes
@@ -471,7 +453,7 @@ function TripsController(Input, $scope, Trip, User, $state, CurrentUser, uiGmapG
     setRoute(trip, mapBoolean);
     self.trip = trip;
     self.title = "Edit trip";
-    console.log(self.trip);
+
   }
 
   function updateTrip(){
