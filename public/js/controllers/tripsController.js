@@ -29,17 +29,10 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
   self.routeArray         = [];
 
   self.randomMarkers = [];
-
   
   self.startpointSearchbox = Input.startpointSearchbox;
   self.endpointSearchbox = Input.endpointSearchbox;
   self.stopoverSearchbox = Input.stopoverSearchbox;
-
-  var routeObject         = {};
-  var mapBoolean          = null;
-  var startpoint_place_id = "";
-  var endpoint_place_id   = "";
-  var waypoint_array      = [];
 
   self.title              = "";
 
@@ -102,7 +95,7 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
 
   function create_route_polyline(polyline_array){
     //create polyline array that AGM will render on the page
-    var polyline = [
+    var route_polyline = [
     {
       id: 1,
       path: polyline_array,
@@ -116,53 +109,16 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
       visible: true,
       fit: true
     }]
-    return polyline;
-  }
-
-  function create_startpoint_marker(startpoint_coords){
-    return {
-      latitude: startpoint_coords.lat,
-      longitude: startpoint_coords.lng,
-      title: "Startpoint",
-      id: 0
-    }
-  }
-
-  function create_endpoint_marker(endpoint_coords){
-    return {
-      latitude: endpoint_coords.lat,
-      longitude: endpoint_coords.lng,
-      title: "Destination",
-      id: 1
-    }
-  }
-
-  function create_stopover_markers(stopover_coords_array){
-    var markers_array = [];
-    var marker_object = {};
-    for (i = 0; i < stopover_coords_array.length; i++){
-      var stopover_number = i + 1;
-      var marker_id = i + 2;
-      marker_object = {
-        latitude: stopover_coords_array[i].lat,
-        longitude: stopover_coords_array[i].lng,
-        title: "Stopover " + stopover_number,
-        id: marker_id
-      }
-      markers_array.push(marker_object);
-    }
-    return markers_array;
+    return route_polyline;
   }
 
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
   function setRoute(trip){
-    // console.log(trip);
-    startpoint_place_id = trip.startpoint.place_id;
-    endpoint_place_id   = trip.endpoint.place_id;
+    var startpoint_place_id = trip.startpoint.place_id;
+    var endpoint_place_id   = trip.endpoint.place_id;
     
     // need to iterate through trip.stopovers and store waypoint addresses in an array
-    var waypoint_array = [];
-    waypoint_array = Calc.create_waypoint_array(trip.stopovers);
+    var waypoint_array = Calc.create_waypoint_array(trip.stopovers);
 
     uiGmapGoogleMapApi.then(function() {
       var directionsService = new google.maps.DirectionsService;
