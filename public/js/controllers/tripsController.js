@@ -447,20 +447,22 @@ function TripsController(Input, $scope, Trip, User, $state, CurrentUser, uiGmapG
   }
 
   function createTrip(){
-    var newTrip = {};
     var userObject = CurrentUser.getUser();
-    newTrip.user = userObject._doc._id
-    newTrip.startpoint = Input.startpoint;
-    newTrip.endpoint = Input.endpoint;
-    newTrip.stopovers = [];
-    newTrip.stopovers = Input.stopover;
-    stopover          = [];
+    var newTrip = {
+      user: userObject._doc._id,
+      startpoint: Input.startpoint,
+      endpoint: Input.endpoint,
+      stopovers: Input.stopover
+    };
 
     Trip.save(newTrip, function(data){
       self.trip = data;
       setRoute(data);
       $state.go('singleTrip');
     });
+
+    Input.stopover = [];
+  
   };
 
   // populate the form
@@ -473,13 +475,14 @@ function TripsController(Input, $scope, Trip, User, $state, CurrentUser, uiGmapG
   }
 
   function updateTrip(){
+    console.log(self.trip);
     var updatedTrip = {
       name: self.trip.name,
       _id: self.trip._id,
       user: self.trip.user,
       startpoint: self.trip.startpoint,
       endpoint: self.trip.endpoint,
-      stopovers: stopover
+      stopovers: Input.stopover
     }; 
     Trip.update(updatedTrip, function(data){
       self.trip = data;
