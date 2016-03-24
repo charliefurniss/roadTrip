@@ -154,49 +154,6 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     return markers_array;
   }
 
-  function create_marker_objects_array(marker_coords_array){
-    var marker_title  = "";
-    var marker_objects_array  = [];
-    var icon = "";
-    for (i = 0; i < marker_coords_array.length; i++){
-      var marker_id = i;
-      if (i == 0) {
-        marker_title  = "Origin";
-        marker_id     = 0;
-        icon          = "../images/png/green-pin.png";
-      }
-      else if (i == marker_coords_array.length - 1){
-        marker_title  = "Destination";
-        icon          = "../images/png/red-pin.png";
-      }
-      else {
-        marker_title = "Stopover " + (i + 1);
-        icon          = "../images/png/orange-pin.png";
-      }
-      marker_object = {
-        latitude: marker_coords_array[i].lat,
-        longitude: marker_coords_array[i].lng,
-        title: marker_title,
-        id: marker_id,
-        icon: icon
-      }
-      marker_objects_array.push(marker_object);
-    }
-    return marker_objects_array;
-  }
-
-  function create_route_markers(startpoint_coords, endpoint_coords, stopover_coords_array){
-    var marker_coords_array = [];
-    for (i = 0; i < stopover_coords_array.length; i++) {
-      marker_coords_array.push(stopover_coords_array[i]);
-    }
-    marker_coords_array.unshift(startpoint_coords);
-    marker_coords_array.push(endpoint_coords);
-
-    self.markers = create_marker_objects_array(marker_coords_array);
-
-  }
-
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
   function setRoute(trip){
     // console.log(trip);
@@ -249,7 +206,7 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     //create route_markers
     var startpoint_coords = Calc.getCoords(self.routeArray[0].start_location);
     var endpoint_coords = Calc.getCoords(self.routeArray[self.routeArray.length - 1].end_location);
-    create_route_markers(startpoint_coords, endpoint_coords,stopover_coords_array);
+    self.markers = Calc.create_route_markers(startpoint_coords, endpoint_coords,stopover_coords_array);
 
     //tell angular to watch for changes
     $scope.$apply();

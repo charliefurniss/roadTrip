@@ -140,5 +140,47 @@ function CalculationsService() {
     stopover_name_array.splice(0 , 1);
     return stopover_name_array;
   }
+
+  function create_marker_objects_array(marker_coords_array){
+    var marker_title  = "";
+    var marker_objects_array  = [];
+    var icon = "";
+    for (i = 0; i < marker_coords_array.length; i++){
+      var marker_id = i;
+      if (i == 0) {
+        marker_title  = "Origin";
+        marker_id     = 0;
+        icon          = "../images/png/green-pin.png";
+      }
+      else if (i == marker_coords_array.length - 1){
+        marker_title  = "Destination";
+        icon          = "../images/png/red-pin.png";
+      }
+      else {
+        marker_title = "Stopover " + (i + 1);
+        icon          = "../images/png/orange-pin.png";
+      }
+      marker_object = {
+        latitude: marker_coords_array[i].lat,
+        longitude: marker_coords_array[i].lng,
+        title: marker_title,
+        id: marker_id,
+        icon: icon
+      }
+      marker_objects_array.push(marker_object);
+    }
+    return marker_objects_array;
+  }
+
+  self.create_route_markers = function(startpoint_coords, endpoint_coords, stopover_coords_array){
+    var marker_coords_array = [];
+    for (i = 0; i < stopover_coords_array.length; i++) {
+      marker_coords_array.push(stopover_coords_array[i]);
+    }
+    marker_coords_array.unshift(startpoint_coords);
+    marker_coords_array.push(endpoint_coords);
+
+    return create_marker_objects_array(marker_coords_array);
+  }
   
 }
