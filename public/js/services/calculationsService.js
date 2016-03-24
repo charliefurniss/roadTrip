@@ -6,14 +6,24 @@ function CalculationsService() {
 
   var self = this;
 
-  console.log("CalculationsService");
-
   self.getCoords = function(locationObject){
-    console.log("getCoords");
+    
     var location = {};
     location.lat = locationObject.lat();
     location.lng = locationObject.lng();
     return location;
+  }
+
+  self.create_waypoint_array = function(stopovers){
+    var waypoint_array = [];
+    for (i = 0; i < stopovers.length; i++){
+      waypoint_array.push(
+        {
+          location: stopovers[i].formatted_address,
+          stopover: true
+        })
+    }
+    return waypoint_array;
   }
   
 }

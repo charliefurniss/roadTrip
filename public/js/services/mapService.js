@@ -8,6 +8,6 @@ MapService.$inject = ['uiGmapGoogleMapApi'];
 function MapService(uiGmapGoogleMapApi){
   var self = this;
 
-  self.userLocation = {};  
+
 
 }

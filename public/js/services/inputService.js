@@ -7,8 +7,6 @@ function InputService(uiGmapGoogleMapApi) {
 
   var self = this;
 
-  console.log("InputService");
-
   self.startpoint = {};
   self.endpoint   = {};
   self.stopover   = [];

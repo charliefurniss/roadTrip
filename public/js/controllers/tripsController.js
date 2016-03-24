@@ -190,7 +190,6 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
 
   function create_route_map(mapCoords, zoom, bounds){
     self.route_map = {};
-    console.log("zoom = " + zoom)
     //create map object that AGM will render on the page
     self.route_map = {
       center: mapCoords, 
@@ -295,18 +294,6 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
 
   }
 
-  function create_waypoint_array(stopovers){
-    var waypoint_array = [];
-    for (i = 0; i < stopovers.length; i++){
-      waypoint_array.push(
-        {
-          location: stopovers[i].formatted_address,
-          stopover: true
-        })
-    }
-    return waypoint_array;
-  }
-
   function adapt_leg_addresses(routeArray){
     //removes everything after a comma, ie the name of the country in Google's address
     for (i = 0; i < routeArray.length; i++){
@@ -337,7 +324,7 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     // need to iterate through trip.stopovers and store waypoint addresses in an array
     var waypoint_array = [];
 
-    waypoint_array = create_waypoint_array(trip.stopovers);
+    waypoint_array = Calc.create_waypoint_array(trip.stopovers);
 
     uiGmapGoogleMapApi.then(function() {
 
@@ -358,7 +345,6 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
 
   // USES GOOGLE MAPS ROUTE OBJECT TO RENDER MAP, ROUTE LINE AND MARKERS
   function setRouteMap(routeObject){
-    console.log(routeObject);
     // directions array contains route coordinates
     var directionsArray = routeObject.overview_path;
     self.routeArray = adapt_leg_addresses(routeObject.legs);    
@@ -414,7 +400,6 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
 
   function showSingleTrip(trip){
     self.title  = "Single trip";
-    console.log(self.title);
     Trip.get({id: trip._id}, function(data){
       self.trip = data;
       setRoute(data);
