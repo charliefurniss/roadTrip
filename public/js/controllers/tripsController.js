@@ -79,7 +79,6 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
         icon: "../images/png/red-pin.png"
       }
     }
-    $scope.$apply();
   }
 
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
@@ -117,6 +116,7 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
     
     var stopover_coords_array = Calc.calculate_stopover_coords(self.routeArray, routeObject);
     self.stopover_name_array = Calc.get_stopover_names(self.routeArray);
+    console.log(self.stopover_name_array);
 
     //create route_map
     var latTotal = Calc.create_latTotal(directionsArray);
@@ -144,20 +144,14 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
 
 
   function getTrips(){
-    if (!CurrentUser.getUser()){
-      console.log("no user");
-      $state.go('register');
-      return;
-    } else {
-      self.allTrips = GlobalTrips;
-      getLocation();
-      self.title = "All trips";
-      var userObject = CurrentUser.getUser();
-      self.currentUserId = userObject._doc._id;
-      Trip.query(function(data){
-        self.allTrips = data;
-      });
-    }
+    self.allTrips = GlobalTrips;
+    getLocation();
+    self.title = "All trips";
+    var userObject = CurrentUser.getUser();
+    self.currentUserId = userObject._doc._id;
+    Trip.query(function(data){
+      self.allTrips = data;
+    });
   }
 
   function showSingleTrip(trip){
@@ -170,7 +164,7 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
   }
 
   function showCreateTripForm(){
-    getLocation();
+    Map.getLocation();
     self.trip   = {};
     self.title  = "New trip";
   }
@@ -197,13 +191,12 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
   // populate the form
   function editTrip(trip){
     trip.stopovers = [];
-    setRoute(trip, mapBoolean);
+    setRoute(trip);
     self.trip = trip;
     self.title = "Edit trip";
   }
 
   function updateTrip(){
-    console.log(self.trip);
     var updatedTrip = {
       name: self.trip.name,
       _id: self.trip._id,
