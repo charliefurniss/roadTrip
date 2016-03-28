@@ -35,7 +35,7 @@
         
       </div>
       <div class="col-sm-9">
-        <div id="map" ng-controller="MapsController as maps">
+        <div id="map" ng-controller="UserMapsController as maps">
           <ui-gmap-google-map center='maps.map.center' zoom='maps.map.zoom'>
             <!-- look for configuration (template, events and parentdiv) defined in mapsController -->
             <ui-gmap-search-box template="maps.startpointSearchbox.template" events="maps.startpointSearchbox.events" parentdiv="maps.startpointSearchbox.parentdiv"></ui-gmap-search-box>

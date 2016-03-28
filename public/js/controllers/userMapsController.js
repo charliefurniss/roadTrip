@@ -1,10 +1,10 @@
 angular
   .module('roadTrip')
-  .controller('MapsController', MapsController);
+  .controller('UserMapsController', UserMapsController);
 
-MapsController.$inject = ['uiGmapGoogleMapApi', 'InputService', '$scope'];
+UserMapsController.$inject = ['uiGmapGoogleMapApi', 'InputService', '$scope'];
 
-function MapsController(uiGmapGoogleMapApi, Input, $scope){
+function UserMapsController(uiGmapGoogleMapApi, Input, $scope){
   
   var self = this;
 
