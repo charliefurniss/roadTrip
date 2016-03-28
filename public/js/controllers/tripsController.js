@@ -99,6 +99,7 @@ function TripsController(Calc, Input, Trip, User, $state, CurrentUser, uiGmapGoo
 
 
   function getTrips(){
+    console.log("getTrips");
     self.allTrips = GlobalTrips;
     self.title = "All trips";
     var userObject = CurrentUser.getUser();
@@ -118,7 +119,6 @@ function TripsController(Calc, Input, Trip, User, $state, CurrentUser, uiGmapGoo
   }
 
   function showCreateTripForm(){
-    Map.getLocation();
     self.trip   = {};
     self.title  = "New trip";
   }

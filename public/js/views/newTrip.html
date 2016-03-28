@@ -4,20 +4,20 @@
       <div id="sidebar-container" class="col-sm-3 sidebar">
         <ul class="nav navbar-nav navbar-left">
           <li ng-show="users.checkLoggedIn()">
-            <a href="#" ng-click="maps.getmaps()" ui-sref="viewmaps">View maps</a>
+            <a href="#" ng-click="trips.getmaps()" ui-sref="viewTrips">View trips</a>
           </li>
         </ul> 
         <ul class="nav navbar-nav navbar-left">
           <li ng-show="users.checkLoggedIn()">
-            <a href="#" ng-click="maps.showCreateTripForm()" ui-sref="newTrip">New trip</a>
+            <a href="#" ng-click="trips.showCreateTripForm()" ui-sref="newTrip">New trip</a>
           </li>
         </ul>
 
         <div class="sidebar-content">
-          <form class="form" id="tripForm" ng-submit="maps.createTrip()">
+          <form class="form" id="tripForm" ng-submit="trips.createTrip()">
             <h3>Going somewhere?</h3>
             <div id="trip-name-input">
-              <input id="trip-name-input" class="controls" type="text" ng-model="maps.trip.name" placeholder="Name...">
+              <input id="trip-name-input" class="controls" type="text" ng-model="trips.trip.name" placeholder="Name...">
             </div>
             <div id="startpoint-input">
               
@@ -28,7 +28,7 @@
             <div id="stopover-input">
               
             </div>
-            <!-- <input type="button" value="Add stopover" id="stopover" class="stopover-button" ng-click="maps.addStopoverField()"> -->
+            <!-- <input type="button" value="Add stopover" id="stopover" class="stopover-button" ng-click="trips.addStopoverField()"> -->
             <input type="submit" value="Save" id="submit" class="save-button">
           </form>
         </div>   
