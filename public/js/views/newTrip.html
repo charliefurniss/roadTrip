@@ -4,20 +4,20 @@
       <div id="sidebar-container" class="col-sm-3 sidebar">
         <ul class="nav navbar-nav navbar-left">
           <li ng-show="users.checkLoggedIn()">
-            <a href="#" ng-click="trips.getTrips()" ui-sref="viewTrips">View trips</a>
+            <a href="#" ng-click="maps.getmaps()" ui-sref="viewmaps">View maps</a>
           </li>
         </ul> 
         <ul class="nav navbar-nav navbar-left">
           <li ng-show="users.checkLoggedIn()">
-            <a href="#" ng-click="trips.showCreateTripForm()" ui-sref="newTrip">New trip</a>
+            <a href="#" ng-click="maps.showCreateTripForm()" ui-sref="newTrip">New trip</a>
           </li>
         </ul>
 
         <div class="sidebar-content">
-          <form class="form" id="tripForm" ng-submit="trips.createTrip()">
+          <form class="form" id="tripForm" ng-submit="maps.createTrip()">
             <h3>Going somewhere?</h3>
             <div id="trip-name-input">
-              <input id="trip-name-input" class="controls" type="text" ng-model="trips.trip.name" placeholder="Name...">
+              <input id="trip-name-input" class="controls" type="text" ng-model="maps.trip.name" placeholder="Name...">
             </div>
             <div id="startpoint-input">
               
@@ -28,35 +28,34 @@
             <div id="stopover-input">
               
             </div>
-            <!-- <input type="button" value="Add stopover" id="stopover" class="stopover-button" ng-click="trips.addStopoverField()"> -->
+            <!-- <input type="button" value="Add stopover" id="stopover" class="stopover-button" ng-click="maps.addStopoverField()"> -->
             <input type="submit" value="Save" id="submit" class="save-button">
           </form>
         </div>   
         
       </div>
       <div class="col-sm-9">
-        <ui-gmap-google-map center='trips.map.center' zoom='trips.map.zoom'>
-          <!-- look for configuration (template, events and parentdiv) defined in tripsController -->
-          <ui-gmap-search-box template="trips.startpointSearchbox.template" events="trips.startpointSearchbox.events" parentdiv="trips.startpointSearchbox.parentdiv"></ui-gmap-search-box>
-          
-          <ui-gmap-search-box template="trips.endpointSearchbox.template" events="trips.endpointSearchbox.events" parentdiv="trips.endpointSearchbox.parentdiv"></ui-gmap-search-box>
+        <div id="map" ng-controller="MapsController as maps">
+          <ui-gmap-google-map center='maps.map.center' zoom='maps.map.zoom'>
+            <!-- look for configuration (template, events and parentdiv) defined in mapsController -->
+            <ui-gmap-search-box template="maps.startpointSearchbox.template" events="maps.startpointSearchbox.events" parentdiv="maps.startpointSearchbox.parentdiv"></ui-gmap-search-box>
+            
+            <ui-gmap-search-box template="maps.endpointSearchbox.template" events="maps.endpointSearchbox.events" parentdiv="maps.endpointSearchbox.parentdiv"></ui-gmap-search-box>
 
-          <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
+            <ui-gmap-search-box template="maps.stopoverSearchbox.template" events="maps.stopoverSearchbox.events" parentdiv="maps.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
 
-          <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
+            <ui-gmap-search-box template="maps.stopoverSearchbox.template" events="maps.stopoverSearchbox.events" parentdiv="maps.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
 
-          <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
+            <ui-gmap-search-box template="maps.stopoverSearchbox.template" events="maps.stopoverSearchbox.events" parentdiv="maps.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
 
-          <ui-gmap-search-box template="trips.stopoverSearchbox.template" events="trips.stopoverSearchbox.events" parentdiv="trips.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
+            <ui-gmap-search-box template="maps.stopoverSearchbox.template" events="maps.stopoverSearchbox.events" parentdiv="maps.stopoverSearchbox.parentdiv"></ui-gmap-search-box>
 
-          <ui-gmap-marker coords="trips.marker.coords" options="trips.marker.options" events="trips.marker.events" idkey="trips.marker.id"></ui-gmap-marker>
+            <ui-gmap-marker coords="maps.marker.coords" options="maps.marker.options" events="maps.marker.events" idkey="maps.marker.id"></ui-gmap-marker>
 
-          <ui-gmap-polyline ng-repeat="p in trips.polylines track by $index" path="p.path" stroke="p.stroke" visible='p.visible' geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline>
+            <ui-gmap-polyline ng-repeat="p in maps.polylines track by $index" path="p.path" stroke="p.stroke" visible='p.visible' geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline>
 
-        </ui-gmap-google-map>
-        <!-- <div id="map">
-          
-        </div> -->
+          </ui-gmap-google-map>         
+        </div>
       </div>
     </div>
   </div>

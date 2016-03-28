@@ -2,9 +2,9 @@ angular
   .module('roadTrip')
   .controller('TripsController', TripsController);
 
-TripsController.$inject = ['CalculationsService', 'InputService', '$scope', 'TripFactory', 'UserFactory', '$state', 'CurrentUser', 'uiGmapGoogleMapApi' , 'GlobalTrips'];
+TripsController.$inject = ['CalculationsService', 'InputService', 'TripFactory', 'UserFactory', '$state', 'CurrentUser', 'uiGmapGoogleMapApi' , 'GlobalTrips'];
 
-function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, uiGmapGoogleMapApi, GlobalTrips){
+function TripsController(Calc, Input, Trip, User, $state, CurrentUser, uiGmapGoogleMapApi, GlobalTrips){
 
   var self = this;
 
@@ -29,57 +29,12 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
   self.routeArray         = [];
 
   self.randomMarkers = [];
-  
-  self.startpointSearchbox = Input.startpointSearchbox;
-  self.endpointSearchbox = Input.endpointSearchbox;
-  self.stopoverSearchbox = Input.stopoverSearchbox;
 
   self.title              = "";
 
   /////////////////////////**** MAP ****////////////////////////////////////
 
-  // use HTML geolocation to get coordinates of user's position
-  function getLocation(){
-    self.polyline = [];
-    self.markers = [];
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(setUserLocation);
-    } else {
-      console.log("geolocation error");
-    }
-  }
   
-  // put coords from getLocation function into a bound object ready for Google maps
-  function setUserLocation(position){ 
-    var lat = position.coords.latitude; 
-    var lng = position.coords.longitude;
-    var userLocation = { 
-      latitude: lat, 
-      longitude: lng 
-    };
-    setMap(userLocation);
-  }
-
-  function setMap(location){
-    self.map = { 
-      center: { 
-        latitude: location.latitude,
-        longitude: location.longitude
-      },
-      zoom: 12,
-      bounds: {} 
-    };
-    self.marker = {
-      id: 0,
-      coords: {
-        latitude: location.latitude,
-        longitude: location.longitude
-      },
-      options: {
-        icon: "../images/png/red-pin.png"
-      }
-    }
-  }
 
   // CREATES A ROUTE OBJECT FROM GOOGLE OBJECTS' PLACE_IDs USING GOOGLE'S DIRECTIONS SERVICE FROM WHICH WE CAN RENDER A MAP
   function setRoute(trip){
@@ -145,7 +100,6 @@ function TripsController(Calc, Input, $scope, Trip, User, $state, CurrentUser, u
 
   function getTrips(){
     self.allTrips = GlobalTrips;
-    getLocation();
     self.title = "All trips";
     var userObject = CurrentUser.getUser();
     self.currentUserId = userObject._doc._id;
