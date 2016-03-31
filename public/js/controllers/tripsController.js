@@ -2,9 +2,9 @@ angular
   .module('roadTrip')
   .controller('TripsController', TripsController);
 
-TripsController.$inject = ['CalculationsService', 'InputService', 'TripFactory', 'UserFactory', '$state', 'CurrentUser', 'uiGmapGoogleMapApi' , 'GlobalTrips'];
+TripsController.$inject = ['$scope', 'CalculationsService', 'InputService', 'TripFactory', 'UserFactory', '$state', 'CurrentUser', 'uiGmapGoogleMapApi' , 'GlobalTrips'];
 
-function TripsController(Calc, Input, Trip, User, $state, CurrentUser, uiGmapGoogleMapApi, GlobalTrips){
+function TripsController($scope, Calc, Input, Trip, User, $state, CurrentUser, uiGmapGoogleMapApi, GlobalTrips){
 
   var self = this;
 
