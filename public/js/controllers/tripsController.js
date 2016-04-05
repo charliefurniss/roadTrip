@@ -32,6 +32,10 @@ function TripsController($scope, Calc, Input, Trip, User, $state, CurrentUser, u
 
   self.title              = "";
 
+  self.startpointSearchbox = Input.startpointSearchbox;
+  self.endpointSearchbox = Input.endpointSearchbox;
+  self.stopoverSearchbox = Input.stopoverSearchbox;
+
   /////////////////////////**** MAP ****////////////////////////////////////
 
   
