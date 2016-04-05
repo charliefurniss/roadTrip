@@ -16,8 +16,6 @@ function TripsController($scope, Calc, Input, Trip, User, $state, CurrentUser, u
   self.showCreateTripForm = showCreateTripForm;
   self.deleteTrip         = deleteTrip;
   self.editTrip           = editTrip;
-  self.startPlaceholder   = "";
-  self.endPlaceholder     = "";
   self.updateTrip         = updateTrip;
   self.stopovers          = [];
   self.routeObject        = {};
@@ -75,7 +73,6 @@ function TripsController($scope, Calc, Input, Trip, User, $state, CurrentUser, u
     
     var stopover_coords_array = Calc.calculate_stopover_coords(self.routeArray, routeObject);
     self.stopover_name_array = Calc.get_stopover_names(self.routeArray);
-    console.log(self.stopover_name_array);
 
     //create route_map
     var latTotal = Calc.create_latTotal(directionsArray);
@@ -103,7 +100,6 @@ function TripsController($scope, Calc, Input, Trip, User, $state, CurrentUser, u
 
 
   function getTrips(){
-    console.log("getTrips");
     self.allTrips = GlobalTrips;
     self.title = "All trips";
     var userObject = CurrentUser.getUser();
