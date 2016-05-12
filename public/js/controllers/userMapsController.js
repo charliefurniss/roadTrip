@@ -35,7 +35,6 @@ function UserMapsController(uiGmapGoogleMapApi, Input, $scope){
   }
 
   function setMap(location){
-  	console.log(location);
     self.map = { 
       center: { 
         latitude: location.latitude,
