@@ -174,7 +174,5 @@ function TripsController($scope, Calc, Input, Trip, User, $state, CurrentUser, u
       $state.go('viewTrips');
     });    
   }
-
-  getTrips();
   
 }
