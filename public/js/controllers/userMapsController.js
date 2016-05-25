@@ -40,8 +40,8 @@ function UserMapsController(uiGmapGoogleMapApi, Input, $scope){
         latitude: location.latitude,
         longitude: location.longitude
       },
-      zoom: 12,
-      bounds: {} 
+      zoom: 12
+      // bounds: {} 
     };
     self.marker = {
       id: 0,

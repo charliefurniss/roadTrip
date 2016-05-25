@@ -190,8 +190,8 @@ function CalculationsService() {
     //create map object that AGM will render on the page
     var route_map = {
       center: mapCoords, 
-      zoom: zoom, 
-      bounds: bounds
+      zoom: zoom
+      // bounds: bounds
     };
     return route_map;
   }
