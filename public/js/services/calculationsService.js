@@ -38,7 +38,6 @@ function CalculationsService() {
   }
 
   self.create_lngTotal = function(directionsArray){
-    console.log("create_latTotal");
     var lngTotal = 0;
     for (i = 0; i < directionsArray.length; i++){
       lngTotal += directionsArray[i].lng();

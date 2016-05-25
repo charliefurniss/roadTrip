@@ -7,7 +7,7 @@ angular
     $httpProvider.interceptors.push('authInterceptor'); // ???
 
     uiGmapGoogleMapApiProvider.configure({
-      //    key: 'your api key',
+      key: 'AIzaSyDMF1USMrYbIs6U4XjyEhpdap31gZMqlxA',
       libraries: 'places' // Required for SearchBox.
     });
   })
